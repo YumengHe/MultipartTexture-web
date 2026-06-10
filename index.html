@@ -121,14 +121,74 @@
     </div>
   </section>
 
-  <!-- Gallery Section -->
+  <!-- Multipart Comparison Section -->
   <section class="section">
     <div class="container">
-        <h2 class="title is-3" style="text-align: center;">🎬 Comparison 🎬</h2>
+        <h2 class="title is-3" style="text-align: center;">🎬 Multipart Comparison 🎬</h2>
         <br>
         <div id="with-video-section">
-            <div id="video-items"></div>
+            <div id="video-items-multipart"></div>
         </div>
+    </div>
+  </section>
+
+  <!-- Singlepart Comparison Section -->
+  <section class="section">
+    <div class="container">
+        <h2 class="title is-3" style="text-align: center;">🎬 Singlepart Comparison 🎬</h2>
+        <br>
+        <div id="with-video-section">
+            <div id="video-items-singlepart"></div>
+        </div>
+    </div>
+  </section>
+
+  <!-- Compare Paper Section -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3" style="text-align: center;">📋 Compare Paper 📋</h2>
+      <br>
+      <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+        <thead>
+          <tr>
+            <th>Paper</th>
+            <th>Input</th>
+            <th>Output</th>
+            <th>Pro</th>
+            <th>Con</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>MaterialMVP</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+          </tr>
+          <tr>
+            <td>Hunyuan3D 2.1</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+          </tr>
+          <tr>
+            <td>Meshy</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+          </tr>
+          <tr>
+            <td>TRELLIS</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </section>
 
@@ -732,7 +792,8 @@
   }
 
   /* More Demo Gallery Styles */
-  #video-items {
+  #video-items-multipart,
+  #video-items-singlepart {
       display: flex;
       flex-direction: column;
       gap: 16px;
@@ -776,6 +837,25 @@
       text-transform: capitalize;
   }
 
+  .demo-cell-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+  }
+
+  .demo-cell-wrap .demo-cell {
+      width: 100%;
+  }
+
+  .demo-part-count {
+      font-size: 11px;
+      font-weight: 500;
+      color: #888;
+      text-transform: none;
+      text-align: center;
+  }
+
   .demo-cell {
       width: 100%;
       aspect-ratio: 1 / 1;
@@ -811,7 +891,7 @@
           grid-template-columns: 90px repeat(3, 1fr);
       }
       .demo-header-label:nth-child(n+5),
-      .demo-row > .demo-cell:nth-child(n+5) {
+      .demo-row > .demo-cell-wrap:nth-child(n+5) {
           display: none;
       }
   }
@@ -822,7 +902,7 @@
           grid-template-columns: 80px repeat(2, 1fr);
       }
       .demo-header-label:nth-child(n+4),
-      .demo-row > .demo-cell:nth-child(n+4) {
+      .demo-row > .demo-cell-wrap:nth-child(n+4) {
           display: none;
       }
   }
@@ -1197,12 +1277,15 @@
       return obj.replace(/\d+$/, '').replace(/_/g, ' ');
   }
 
-  const demoObjects = [
-    "bicycle", "carved_wooden_elephant", "dustpan", "hammer", "propane_tank",
-    "rubber_duck_toy", "scissors", "spongebob", "stitcher", "telescope",
-    "transformer", "water_manhole_cover", "wet_floor_sign"
+  // Comparison objects are split into two groups, each backed by its own folder.
+  const demoMultipartObjects = [
+    "bicycle", "scissors", "stitcher", "telescope", "transformer", "water_manhole_cover"
   ];
-  // Each column maps to a subfolder under cases/{obj}/ holding a preview.png.
+  const demoSinglepartObjects = [
+    "carved_wooden_elephant", "dustpan", "hammer", "propane_tank",
+    "rubber_duck_toy", "spongebob", "wet_floor_sign"
+  ];
+  // Each column maps to a subfolder under {baseFolder}/{obj}/ holding a preview.png.
   // Missing methods (e.g. water_manhole_cover has no meshy) render as empty cells.
   const demoColumns = [
     { key: "input",       label: "Input" },
@@ -1211,33 +1294,50 @@
     { key: "meshy",       label: "Meshy" },
     { key: "trellis2",    label: "TRELLIS" }
   ];
+  // Per-(object, column) part counts, shown under each image (including input).
+  // Each column can have a different number of parts. Anything not listed here falls
+  // back to "--". Fill in real numbers later, e.g.
+  //   bicycle: { input: 5, materialmvp: 5, hunyuan2_1: 4, meshy: 3, trellis2: 6 },
+  const demoPartCounts = {};
 
-  async function loadGallery() {
-      try {
-          const container = document.getElementById('video-items');
+  function renderGallery(containerId, objects, baseFolder) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
 
-          // Header row
-          const headerDiv = document.createElement('div');
-          headerDiv.className = 'demo-header';
-          headerDiv.innerHTML = `<div class="demo-header-label"></div>` +
-              demoColumns.map(c => `<div class="demo-header-label">${c.label}</div>`).join('');
-          container.appendChild(headerDiv);
+      // Header row
+      const headerDiv = document.createElement('div');
+      headerDiv.className = 'demo-header';
+      headerDiv.innerHTML = `<div class="demo-header-label"></div>` +
+          demoColumns.map(c => `<div class="demo-header-label">${c.label}</div>`).join('');
+      container.appendChild(headerDiv);
 
-          // One row per object
-          demoObjects.forEach(obj => {
-              const row = document.createElement('div');
-              row.className = 'demo-row';
-              const cells = demoColumns.map(c => {
-                  const src = `static/images/cases/${obj}/${c.key}/preview.png`;
-                  return `<div class="demo-cell">
+      // One row per object
+      objects.forEach(obj => {
+          const row = document.createElement('div');
+          row.className = 'demo-row';
+          const cells = demoColumns.map(c => {
+              const src = `static/images/${baseFolder}/${obj}/${c.key}/preview.png`;
+              // Every column (including input) shows a part count under the image.
+              const counts = demoPartCounts[obj] || {};
+              const n = counts[c.key] != null ? counts[c.key] : '--';
+              const caption = `<div class="demo-part-count">${n} parts</div>`;
+              return `<div class="demo-cell-wrap">
+                  <div class="demo-cell">
                       <img src="${src}" alt="${c.label}"
                            onerror="this.parentElement.classList.add('empty'); this.remove();">
-                  </div>`;
-              }).join('');
-              row.innerHTML = `<div class="demo-row-label">${prettyLabel(obj)}</div>${cells}`;
-              container.appendChild(row);
-          });
+                  </div>
+                  ${caption}
+              </div>`;
+          }).join('');
+          row.innerHTML = `<div class="demo-row-label">${prettyLabel(obj)}</div>${cells}`;
+          container.appendChild(row);
+      });
+  }
 
+  function loadGallery() {
+      try {
+          renderGallery('video-items-multipart', demoMultipartObjects, 'comparison_multipart');
+          renderGallery('video-items-singlepart', demoSinglepartObjects, 'comparison_singlepart');
       } catch (error) {
           console.error('Loading failed:', error);
       }
