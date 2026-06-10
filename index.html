@@ -1,0 +1,2182 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Fishbone is a fully automatic mesh deformation framework that turns a single 3D asset into diverse, controllable variations via a coupled rib-spine control structure.">
+  <meta name="keywords" content="Fishbone, mesh deformation, rib-spine control structure, geodesic ribs, skinning, dynamics, animation, 3D shape generation, robot learning, data diversification">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fishbone</title>
+
+  <link rel="stylesheet" href="./static/css/google-fonts-local.css">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="./static/css/font-awesome.min.css">
+
+  <!-- Academicons -->
+  <link rel="stylesheet" href="./static/css/academicons.min.css">
+
+  <link rel="icon" href="./static/images/icon.png">
+
+  <script src="./static/js/jquery.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/image-slider.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+
+<body>
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Fishbone: From One 3D Asset to a Million Controllable Edits</h1>
+
+            <!-- Authors -->
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                Anonymous
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <img src="./static/images/Teaser.png" class="interpolation-image" />
+        <h2 class="subtitle has-text-justified">
+          <strong>Fishbone</strong> extracts a coupled rib&ndash;spine control structure from an input mesh and defines a compact deformation space over rib- and spine-driven primitives. From a single freeform asset, this unified handle system enables diverse, geometrically plausible shape variations, spanning local cross-sectional edits as well as global bending, twisting, and stretching, all driven by intuitive low-dimensional parameters. The rib&ndash;spine representation also supports real-time reduced-space simulation and keyframe animation.
+        </h2>
+      </div>
+    </div>
+  </section>
+
+    <!-- Image Slider Section -->
+    <section class="hero is-light is-small">
+      <div class="hero-body">
+        <div class="container">
+          <div class="comparison-carousel-wrapper" id="comparison-carousel-wrapper">
+            <button class="comparison-carousel-arrow comparison-carousel-arrow-prev"
+                    id="comparison-carousel-prev" aria-label="Previous">‹</button>
+            <div class="comparison-carousel-viewport" id="comparison-carousel-viewport">
+              <div class="comparison-carousel-track" id="comparison-carousel-track">
+                <!-- Populated dynamically: auto-detected from demo/ -->
+              </div>
+            </div>
+            <button class="comparison-carousel-arrow comparison-carousel-arrow-next"
+                    id="comparison-carousel-next" aria-label="Next">›</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">✨ Abstract ✨</h2>
+          <div class="content has-text-justified">
+            <p>
+              We present <strong>Fishbone</strong>, a fully automatic mesh deformation framework that generates diverse, controllable variations of any input triangle mesh.
+              The control structure is a tuple of <em>ribs</em> (cross-sectional iso-contours extracted at successive geodesic levels on the surface) and a smooth <em>spine</em> curve threaded through their centers, derived directly from the mesh via the heat method and a robust center-finding procedure with no manual annotation, template fitting, or per-shape rigging.
+              On top of it we define six rib-driven and three spine-driven deformation primitives, all driven by low-dimensional parameters and propagated to mesh vertices through a Gaussian-weighted skinning scheme that preserves local detail.
+              The same handle system is <em>simulation-ready</em>, <em>real-time</em>, and <em>interactive</em>: lumped mass and damping are inherited from the precomputed skinning weights, the integrator runs at interactive frame rates, and user input projects back to the reduced spine through the same matrix that lifts spine motion to the mesh.
+              Experiments show greater deformation diversity and geometric plausibility than cage-based, skeleton-driven, and neural baselines, while supporting batch processing of large asset libraries, sim-to-real diversification in robotics, and procedural content creation.
+            </p>
+          </div>
+        </div>
+      </div>
+      <!-- Paper video -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <div class="publication-video">
+            <video controls autoplay muted loop playsinline style="width: 100%;">
+              <source src="./video.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">🎯 Pipeline 🎯</h2>
+          <img src="./static/images/Pipeline.png" class="interpolation-image" />
+          <div class="content has-text-justified">
+            <p>
+              From left to right, our geometry-driven pipeline takes a raw <em>input mesh</em>, runs a lightweight cleaning + watertightness-repair pass to produce a <em>clean mesh</em>, extracts <em>ribs</em> as iso-contours of a heat-method geodesic field rooted at an automatically selected face of the part's AABB, kept as closed loops on solid meshes and as open polylines on thin-shell parts, <em>evaluates spine points</em> per rib by maximizing a flatness-+-centroid-+-parent score, <em>generates the spine</em> by chaining the per-rib spine points into a branching tree, and <em>computes per-vertex skinning weights</em> that bind the mesh to the surrounding ribs via soft-cutoff Gaussians of the projected rib distance.
+            </p>
+            <p>
+              The same control structure &#8497; = (&#8475;, &#119982;, <strong>W</strong>) then drives three downstream stages, all sharing the cached weights: a parameterized static <em>deformation</em> algebra of rib- and spine-driven primitives, a reduced-coordinate <em>dynamics</em> solver with mesh lift, and a physics-free keyframe <em>animation</em> pipeline.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deformation Modes Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="title is-3" style="text-align:center;">🔧 Deformation 🔧</h2>
+
+      <h3 class="deformation-subtitle">Rib-driven Deformation</h3>
+      <div class="deformation-grid">
+        <div class="deformation-item">
+          <video autoplay muted loop playsinline>
+            <source src="./static/images/deformation/bear_mode1.mp4" type="video/mp4">
+          </video>
+          <h4>Uniform Scale</h4>
+        </div>
+        <div class="deformation-item">
+          <video autoplay muted loop playsinline>
+            <source src="./static/images/deformation/bear_mode2.mp4" type="video/mp4">
+          </video>
+          <h4>Anisotropic Scale</h4>
+        </div>
+        <div class="deformation-item">
+          <video autoplay muted loop playsinline>
+            <source src="./static/images/deformation/bear_mode3.mp4" type="video/mp4">
+          </video>
+          <h4>Translation</h4>
+        </div>
+        <div class="deformation-item">
+          <video autoplay muted loop playsinline>
+            <source src="./static/images/deformation/bear_mode4.mp4" type="video/mp4">
+          </video>
+          <h4>Rotation</h4>
+        </div>
+        <div class="deformation-item">
+          <video autoplay muted loop playsinline>
+            <source src="./static/images/deformation/bear_mode5.mp4" type="video/mp4">
+          </video>
+          <h4>Local Deform</h4>
+        </div>
+        <div class="deformation-item">
+          <video autoplay muted loop playsinline>
+            <source src="./static/images/deformation/bear_mode6.mp4" type="video/mp4">
+          </video>
+          <h4>Cross Section</h4>
+        </div>
+      </div>
+
+      <h3 class="deformation-subtitle">Spine-driven Deformation</h3>
+      <div class="deformation-grid">
+        <div class="deformation-item">
+          <video autoplay muted loop playsinline>
+            <source src="./static/images/deformation/bear_mode7.mp4" type="video/mp4">
+          </video>
+          <h4>Stretch</h4>
+        </div>
+        <div class="deformation-item">
+          <video autoplay muted loop playsinline>
+            <source src="./static/images/deformation/bear_mode8.mp4" type="video/mp4">
+          </video>
+          <h4>Bend</h4>
+        </div>
+        <div class="deformation-item">
+          <video autoplay muted loop playsinline>
+            <source src="./static/images/deformation/bear_mode9.mp4" type="video/mp4">
+          </video>
+          <h4>Twist</h4>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dynamics Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="title is-3" style="text-align:center;">⚙️ Dynamics ⚙️</h2>
+      <div class="deformation-grid">
+        <div class="deformation-item">
+          <video autoplay loop muted playsinline>
+            <source src="static/images/dynamics_animation/mushroom_dynamics.mp4" type="video/mp4">
+          </video>
+          <h4>Mushroom</h4>
+        </div>
+        <div class="deformation-item">
+          <video autoplay loop muted playsinline>
+            <source src="static/images/dynamics_animation/plant2_dynamics.mp4" type="video/mp4">
+          </video>
+          <h4>Plant</h4>
+        </div>
+        <div class="deformation-item">
+          <video autoplay loop muted playsinline>
+            <source src="static/images/dynamics_animation/tuna_dynamics.mp4" type="video/mp4">
+          </video>
+          <h4>Tuna</h4>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Animation Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="title is-3" style="text-align:center;">🎞️ Animation 🎞️</h2>
+      <div class="deformation-grid">
+        <div class="deformation-item">
+          <video autoplay loop muted playsinline>
+            <source src="static/images/dynamics_animation/cat2_animation.mp4" type="video/mp4">
+          </video>
+          <h4>Cat</h4>
+        </div>
+        <div class="deformation-item">
+          <video autoplay loop muted playsinline>
+            <source src="static/images/dynamics_animation/rose_animation.mp4" type="video/mp4">
+          </video>
+          <h4>Rose</h4>
+        </div>
+        <div class="deformation-item">
+          <video autoplay loop muted playsinline>
+            <source src="static/images/dynamics_animation/teletubbies_animation.mp4" type="video/mp4">
+          </video>
+          <h4>Teletubbies</h4>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section class="section">
+    <div class="container">
+        <h2 class="title is-3" style="text-align: center;">🎬 More Demo 🎬</h2>
+        <br>
+        <div id="with-video-section">
+            <div id="video-items"></div>
+        </div>
+    </div>
+  </section>
+
+  <!-- Editing GUI Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="title is-3" style="text-align:center;">🖥️ Editing GUI 🖥️</h2>
+      <p style="text-align:center; margin-bottom: 1.5rem;">
+        An interactive editor lets users sculpt deformations directly on the Fishbone
+        representation.
+      </p>
+      <figure style="text-align:center;">
+        <img src="static/images/GUI/image.png" alt="Editing GUI"
+             style="max-width:100%; height:auto; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.12);">
+      </figure>
+    </div>
+  </section>
+
+  <!-- 3D Shape Generation Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="title is-3" style="text-align:center;">🧊 3D Shape Generation 🧊</h2>
+      <p style="text-align:center; margin-bottom: 1.5rem;">
+        Generated 3D shapes compared against ground truth and <strong>PartCrafter</strong>. Each row shows
+        the input, ground-truth mesh / rib / spine, the PartCrafter output, and our generated mesh / rib / spine.
+      </p>
+      <div id="shape-generation-items"></div>
+    </div>
+  </section>
+
+  <!-- Editing Comparison Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="title is-3" style="text-align:center;">♠️ Editing Comparison ♠️</h2>
+      <p style="text-align:center; margin-bottom: 1.5rem;">
+        Editing comparison across <strong>Ours</strong>, <strong>WIR3D</strong>, and <strong>ARAP</strong>.
+        For each method we show its representation and the resulting deformation; the leftmost column is the input mesh.
+      </p>
+      <div id="editing-comparison-items"></div>
+    </div>
+  </section>
+
+  <!-- Robot Learning via Scene Diversification Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="title is-3" style="text-align:center;">🤖 Robot Learning via Data Diversification 🤖</h2>
+      <p style="text-align:center; margin-bottom: 1.5rem;">
+        Policy is trained from Fishbone-generated deformation variants of single objects.
+        We present <strong>single object</strong> scene and <strong>multi object</strong> scene for three objects.
+      </p>
+
+      <div class="robot-grid">
+        <div class="robot-header"></div>
+        <div class="robot-header">Croissant</div>
+        <div class="robot-header">Tuna</div>
+        <div class="robot-header">Cup</div>
+
+        <div class="robot-row-label">Single Object</div>
+        <div class="robot-cell">
+          <video autoplay loop muted playsinline>
+            <source src="static/images/robot/croissant_single_eval_rollout.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="robot-cell">
+          <video autoplay loop muted playsinline>
+            <source src="static/images/robot/tuna_single_eval_rollout.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="robot-cell">
+          <video autoplay loop muted playsinline>
+            <source src="static/images/robot/cup_single_eval_rollout.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <div class="robot-row-label">Multi Objects</div>
+        <div class="robot-cell">
+          <video autoplay loop muted playsinline>
+            <source src="static/images/robot/croissant_multi_eval_rollout.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="robot-cell">
+          <video autoplay loop muted playsinline>
+            <source src="static/images/robot/tuna_multi_eval_rollout.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="robot-cell">
+          <video autoplay loop muted playsinline>
+            <source src="static/images/robot/cup_multi_eval_rollout.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Agent Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="title is-3" style="text-align:center;">💬 Agent 💬</h2>
+      <p style="text-align:center; margin-bottom: 1.5rem;">
+        A VLM agent drives the editing GUI through tool calls — listing ribs, selecting them, and
+        applying deformations on behalf of the user.
+      </p>
+
+      <div class="agent-transcript">
+        <div class="agent-turn agent-user">
+          <span class="agent-role">user</span>
+          <div class="agent-content">make the four legs thicker</div>
+        </div>
+
+        <div class="agent-turn agent-meta">
+          <span class="agent-role">active part</span>
+          <div class="agent-content"><code>{"type":"active_part","part":"geometry_0"}</code></div>
+        </div>
+
+        <div class="agent-turn agent-tool-call">
+          <span class="agent-role">tool call</span>
+          <div class="agent-content"><code>list_ribs({})</code></div>
+        </div>
+        <div class="agent-turn agent-tool-result">
+          <span class="agent-role">tool result</span>
+          <div class="agent-content">
+            <code>list_ribs:</code> Available ribs on part <code>'geometry_0'</code>:
+            <code>['r1', 'r2', 'r3', 'r4-1', 'r4-2', 'r4-3', 'r5-1', 'r5-2', 'r5-3', 'r6', 'r7', 'r8-1', 'r8-2', 'r8-3', 'r9-1', 'r9-2', 'r9-3', 'r10']</code>
+            <div class="agent-hint">(Names are labelled in the screenshot. Lower indices are usually closer to the part's starting end.)</div>
+            <img class="agent-screenshot" src="static/images/agent/image1.png" alt="list_ribs screenshot" title="Click to enlarge">
+          </div>
+        </div>
+
+        <div class="agent-turn agent-tool-call">
+          <span class="agent-role">tool call</span>
+          <div class="agent-content"><code>select_ribs({"ribs":["r4-2","r5-2","r4-3","r5-3","r8-2","r9-2","r8-3","r9-3"]})</code></div>
+        </div>
+        <div class="agent-turn agent-tool-result">
+          <span class="agent-role">tool result</span>
+          <div class="agent-content">
+            <code>select_ribs:</code> Selected 8 rib(s): <code>['r4-2', 'r5-2', 'r4-3', 'r5-3', 'r8-2', 'r9-2', 'r8-3', 'r9-3']</code>
+            <img class="agent-screenshot" src="static/images/agent/image2.png" alt="select_ribs screenshot" title="Click to enlarge">
+          </div>
+        </div>
+
+        <div class="agent-turn agent-tool-call">
+          <span class="agent-role">tool call</span>
+          <div class="agent-content"><code>deform({"mode":1,"params":{"uniform_scale":1.35}})</code></div>
+        </div>
+        <div class="agent-turn agent-tool-result">
+          <span class="agent-role">tool result</span>
+          <div class="agent-content">
+            <code>deform:</code> Applied mode 1 (uniform_scale) with params <code>{'uniform_scale': 1.35}</code> to 8 rib(s).
+            <img class="agent-screenshot" src="static/images/agent/image3.png" alt="deform screenshot" title="Click to enlarge">
+          </div>
+        </div>
+
+        <div class="agent-turn agent-eval">
+          <span class="agent-role">evaluation</span>
+          <div class="agent-content">✓ APPROVED — The four legs are visibly thicker with smooth geometry and a reasonable magnitude change.</div>
+        </div>
+
+        <div class="agent-turn agent-tool-call">
+          <span class="agent-role">tool call</span>
+          <div class="agent-content"><code>done({"message":"Made all four legs thicker by uniformly scaling the leg ribs outward."})</code></div>
+        </div>
+        <div class="agent-turn agent-tool-result">
+          <span class="agent-role">tool result</span>
+          <div class="agent-content"><code>done:</code> Made all four legs thicker by uniformly scaling the leg ribs outward.</div>
+        </div>
+
+        <div class="agent-turn agent-done">
+          <span class="agent-role">done</span>
+          <div class="agent-content">Made all four legs thicker by uniformly scaling the leg ribs outward.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ablation: Rib Extraction Design Choices Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="title is-3" style="text-align:center;">♣️ Ablation: Rib Extraction Design Choices ♣️</h2>
+      <p style="margin-bottom: 1.5rem; text-align: justify;">
+        Each panel ablates one component of our rib extraction. <strong>Ours</strong> uses heat-method
+        geodesic ribs with automatic root-axis selection and adaptive level count
+        <em>K</em> = clip(round(10 <em>L<sub>p</sub></em> / <em>L<sub>o</sub></em>), 3, 10).
+        Removing the <strong>heat method</strong> (grid ribs) or <strong>auto root-axis selection</strong>
+        misaligns the rib stack with the object's principal axis. Fixed-<em>K</em> variants instead
+        over- or under-sample multi-part objects: <em>K</em>=5 under-resolves large parts (e.g., the
+        plant stem in row 4), while <em>K</em>=10 and 15 over-resolve small parts (leaves, buds).
+      </p>
+      <div id="ablation-rib-items"></div>
+    </div>
+  </section>
+
+  <!-- Ablation: Score-maximization vs. Midplane Center Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="title is-3" style="text-align:center;">♣️ Ablation: Score-maximization vs. Midplane Center ♣️</h2>
+      <p style="text-align:center; margin-bottom: 1.5rem;">
+        Comparison between selecting spine points by <strong>score maximization</strong> and our
+        <strong>midplane center</strong> criterion.
+      </p>
+      <div id="ablation-spine-items"></div>
+    </div>
+  </section>
+
+  <!-- Ablation: Branching Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="title is-3" style="text-align:center;">♣️ Ablation: Branching Tree Handling ♣️</h2>
+      <p style="text-align:center; margin-bottom: 1.5rem;">
+        Effect of the branching design on the spine structure. Each row compares the spine
+        produced <strong>without branching</strong> against our full method <strong>with branching</strong>.
+      </p>
+      <div id="ablation-branch-items"></div>
+    </div>
+  </section>
+
+  <!-- Ablation: Mesh Lifting Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="title is-3" style="text-align:center;">♣️ Ablation: Mesh Lifting ♣️</h2>
+      <p style="text-align:center; margin-bottom: 1.5rem;">
+        Comparison of mesh lifting strategies on the same input.
+      </p>
+      <div id="ablation-meshlifting-items"></div>
+    </div>
+  </section>
+
+
+
+<style>
+    /* Deformation modes grid: 3 videos per row */
+    .deformation-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin: 1.5rem 0 2.5rem 0;
+    }
+
+    .deformation-subtitle {
+        text-align: left;
+        margin-top: 2rem;
+        margin-bottom: 0.5rem;
+        font-size: 22px;
+        font-weight: 700;
+        color: #333;
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 5px;
+    }
+
+    .deformation-item {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .deformation-item:hover {
+        transform: scale(1.03);
+        box-shadow: 0 4px 10px #b6a9cf;
+    }
+
+    .deformation-item video {
+        width: 100%;
+        height: auto;
+        border-radius: 4px;
+        display: block;
+    }
+
+    .deformation-item h4 {
+        margin-top: 10px;
+        font-size: 1.1em;
+        color: #555;
+        font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+        .deformation-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .deformation-item h4 {
+            font-size: 0.95em;
+        }
+    }
+
+  /* Teaser image responsive styling */
+  .interpolation-image {
+      max-width: 100%;
+      width: 100%;
+      height: auto;
+  }
+
+  /* Carousel section styling */
+  .hero.is-light .hero-body {
+      padding: 1rem 1.5rem;
+  }
+  .hero.is-light .container {
+      position: relative;
+      padding: 0 60px; /* Add space for buttons */
+  }
+  .results-carousel {
+      max-width: 1152px;
+      margin: 0 auto;
+  }
+  .results-carousel .item img {
+      max-width: 400px !important;
+      width: 100% !important;
+      height: auto;
+      margin: 0 auto;
+      display: block;
+  }
+  .results-carousel .item video {
+      max-width: 400px !important;
+      width: 100% !important;
+      height: auto;
+      margin: 0 auto;
+      display: block;
+  }
+
+  /* Position carousel navigation buttons outside content area */
+  #results-carousel .slider-navigation-previous {
+      left: 10px !important;
+  }
+  #results-carousel .slider-navigation-next {
+      right: 10px !important;
+  }
+  .slider-navigation-previous,
+  .slider-navigation-next {
+      background-color: rgba(139, 140, 192, 0.8) !important;
+      width: 40px !important;
+      height: 40px !important;
+  }
+  .slider-navigation-previous:hover,
+  .slider-navigation-next:hover {
+      background-color: #e7bdc7 !important;
+  }
+
+  .pipeline-section {
+      padding: 20px;
+      margin: 0 auto;
+      max-width: 1152px;
+  }
+  .pipeline-section h2 {
+      text-align: left;
+      margin-bottom: 20px;
+  }
+  .pipeline-section p {
+      text-align: left;
+      margin-top: 20px;
+      line-height: 1.6;
+  }
+
+  .video-comparison-section {
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 1152px;
+  }
+  .video-comparison-section h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 2em;
+  }
+  .video-comparison-section > p {
+      text-align: left;
+      margin-bottom: 30px;
+      line-height: 1.6;
+  }
+  .video-comparison-section h3 {
+      text-align: left;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #333;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 5px;
+  }
+  .video-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      justify-items: center;
+  }
+  .video-item {
+      text-align: center;
+      background: #fff;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      max-width: 300px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .video-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 10px #b6a9cf;
+  }
+  .video-item h4 {
+      margin-bottom: 10px;
+      font-size: 1.2em;
+      color: #555;
+  }
+  .video-item video {
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+  }
+  .comparison-image {
+      max-width: 512px;
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+  }
+
+  /* Emphasized style for "Ours" */
+  .video-item.emphasized {
+      border: 3px solid #8b8cc0;
+      background-color: #b6a9cf;
+      box-shadow: 0 4px 10px #b6a9cf;
+      transform: scale(1.05);
+  }
+  .video-item.emphasized h4 {
+      color: #4e659d; /* Dark orange font */
+      font-weight: bold;
+      font-size: 1.3em;
+  }
+  .video-item.emphasized video {
+      border: 2px solid #8b8cc0; /* Golden border around video */
+  }
+
+  /* Comparison Styles */
+  .comparison-grid {
+      margin-top: 2rem;
+  }
+
+  .comparison-header {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+      padding: 15px 20px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 14px;
+      color: #333;
+  }
+
+  .comparison-header-label {
+      text-align: center;
+  }
+
+  .comparison-row {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 15px;
+      margin-bottom: 30px;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .comparison-item {
+      text-align: center;
+  }
+
+  .comparison-item img {
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  }
+
+  .placeholder {
+      width: 100%;
+      aspect-ratio: 1;
+      background: #f0f0f0;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+      font-size: 14px;
+  }
+
+  @media (max-width: 1200px) {
+      .comparison-row {
+          grid-template-columns: repeat(3, 1fr);
+      }
+  }
+
+  @media (max-width: 768px) {
+      .comparison-row {
+          grid-template-columns: repeat(2, 1fr);
+      }
+  }
+
+  /* Editing Comparison Styles */
+  #editing-comparison-items {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+  }
+
+  /* Track of 8 columns: object label + input + 6 method-type cells (3 methods × 2 types) */
+  .editing-header-row,
+  .editing-row {
+      display: grid;
+      grid-template-columns: 90px 1fr repeat(6, 1fr);
+      gap: 10px;
+      align-items: center;
+  }
+
+  .editing-header-row {
+      padding: 8px 14px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 13px;
+      color: #333;
+  }
+  .editing-header-row.editing-header-bottom {
+      font-weight: 600;
+      color: #555;
+      font-size: 12px;
+  }
+  .editing-header-cell {
+      text-align: center;
+  }
+  .editing-method-header {
+      background: rgba(139, 140, 192, 0.18);
+      border-radius: 6px;
+      padding: 4px 0;
+      font-size: 14px;
+      color: #4e659d;
+  }
+
+  .editing-row {
+      padding: 12px 14px;
+      background: rgba(139, 140, 192, 0.08);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+  .editing-row-label {
+      text-align: center;
+      font-weight: 600;
+      color: #444;
+      padding: 8px;
+      background: rgba(139, 140, 192, 0.1);
+      border-radius: 6px;
+      text-transform: capitalize;
+      font-size: 13px;
+  }
+  .editing-cell {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      border-radius: 4px;
+      overflow: hidden;
+  }
+  .editing-cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+  }
+  .editing-cell.empty {
+      background: repeating-linear-gradient(
+          45deg,
+          #f5f5f5,
+          #f5f5f5 8px,
+          #ececec 8px,
+          #ececec 16px
+      );
+  }
+
+  @media (max-width: 1024px) {
+      .editing-header-row,
+      .editing-row {
+          grid-template-columns: 80px repeat(7, 1fr);
+          gap: 6px;
+      }
+      .editing-row-label {
+          font-size: 11px;
+          padding: 4px;
+      }
+      .editing-method-header {
+          font-size: 12px;
+      }
+  }
+  @media (max-width: 768px) {
+      .editing-header-row,
+      .editing-row {
+          /* On small screens, drop down to one method group at a time. The
+             extra columns become harder to read; consider scrolling or stacking. */
+          grid-template-columns: 70px 1fr repeat(2, 1fr);
+      }
+      .editing-row > .editing-cell:nth-child(n+5),
+      .editing-header-row > div:nth-child(n+5) {
+          display: none;
+      }
+  }
+
+  /* Agent transcript */
+  .agent-transcript {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+  }
+  .agent-turn {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: #fafbfc;
+      border: 1px solid #eef0f2;
+  }
+  .agent-role {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      text-align: center;
+      align-self: start;
+      white-space: nowrap;
+  }
+  .agent-content {
+      font-size: 13px;
+      line-height: 1.55;
+      color: #2c3e50;
+      word-break: break-word;
+  }
+  .agent-content code {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 12px;
+      background: rgba(0,0,0,0.04);
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: #4e659d;
+  }
+  .agent-hint {
+      margin-top: 4px;
+      font-size: 11px;
+      color: #888;
+  }
+  .agent-screenshot {
+      display: block;
+      margin-top: 8px;
+      max-width: 240px;
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      border: 1px solid rgba(0,0,0,0.1);
+      cursor: zoom-in;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .agent-screenshot:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
+  /* Lightbox overlay (full-viewport, click-outside-to-close) */
+  .lightbox-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4vh 4vw;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.18s ease;
+      z-index: 9999;
+      cursor: zoom-out;
+  }
+  .lightbox-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+  }
+  .lightbox-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 6px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+      cursor: default;
+  }
+  .agent-user                    { background: #eef4ff; border-color: #d6e2ff; }
+  .agent-user .agent-role        { background: #4e659d; color: #fff; }
+  .agent-meta                    { background: #f4f4f4; border-color: #e0e0e0; }
+  .agent-meta .agent-role        { background: #9aa0a6; color: #fff; }
+  .agent-tool-call               { background: #fff7e6; border-color: #ffe3a3; }
+  .agent-tool-call .agent-role   { background: #d97706; color: #fff; }
+  .agent-tool-result             { background: #ecf8ef; border-color: #c8e6c9; }
+  .agent-tool-result .agent-role { background: #2e7d32; color: #fff; }
+  .agent-eval                    { background: #f3eaff; border-color: #d6c2f5; }
+  .agent-eval .agent-role        { background: #6a3eb5; color: #fff; }
+  .agent-done                    { background: #d4f3d4; border-color: #93d093; font-weight: 600; }
+  .agent-done .agent-role        { background: #1b5e20; color: #fff; }
+  @media (max-width: 768px) {
+      .agent-turn {
+          grid-template-columns: 1fr;
+          gap: 4px;
+      }
+      .agent-role { justify-self: start; }
+  }
+
+  /* Robot Learning grid: 4-col matrix (label + 3 objects) × 3 rows (header + 2 conditions) */
+  .robot-grid {
+      display: grid;
+      grid-template-columns: 140px repeat(3, 1fr);
+      gap: 12px;
+      align-items: center;
+  }
+  .robot-header {
+      text-align: center;
+      font-weight: 700;
+      font-size: 16px;
+      color: #333;
+      padding: 10px 8px;
+      background: rgba(139, 140, 192, 0.1);
+      border-radius: 6px;
+  }
+  .robot-header:empty {
+      background: transparent;
+  }
+  .robot-row-label {
+      text-align: center;
+      font-weight: 600;
+      color: #444;
+      padding: 10px 8px;
+      background: rgba(139, 140, 192, 0.1);
+      border-radius: 6px;
+      font-size: 14px;
+  }
+  .robot-cell {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 6px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .robot-cell:hover {
+      transform: scale(1.03);
+      box-shadow: 0 4px 10px #b6a9cf;
+  }
+  .robot-cell video {
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+      display: block;
+  }
+  @media (max-width: 768px) {
+      .robot-grid {
+          grid-template-columns: 90px repeat(3, 1fr);
+          gap: 6px;
+      }
+      .robot-header { font-size: 13px; }
+      .robot-row-label { font-size: 11px; padding: 6px 4px; }
+  }
+
+  /* Ablation Branching Styles (reuses .editing-cell visuals) */
+  #ablation-branch-items {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+  }
+  .ablation-header-row,
+  .ablation-row {
+      display: grid;
+      grid-template-columns: 110px repeat(4, 1fr);
+      gap: 10px;
+      align-items: center;
+  }
+  .ablation-header-row {
+      padding: 8px 14px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #333;
+  }
+  .ablation-header-cell {
+      text-align: center;
+  }
+  .ablation-row {
+      padding: 12px 14px;
+      background: rgba(139, 140, 192, 0.08);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+  .ablation-row-label {
+      text-align: center;
+      font-weight: 600;
+      color: #444;
+      padding: 8px;
+      background: rgba(139, 140, 192, 0.1);
+      border-radius: 6px;
+      text-transform: capitalize;
+      font-size: 13px;
+      word-break: break-word;
+  }
+  @media (max-width: 768px) {
+      .ablation-header-row,
+      .ablation-row {
+          grid-template-columns: 80px repeat(4, 1fr);
+          gap: 6px;
+      }
+      .ablation-row-label {
+          font-size: 11px;
+          padding: 4px;
+      }
+  }
+
+  /* More Demo Gallery Styles */
+  #video-items {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+  }
+
+  .demo-header {
+      display: grid;
+      grid-template-columns: 110px repeat(6, 1fr);
+      gap: 12px;
+      padding: 12px 16px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 14px;
+      color: #333;
+  }
+
+  .demo-header-label {
+      text-align: center;
+  }
+
+  .demo-row {
+      display: grid;
+      grid-template-columns: 110px repeat(6, 1fr);
+      gap: 12px;
+      align-items: center;
+      background: rgba(139, 140, 192, 0.08);
+      border-radius: 8px;
+      padding: 12px 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  .demo-row-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #444;
+      text-align: center;
+      padding: 8px;
+      background: rgba(139, 140, 192, 0.1);
+      border-radius: 6px;
+      text-transform: capitalize;
+  }
+
+  .demo-cell {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      border-radius: 4px;
+      overflow: hidden;
+  }
+
+  .demo-cell img,
+  .demo-cell video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 4px;
+  }
+
+  .demo-cell.empty {
+      background: repeating-linear-gradient(
+          45deg,
+          #f5f5f5,
+          #f5f5f5 8px,
+          #ececec 8px,
+          #ececec 16px
+      );
+  }
+
+  @media (max-width: 1200px) {
+      .demo-header,
+      .demo-row {
+          grid-template-columns: 90px repeat(3, 1fr);
+      }
+      .demo-header-label:nth-child(n+5),
+      .demo-row > .demo-cell:nth-child(n+5) {
+          display: none;
+      }
+  }
+
+  @media (max-width: 768px) {
+      .demo-header,
+      .demo-row {
+          grid-template-columns: 80px repeat(2, 1fr);
+      }
+      .demo-header-label:nth-child(n+4),
+      .demo-row > .demo-cell:nth-child(n+4) {
+          display: none;
+      }
+  }
+
+  /* Slider Grid Layout */
+  .slider-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+  }
+
+  /* Auto-loaded comparison carousel (3 visible, scrollable) */
+  .comparison-carousel-wrapper {
+      position: relative;
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 8px 60px;
+  }
+
+  /* Viewport clips content; padding equals the inter-slide gap so the leftmost
+     and rightmost slides visually align with the inner edge while their box-shadows
+     extend into the padding zone (which is inside overflow:hidden's clip rect). */
+  .comparison-carousel-viewport {
+      overflow: hidden;
+      padding: 20px;
+      touch-action: pan-y;
+  }
+  .comparison-carousel-track {
+      display: flex;
+      gap: 20px;
+      width: 100%;
+      will-change: transform;
+      /* transform + transition driven by JS for "infinite" arrow steps */
+  }
+  .comparison-carousel-track > .image-comparison-container {
+      flex: 0 0 calc((100% - 40px) / 3);
+      max-width: none;
+  }
+
+  .comparison-carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(139, 140, 192, 0.85);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 28px;
+      line-height: 1;
+      z-index: 10;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 4px;
+      transition: background 0.2s ease;
+  }
+  .comparison-carousel-arrow:hover {
+      background: #e7bdc7;
+  }
+  .comparison-carousel-arrow-prev { left: 10px; }
+  .comparison-carousel-arrow-next { right: 10px; }
+
+  @media (max-width: 1024px) {
+      .comparison-carousel-track > .image-comparison-container {
+          flex: 0 0 calc((100% - 20px) / 2);
+      }
+  }
+  @media (max-width: 640px) {
+      .comparison-carousel-wrapper {
+          padding: 20px 50px;
+      }
+      .comparison-carousel-track > .image-comparison-container {
+          flex: 0 0 100%;
+      }
+  }
+
+  /* Image Comparison Slider Styles */
+  .image-comparison-container {
+      position: relative;
+      width: 100%;
+      margin: 0 auto;
+      max-width: 400px;
+  }
+
+  .comparison-slider {
+      position: relative;
+      width: 100%;
+      max-width: 1024px; /* don't grow beyond 1024px */
+      aspect-ratio: 1 / 1; /* keep square: height == width */
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      cursor: ew-resize;
+      overflow: hidden;
+  }
+
+    /* Keep both images full-size (cover the container). Only the .comparison-slider-before
+     container width is changed to reveal/clip the top image. */
+    .comparison-slider img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* crop image to fill square container */
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .comparison-slider-after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .comparison-slider-before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      /* keep full width and use clip-path to reveal portion so the image stays full-size */
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* Three-layer structure for 3-image slider */
+    .comparison-slider-top,
+    .comparison-slider-middle,
+    .comparison-slider-depth {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .comparison-slider-top img,
+    .comparison-slider-middle img,
+    .comparison-slider-depth img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .comparison-slider-top {
+      z-index: 3;
+    }
+
+    .comparison-slider-middle {
+      z-index: 2;
+    }
+
+    .comparison-slider-depth {
+      z-index: 1;
+    }
+
+    /* Dividers for two sliders */
+    .comparison-slider-divider-1,
+    .comparison-slider-divider-2 {
+      position: absolute;
+      top: 0;
+      width: 2px;
+      height: 100%;
+      background: rgba(139, 140, 192, 0.6);
+      z-index: 8;
+      pointer-events: none;
+    }
+
+    /* Handles for two sliders */
+    .comparison-slider-handle-1,
+    .comparison-slider-handle-2 {
+      position: absolute;
+      top: 50%;
+      width: 45px;
+      height: 45px;
+      transform: translate(-50%, -50%);
+      background: white;
+      border: 3px solid #8b8cc0;
+      border-radius: 50%;
+      cursor: grab;
+      z-index: 10;
+      box-shadow: 0 4px 12px rgba(139, 140, 192, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .comparison-slider-handle-1:hover,
+    .comparison-slider-handle-2:hover {
+      box-shadow: 0 6px 20px rgba(139, 140, 192, 0.6);
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    /* Middle label positioning */
+    .comparison-label-middle {
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 4px 8px;
+      background: rgba(139, 140, 192, 0.85);
+      color: white;
+      font-size: 10px;
+      font-weight: 600;
+      border-radius: 4px;
+      pointer-events: none;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      backdrop-filter: blur(4px);
+      z-index: 12;
+    }
+
+        /* Divider element (moved dynamically by JS) */
+        .comparison-slider-divider {
+          position: absolute;
+          top: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 2px;
+          height: 100%;
+          background: rgba(139, 140, 192, 0.6);
+          z-index: 8; /* below handle but above images */
+          pointer-events: none;
+        }
+  .comparison-slider-label {
+      position: absolute;
+      bottom: 10px;
+      padding: 5px 10px;
+      background: rgba(139, 140, 192, 0.85);
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 4px;
+      pointer-events: none;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      backdrop-filter: blur(4px);
+  }
+
+    /* Labels positioned outside clipped layers so they remain visible */
+      .comparison-label {
+      position: absolute;
+      bottom: 15px;
+      padding: 4px 8px;
+      background: rgba(139, 140, 192, 0.85);
+      color: white;
+      font-size: 10px;
+      font-weight: 600;
+      border-radius: 4px;
+      pointer-events: none;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      backdrop-filter: blur(4px);
+        z-index: 12; /* keep labels above handle and divider */
+    }
+
+    /* Label positions will be dynamically set by JavaScript */
+    .comparison-label-left { }
+    .comparison-label-right { }
+
+  .comparison-slider-handle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 45px;
+      height: 45px;
+      transform: translate(-50%, -50%); /* center the handle on its left coordinate */
+      background: white;
+      border: 3px solid #8b8cc0;
+      border-radius: 50%;
+      cursor: grab;
+      z-index: 10;
+      box-shadow: 0 4px 12px rgba(139, 140, 192, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: box-shadow 0.3s ease, transform 0.2s ease;
+  }
+
+  .comparison-slider-handle:hover {
+      box-shadow: 0 6px 20px rgba(139, 140, 192, 0.6);
+      transform: translate(-50%, -50%) scale(1.1);
+  }
+
+  .comparison-slider-handle:active {
+      cursor: grabbing;
+  }
+
+  .comparison-slider-icon {
+      position: relative;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+
+  .comparison-slider-arrow {
+      position: absolute;
+      width: 3px;
+      height: 12px;
+      background: #8b8cc0;
+      border-radius: 2px;
+  }
+
+  .comparison-slider-arrow.left {
+      left: 4px;
+      clip-path: polygon(100% 0%, 0% 50%, 100% 100%);
+      width: 4px;
+  }
+
+  .comparison-slider-arrow.right {
+      right: 4px;
+      clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+      width: 4px;
+  }
+
+  /* (pseudo-element removed — using .comparison-slider-divider element instead) */
+
+  @media (max-width: 1024px) {
+      .slider-grid {
+          grid-template-columns: repeat(2, 1fr);
+      }
+  }
+
+  @media (max-width: 768px) {
+      .slider-grid {
+          grid-template-columns: 1fr;
+      }
+
+      .image-comparison-container {
+          max-width: 100%;
+      }
+
+      .comparison-slider-handle {
+          width: 50px;
+          height: 50px;
+          margin-left: -25px;
+          margin-top: -25px;
+      }
+
+      .comparison-slider-label {
+          font-size: 12px;
+          bottom: 12px;
+          padding: 5px 10px;
+      }
+  }
+</style>
+
+<script>
+  // Strip trailing digits and replace underscores so folder keys like "bread11" or
+  // "monstera_tree" become "bread" / "monstera tree" for display. CSS capitalizes the
+  // first letter via text-transform on the label classes.
+  function prettyLabel(obj) {
+      return obj.replace(/\d+$/, '').replace(/_/g, ' ');
+  }
+
+  const demoObjects = [
+    "anglerfish", "banana", "bird2", "bread11", "bread6", "cat2",
+    "deer2", "donut2", "dragon", "hand", "horse", "koifish", "nefertiti", "plant2", "plant5",
+    "rose", "shiba", "spot", "sunflower", "tree", "wolf", "woodhand"
+  ];
+  const demoColumns = [
+    { key: "",                          label: "Input Mesh" },
+    { key: "rib",                       label: "Rib" },
+    { key: "spine",                     label: "Spine" },
+    { key: "skinning",                  label: "Skinning" },
+    { key: "deformation",               label: "Deformation" },
+    { key: ["animation", "dynamics"],   label: "Dynamics/Animation" }
+  ];
+  const demoExt = "png";
+
+  window.handleDemoImageError = function(img) {
+      const fbs = JSON.parse(img.dataset.fallbacks || '[]');
+      if (fbs.length) {
+          img.dataset.fallbacks = JSON.stringify(fbs.slice(1));
+          img.src = fbs[0];
+      } else {
+          img.parentElement.classList.add('empty');
+          img.remove();
+      }
+  };
+
+  async function loadGallery() {
+      try {
+          const container = document.getElementById('video-items');
+
+          // Header row
+          const headerDiv = document.createElement('div');
+          headerDiv.className = 'demo-header';
+          headerDiv.innerHTML = `<div class="demo-header-label"></div>` +
+              demoColumns.map(c => `<div class="demo-header-label">${c.label}</div>`).join('');
+          container.appendChild(headerDiv);
+
+          // One row per object
+          demoObjects.forEach(obj => {
+              const row = document.createElement('div');
+              row.className = 'demo-row';
+              const cells = demoColumns.map(c => {
+                  const keys = Array.isArray(c.key) ? c.key : [c.key];
+                  const srcs = keys.map(k =>
+                      k ? `static/images/demo/${obj}/${obj}_${k}.${demoExt}`
+                        : `static/images/demo/${obj}/${obj}.${demoExt}`
+                  );
+                  const fallbacks = srcs.slice(1);
+                  return `<div class="demo-cell">
+                      <img src="${srcs[0]}" alt="${c.label}"
+                           data-fallbacks='${JSON.stringify(fallbacks)}'
+                           onerror="handleDemoImageError(this)">
+                  </div>`;
+              }).join('');
+              row.innerHTML = `<div class="demo-row-label">${prettyLabel(obj)}</div>${cells}`;
+              container.appendChild(row);
+          });
+
+      } catch (error) {
+          console.error('Loading failed:', error);
+      }
+  }
+
+  window.addEventListener('DOMContentLoaded', loadGallery);
+
+  // Editing Comparison: per-object row showing input mesh + (representation, deformation)
+  // for Ours / WIR3D / ARAP. Files probed under static/images/comparison_editing/{obj}/.
+  // Missing files render as a striped empty cell (same UX as More Demo).
+  const comparisonEditingObjects = ["chair", "dragon", "nefertiti", "spot"];
+  const editingMethods = [
+      { key: "fishbone", label: "Ours" },
+      { key: "wir3d",    label: "WIR3D" },
+      { key: "arap",     label: "ARAP" }
+  ];
+  const editingTypes = [
+      { key: "representation", label: "Representation" },
+      { key: "deformation",    label: "Deformation" }
+  ];
+
+  async function loadEditingComparison() {
+      const container = document.getElementById('editing-comparison-items');
+      if (!container) return;
+
+      // Two header rows: top row groups each method across its 2 type columns.
+      const topCells = [
+          `<div class="editing-header-cell"></div>`,  // label column
+          `<div class="editing-header-cell"></div>`,  // input column
+          ...editingMethods.map(m =>
+              `<div class="editing-header-cell editing-method-header" style="grid-column: span 2;">${m.label}</div>`
+          )
+      ].join('');
+      const bottomCells = [
+          `<div class="editing-header-cell"></div>`,
+          `<div class="editing-header-cell">Input Mesh</div>`,
+          ...editingMethods.flatMap(_ =>
+              editingTypes.map(t => `<div class="editing-header-cell">${t.label}</div>`)
+          )
+      ].join('');
+      container.insertAdjacentHTML('beforeend',
+          `<div class="editing-header-row editing-header-top">${topCells}</div>` +
+          `<div class="editing-header-row editing-header-bottom">${bottomCells}</div>`
+      );
+
+      // One row per object
+      comparisonEditingObjects.forEach(obj => {
+          const cells = [];
+          // Input cell: {obj}/{obj}.png
+          cells.push(`
+            <div class="editing-cell">
+              <img src="static/images/comparison_editing/${obj}/${obj}.png" alt="Input Mesh"
+                   onerror="this.parentElement.classList.add('empty'); this.remove();">
+            </div>`);
+          // Method × type cells, with the convention:
+          //   representation → {obj}/{method}.png
+          //   deformation    → {obj}/{method}_deformation.png
+          editingMethods.forEach(m => {
+              editingTypes.forEach(t => {
+                  const filename = (t.key === 'representation')
+                      ? `${m.key}.png`
+                      : `${m.key}_${t.key}.png`;
+                  const src = `static/images/comparison_editing/${obj}/${filename}`;
+                  cells.push(`
+                    <div class="editing-cell">
+                      <img src="${src}" alt="${m.label} ${t.label}"
+                           onerror="this.parentElement.classList.add('empty'); this.remove();">
+                    </div>`);
+              });
+          });
+          container.insertAdjacentHTML('beforeend',
+              `<div class="editing-row">
+                <div class="editing-row-label">${prettyLabel(obj)}</div>${cells.join('')}
+              </div>`
+          );
+      });
+  }
+
+  window.addEventListener('DOMContentLoaded', loadEditingComparison);
+
+  // Ablation Branching: per-object row showing input + (w/o branching) spine + (w/) spine.
+  // Files probed under static/images/ablation_branch/{obj}/ with the convention:
+  //   input            → {obj}.png
+  //   w/o branching    → {obj}_ablation_branching_spine.png
+  //   w/ branching     → {obj}_spine.png
+  const ablationBranchObjects = ["hand", "horse", "monstera_tree", "mushroom", "plant5", "threepeople"];
+
+  function loadAblationBranch() {
+      const container = document.getElementById('ablation-branch-items');
+      if (!container) return;
+
+      const headerCells = [
+          `<div class="ablation-header-cell"></div>`,
+          `<div class="ablation-header-cell">Input Mesh</div>`,
+          `<div class="ablation-header-cell">Rib</div>`,
+          `<div class="ablation-header-cell">w/ Branching (Ours)</div>`,
+          `<div class="ablation-header-cell">w/o Branching</div>`
+      ].join('');
+      container.insertAdjacentHTML('beforeend',
+          `<div class="ablation-header-row">${headerCells}</div>`
+      );
+
+      ablationBranchObjects.forEach(obj => {
+          const files = [
+              { src: `${obj}.png`,                              alt: "Input Mesh" },
+              { src: `${obj}_rib.png`,                          alt: "Rib" },
+              { src: `${obj}_spine.png`,                        alt: "w/ Branching (Ours)" },
+              { src: `${obj}_ablation_branching_spine.png`,     alt: "w/o Branching" }
+          ];
+          const cells = files.map(f => `
+            <div class="editing-cell">
+              <img src="static/images/ablation_branch/${obj}/${f.src}" alt="${f.alt}"
+                   onerror="this.parentElement.classList.add('empty'); this.remove();">
+            </div>`).join('');
+          container.insertAdjacentHTML('beforeend',
+              `<div class="ablation-row">
+                <div class="ablation-row-label">${prettyLabel(obj)}</div>${cells}
+              </div>`
+          );
+      });
+  }
+
+  window.addEventListener('DOMContentLoaded', loadAblationBranch);
+
+  // Ablation: Rib Extraction Design Choices.
+  // Files probed under static/images/ablation_rib/{obj}/.
+  // TODO: fill in variant filenames once user finalizes the rename scheme.
+  const ablationRibObjects = ["banana", "bear", "right_leg", "plant"];
+  const ablationRibColumns = [
+      { src: "{obj}.png",                    label: "Input Mesh" },
+      { src: "{obj}_rib.png",                label: "Ours" },
+      { src: "{obj}_grid.png",               label: "w/o Heat Method" },
+      { src: "{obj}_ablation_axis_rib.png",  label: "w/o Auto Root-axis" },
+      { src: "{obj}_ablation_K5_rib.png",    label: "w/o adaptive level count (K=5)" },
+      { src: "{obj}_ablation_K10_rib.png",   label: "w/o adaptive level count (K=10)" },
+      { src: "{obj}_ablation_K15_rib.png",   label: "w/o adaptive level count (K=15)" }
+  ];
+
+  function loadAblationRib() {
+      const container = document.getElementById('ablation-rib-items');
+      if (!container || ablationRibColumns.length === 0) return;
+
+      const colCount = ablationRibColumns.length;
+      const headerCells = [
+          `<div class="ablation-header-cell"></div>`,
+          ...ablationRibColumns.map(c => `<div class="ablation-header-cell">${c.label}</div>`)
+      ].join('');
+      container.insertAdjacentHTML('beforeend',
+          `<div class="ablation-header-row" style="grid-template-columns: 110px repeat(${colCount}, 1fr);">${headerCells}</div>`
+      );
+
+      ablationRibObjects.forEach(obj => {
+          const cells = ablationRibColumns.map(c => {
+              const src = c.src.replace(/\{obj\}/g, obj);
+              return `
+                <div class="editing-cell">
+                  <img src="static/images/ablation_rib/${obj}/${src}" alt="${c.label}"
+                       onerror="this.parentElement.classList.add('empty'); this.remove();">
+                </div>`;
+          }).join('');
+          container.insertAdjacentHTML('beforeend',
+              `<div class="ablation-row" style="grid-template-columns: 110px repeat(${colCount}, 1fr);">
+                <div class="ablation-row-label">${prettyLabel(obj)}</div>${cells}
+              </div>`
+          );
+      });
+  }
+
+  window.addEventListener('DOMContentLoaded', loadAblationRib);
+
+  // Ablation: Score-maximization vs. Midplane Center.
+  // Files probed under static/images/ablation_spine/{obj}/.
+  const ablationSpineObjects = ["banana", "bird2"];
+  const ablationSpineColumns = [
+      { src: "{obj}.png",        label: "Input Mesh" },
+      { src: "{obj}_rib.png",    label: "Rib" },
+      { src: "{obj}_spine.png",  label: "Score Maximization Spine (Ours)" },
+      { src: "{obj}_center.png", label: "Center Spine" }
+  ];
+
+  function loadAblationSpine() {
+      const container = document.getElementById('ablation-spine-items');
+      if (!container) return;
+
+      const colCount = ablationSpineColumns.length;
+      const headerCells = [
+          `<div class="ablation-header-cell"></div>`,
+          ...ablationSpineColumns.map(c => `<div class="ablation-header-cell">${c.label}</div>`)
+      ].join('');
+      container.insertAdjacentHTML('beforeend',
+          `<div class="ablation-header-row" style="grid-template-columns: 110px repeat(${colCount}, 1fr);">${headerCells}</div>`
+      );
+
+      ablationSpineObjects.forEach(obj => {
+          const cells = ablationSpineColumns.map(c => {
+              const src = c.src.replace(/\{obj\}/g, obj);
+              return `
+                <div class="editing-cell">
+                  <img src="static/images/ablation_spine/${obj}/${src}" alt="${c.label}"
+                       onerror="this.parentElement.classList.add('empty'); this.remove();">
+                </div>`;
+          }).join('');
+          container.insertAdjacentHTML('beforeend',
+              `<div class="ablation-row" style="grid-template-columns: 110px repeat(${colCount}, 1fr);">
+                <div class="ablation-row-label">${prettyLabel(obj)}</div>${cells}
+              </div>`
+          );
+      });
+  }
+
+  window.addEventListener('DOMContentLoaded', loadAblationSpine);
+
+  // Ablation: Mesh Lifting. Files under static/images/ablation_meshlifting/{obj}/.
+  const ablationMeshliftingObjects = ["bird", "spot"];
+  const ablationMeshliftingColumns = [
+      { src: "{obj}.png",               label: "Input Mesh" },
+      { src: "{obj}_cylindrical.png",   label: "Cylindrical (Ours)" },
+      { src: "{obj}_displacement.png",  label: "Displacement" }
+  ];
+
+  function loadAblationMeshlifting() {
+      const container = document.getElementById('ablation-meshlifting-items');
+      if (!container) return;
+
+      const colCount = ablationMeshliftingColumns.length;
+      const headerCells = [
+          `<div class="ablation-header-cell"></div>`,
+          ...ablationMeshliftingColumns.map(c => `<div class="ablation-header-cell">${c.label}</div>`)
+      ].join('');
+      container.insertAdjacentHTML('beforeend',
+          `<div class="ablation-header-row" style="grid-template-columns: 110px repeat(${colCount}, 1fr);">${headerCells}</div>`
+      );
+
+      ablationMeshliftingObjects.forEach(obj => {
+          const cells = ablationMeshliftingColumns.map(c => {
+              const src = c.src.replace(/\{obj\}/g, obj);
+              return `
+                <div class="editing-cell">
+                  <img src="static/images/ablation_meshlifting/${obj}/${src}" alt="${c.label}"
+                       onerror="this.parentElement.classList.add('empty'); this.remove();">
+                </div>`;
+          }).join('');
+          container.insertAdjacentHTML('beforeend',
+              `<div class="ablation-row" style="grid-template-columns: 110px repeat(${colCount}, 1fr);">
+                <div class="ablation-row-label">${prettyLabel(obj)}</div>${cells}
+              </div>`
+          );
+      });
+  }
+
+  window.addEventListener('DOMContentLoaded', loadAblationMeshlifting);
+
+  // 3D Shape Generation: 16 shape folders × 8 image columns per manifest.txt.
+  // Files under static/images/3Dshape_generation/{folder}/{col}.png.
+  const shapeGenFolders = [
+      "dit_last_v8c_aronly_000ab8f3_4parts_view_00_az000",
+      "dit_last_v8c_aronly_000bb354_3parts_view_03_az090",
+      "dit_last_v8c_aronly_000c8272_4parts_view_02_az060",
+      "dit_last_v8c_aronly_000e4ba3_7parts_view_08_az240",
+      "dit_last_v8c_aronly_000f4ec7_8parts_view_01_az030",
+      "dit_last_v8c_aronly_0005bedb_8parts_view_09_az270",
+      "dit_last_v8c_aronly_0014b1af_14parts_view_09_az270",
+      "dit_last_v8c_aronly_0014c111_7parts_view_04_az120",
+      "dit_last_v8c_aronly_00057aef_7parts_view_11_az330",
+      "dit_last_v8c_aronly_001318af_16parts_view_00_az000",
+      "dit_last_v8c_aronly_001354e5_7parts_view_05_az150",
+      "dit_last_v8c_aronly_00079311_2parts_view_04_az120",
+      "dit_last_v8c_aronly_00089638_16parts_view_06_az180",
+      "dit_last_v8c_aronly_000faf5e_7parts_view_03_az090",
+      "dit_last_v8c_aronly_0000c32f_10parts_view_06_az180",
+      "dit_last_v8c_aronly_000b76f2_10parts_view_04_az120"
+  ];
+  const shapeGenColumns = [
+      { file: "input.png",      label: "Input" },
+      { file: "gt.png",         label: "GT" },
+      { file: "gt_rib.png",     label: "GT Rib" },
+      { file: "gt_spine.png",   label: "GT Spine" },
+      { file: "baseline.png",   label: "PartCrafter" },
+      { file: "ours_mesh.png",  label: "Ours (Mesh)" },
+      { file: "ours_rib.png",   label: "Ours (Rib)" },
+      { file: "ours_spine.png", label: "Ours (Spine)" }
+  ];
+
+  function loadShapeGeneration() {
+      const container = document.getElementById('shape-generation-items');
+      if (!container) return;
+
+      const colCount = shapeGenColumns.length;
+      const headerCells = [
+          `<div class="ablation-header-cell"></div>`,
+          ...shapeGenColumns.map(c => `<div class="ablation-header-cell">${c.label}</div>`)
+      ].join('');
+      container.insertAdjacentHTML('beforeend',
+          `<div class="ablation-header-row" style="grid-template-columns: 50px repeat(${colCount}, 1fr);">${headerCells}</div>`
+      );
+
+      shapeGenFolders.forEach((folder, i) => {
+          const cells = shapeGenColumns.map(c => `
+            <div class="editing-cell">
+              <img src="static/images/3Dshape_generation/${folder}/${c.file}" alt="${c.label}"
+                   onerror="this.parentElement.classList.add('empty'); this.remove();">
+            </div>`).join('');
+          const idx = String(i + 1).padStart(2, '0');
+          container.insertAdjacentHTML('beforeend',
+              `<div class="ablation-row" style="grid-template-columns: 50px repeat(${colCount}, 1fr);">
+                <div class="ablation-row-label">${idx}</div>${cells}
+              </div>`
+          );
+      });
+  }
+
+  window.addEventListener('DOMContentLoaded', loadShapeGeneration);
+
+  // Auto-populate the top comparison sliders from demo/ folder.
+  // For each demoObject, checks whether both {obj}.png and {obj}_fishbone.png exist;
+  // takes the first 2 matches and renders them as 2-image comparison sliders.
+  function checkImageExists(src) {
+      return new Promise(resolve => {
+          const img = new Image();
+          img.onload = () => resolve(true);
+          img.onerror = () => resolve(false);
+          img.src = src;
+      });
+  }
+
+  function buildSliderItem(c, id) {
+      return `
+        <div${id ? ` id="${id}"` : ''} class="image-comparison-container" data-comparison-slider>
+          <div class="comparison-slider">
+            <div class="comparison-slider-top"><img src="${c.base}" alt="Input"></div>
+            <div class="comparison-slider-middle"><img src="${c.fishbone}" alt="Fishbone"></div>
+            <div class="comparison-slider-divider comparison-slider-divider-1" aria-hidden="true"></div>
+            <div class="comparison-slider-handle comparison-slider-handle-1" role="slider"
+                 aria-label="Image comparison slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"
+                 data-slider-id="1">
+              <div class="comparison-slider-icon">
+                <span class="comparison-slider-arrow left"></span>
+                <span class="comparison-slider-arrow right"></span>
+              </div>
+            </div>
+            <div class="comparison-label comparison-label-left">Input</div>
+            <div class="comparison-label comparison-label-right">Fishbone</div>
+          </div>
+        </div>`;
+  }
+
+  async function loadComparisonSliders() {
+      const wrapper = document.getElementById('comparison-carousel-wrapper');
+      const viewport = document.getElementById('comparison-carousel-viewport');
+      const track = document.getElementById('comparison-carousel-track');
+      if (!track) return;
+
+      const candidates = [];
+      for (const obj of demoObjects) {
+          const base = `static/images/demo/${obj}/${obj}.png`;
+          const fishbone = `static/images/demo/${obj}/${obj}_fishbone.png`;
+          const [a, b] = await Promise.all([checkImageExists(base), checkImageExists(fishbone)]);
+          if (a && b) candidates.push({ obj, base, fishbone });
+      }
+
+      if (candidates.length === 0) {
+          if (wrapper) wrapper.style.display = 'none';
+          return;
+      }
+
+      const realCount = candidates.length;
+
+      // Render real items, tagging each with a candidate index used to sync
+      // its position state across cloned siblings.
+      candidates.forEach((c, i) => {
+          track.insertAdjacentHTML('beforeend', buildSliderItem(c, `image-slider-${i + 1}`));
+      });
+      const realElements = Array.from(track.querySelectorAll('.image-comparison-container'));
+      realElements.forEach((el, i) => {
+          el.dataset.carouselIdx = i;
+          new ImageComparisonSlider(el);
+      });
+
+      // Clone one full set on each side for the infinite-cycle illusion.
+      // Final layout: [clones, real, clones]. virtualIndex starts at the first real
+      // item; when an arrow step pushes us fully into a clone block we silently
+      // re-anchor to the equivalent real index after the transition completes.
+      const firstReal = realElements[0];
+      realElements.forEach(el => {
+          const clone = el.cloneNode(true);
+          clone.removeAttribute('id');
+          clone.dataset.clone = 'true';
+          track.appendChild(clone);
+          new ImageComparisonSlider(clone);
+      });
+      realElements.forEach(el => {
+          const clone = el.cloneNode(true);
+          clone.removeAttribute('id');
+          clone.dataset.clone = 'true';
+          track.insertBefore(clone, firstReal);
+          new ImageComparisonSlider(clone);
+      });
+
+      // When the user drags a slider handle on any one instance (real or clone),
+      // mirror the new position to every other instance with the same idx so the
+      // carousel doesn't appear to "snap back" on rotation.
+      track.addEventListener('slider:position', (e) => {
+          const origin = e.target.closest('.image-comparison-container');
+          if (!origin) return;
+          const idx = origin.dataset.carouselIdx;
+          if (idx == null) return;
+          const peers = track.querySelectorAll(
+              `.image-comparison-container[data-carousel-idx="${idx}"]`);
+          peers.forEach(peer => {
+              if (peer === origin) return;
+              const inst = peer.__sliderInstance;
+              if (inst) inst.setPosition(e.detail.slider1Position, e.detail.slider2Position);
+          });
+      });
+
+      const TRANSITION_MS = 400;
+      const getStep = () => {
+          const first = track.querySelector('.image-comparison-container');
+          if (!first) return 0;
+          const styles = getComputedStyle(track);
+          const gap = parseFloat(styles.columnGap || styles.gap || '0') || 0;
+          return first.getBoundingClientRect().width + gap;
+      };
+
+      let virtualIndex = realCount;  // start at first real item
+      let isAnimating = false;
+
+      const setTransform = (animate) => {
+          const step = getStep();
+          track.style.transition = animate
+              ? `transform ${TRANSITION_MS}ms ease`
+              : 'none';
+          track.style.transform = `translateX(${-virtualIndex * step}px)`;
+      };
+
+      // Initial position (no animation)
+      requestAnimationFrame(() => setTransform(false));
+
+      const wrapIfNeeded = () => {
+          if (virtualIndex >= 2 * realCount) {
+              virtualIndex -= realCount;
+              setTransform(false);
+          } else if (virtualIndex < realCount) {
+              virtualIndex += realCount;
+              setTransform(false);
+          }
+      };
+
+      const stepBy = (dir) => {
+          if (isAnimating) return;
+          isAnimating = true;
+          virtualIndex += dir;
+          setTransform(true);
+          setTimeout(() => {
+              wrapIfNeeded();
+              isAnimating = false;
+          }, TRANSITION_MS + 20);
+      };
+
+      const prevBtn = document.getElementById('comparison-carousel-prev');
+      const nextBtn = document.getElementById('comparison-carousel-next');
+      if (prevBtn) prevBtn.addEventListener('click', () => stepBy(-1));
+      if (nextBtn) nextBtn.addEventListener('click', () => stepBy(1));
+
+      // Touch swipe support
+      let touchStartX = 0, touchDeltaX = 0, touchActive = false;
+      viewport.addEventListener('touchstart', e => {
+          touchStartX = e.touches[0].clientX;
+          touchDeltaX = 0;
+          touchActive = true;
+      }, { passive: true });
+      viewport.addEventListener('touchmove', e => {
+          if (!touchActive) return;
+          touchDeltaX = e.touches[0].clientX - touchStartX;
+      }, { passive: true });
+      viewport.addEventListener('touchend', () => {
+          if (!touchActive) return;
+          touchActive = false;
+          if (Math.abs(touchDeltaX) > 50) {
+              stepBy(touchDeltaX < 0 ? 1 : -1);
+          }
+      });
+
+      // Re-position on resize so step recomputes correctly
+      window.addEventListener('resize', () => setTransform(false));
+  }
+
+  window.addEventListener('DOMContentLoaded', loadComparisonSliders);
+
+  // Ensure all videos play and loop properly
+  function ensureVideoPlayback() {
+      const videos = document.querySelectorAll('video');
+      videos.forEach(video => {
+          // Force reload and play
+          video.load();
+
+          // Handle play promise
+          const playPromise = video.play();
+          if (playPromise !== undefined) {
+              playPromise.catch(error => {
+                  console.log('Auto-play prevented:', error);
+                  // Try playing on user interaction
+                  document.addEventListener('click', () => {
+                      video.play().catch(e => console.log('Play failed:', e));
+                  }, { once: true });
+              });
+          }
+
+          // Ensure looping when video ends
+          video.addEventListener('ended', function() {
+              this.currentTime = 0;
+              this.play();
+          });
+
+          // Handle stalling
+          video.addEventListener('stalled', function() {
+              console.log('Video stalled, reloading...');
+              this.load();
+              this.play();
+          });
+
+          // Handle errors
+          video.addEventListener('error', function(e) {
+              console.error('Video error:', e);
+              setTimeout(() => {
+                  this.load();
+                  this.play();
+              }, 1000);
+          });
+      });
+  }
+
+  window.addEventListener('DOMContentLoaded', ensureVideoPlayback);
+
+  // Lightbox: click .agent-screenshot to enlarge; click overlay or press Esc to close.
+  function setupLightbox() {
+      const overlay = document.createElement('div');
+      overlay.className = 'lightbox-overlay';
+      overlay.innerHTML = '<img class="lightbox-image" alt="">';
+      document.body.appendChild(overlay);
+      const imgEl = overlay.querySelector('.lightbox-image');
+
+      function open(src, alt) {
+          imgEl.src = src;
+          imgEl.alt = alt || '';
+          overlay.classList.add('open');
+          document.body.style.overflow = 'hidden';
+      }
+      function close() {
+          overlay.classList.remove('open');
+          document.body.style.overflow = '';
+          // Clear src after transition so it doesn't flash on next open
+          setTimeout(() => { if (!overlay.classList.contains('open')) imgEl.src = ''; }, 200);
+      }
+
+      // Click outside the image closes; clicks on the image itself do not bubble out.
+      overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+      imgEl.addEventListener('click', e => e.stopPropagation());
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+      document.querySelectorAll('.agent-screenshot').forEach(img => {
+          img.addEventListener('click', () => open(img.src, img.alt));
+      });
+  }
+  window.addEventListener('DOMContentLoaded', setupLightbox);
+</script>
+</body>
+</html>

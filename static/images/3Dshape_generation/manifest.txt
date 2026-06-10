@@ -1,0 +1,19 @@
+# Source PNGs cropped directly from the rendered figure.
+# Columns: input / gt / gt_rib / gt_spine / baseline / ours_mesh / ours_rib / ours_spine
+
+01  dit_last_v8c_aronly_000ab8f3_4parts_view_00_az000
+02  dit_last_v8c_aronly_000bb354_3parts_view_03_az090
+03  dit_last_v8c_aronly_000c8272_4parts_view_02_az060
+04  dit_last_v8c_aronly_000e4ba3_7parts_view_08_az240
+05  dit_last_v8c_aronly_000f4ec7_8parts_view_01_az030
+06  dit_last_v8c_aronly_0005bedb_8parts_view_09_az270
+07  dit_last_v8c_aronly_0014b1af_14parts_view_09_az270
+08  dit_last_v8c_aronly_0014c111_7parts_view_04_az120
+09  dit_last_v8c_aronly_00057aef_7parts_view_11_az330
+10  dit_last_v8c_aronly_001318af_16parts_view_00_az000
+11  dit_last_v8c_aronly_001354e5_7parts_view_05_az150
+12  dit_last_v8c_aronly_00079311_2parts_view_04_az120
+13  dit_last_v8c_aronly_00089638_16parts_view_06_az180
+14  dit_last_v8c_aronly_000faf5e_7parts_view_03_az090
+15  dit_last_v8c_aronly_0000c32f_10parts_view_06_az180
+16  dit_last_v8c_aronly_000b76f2_10parts_view_04_az120
