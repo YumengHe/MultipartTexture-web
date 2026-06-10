@@ -152,6 +152,7 @@
         <thead>
           <tr>
             <th>Paper</th>
+            <th>Year</th>
             <th>Input</th>
             <th>Output</th>
             <th>Pro</th>
@@ -165,9 +166,11 @@
             <td>--</td>
             <td>--</td>
             <td>--</td>
+            <td>--</td>
           </tr>
           <tr>
             <td>Hunyuan3D 2.1</td>
+            <td>--</td>
             <td>--</td>
             <td>--</td>
             <td>--</td>
@@ -179,9 +182,99 @@
             <td>--</td>
             <td>--</td>
             <td>--</td>
+            <td>--</td>
           </tr>
           <tr>
             <td>TRELLIS</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+          </tr>
+          <tr>
+            <td>Paint3D</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+          </tr>
+          <tr>
+            <td>TEXGen</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+          </tr>
+          <tr>
+            <td>MVPaint</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+          </tr>
+          <tr>
+            <td>TexPainter</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+          </tr>
+          <tr>
+            <td>SyncMVD</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+          </tr>
+          <tr>
+            <td>TexGen</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+          </tr>
+          <tr>
+            <td>Text2Tex</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+          </tr>
+          <tr>
+            <td>TEXTure</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+          </tr>
+          <tr>
+            <td>MVPainter</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+          </tr>
+          <tr>
+            <td>Material Anything</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+          </tr>
+          <tr>
+            <td>MeshGen</td>
+            <td>--</td>
             <td>--</td>
             <td>--</td>
             <td>--</td>
@@ -801,7 +894,7 @@
 
   .demo-header {
       display: grid;
-      grid-template-columns: 110px repeat(5, 1fr);
+      grid-template-columns: 110px repeat(6, 1fr);
       gap: 12px;
       padding: 12px 16px;
       background: #f8f9fa;
@@ -817,7 +910,7 @@
 
   .demo-row {
       display: grid;
-      grid-template-columns: 110px repeat(5, 1fr);
+      grid-template-columns: 110px repeat(6, 1fr);
       gap: 12px;
       align-items: center;
       background: rgba(139, 140, 192, 0.08);
@@ -854,6 +947,15 @@
       color: #888;
       text-transform: none;
       text-align: center;
+  }
+
+  .demo-row-note {
+      display: block;
+      margin-top: 4px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #c0698a;
+      text-transform: none;
   }
 
   .demo-cell {
@@ -1279,26 +1381,32 @@
 
   // Comparison objects are split into two groups, each backed by its own folder.
   const demoMultipartObjects = [
-    "bicycle", "scissors", "stitcher", "telescope", "transformer", "water_manhole_cover"
+    "water_manhole_cover"
   ];
   const demoSinglepartObjects = [
     "carved_wooden_elephant", "dustpan", "hammer", "propane_tank",
     "rubber_duck_toy", "spongebob", "wet_floor_sign"
   ];
-  // Each column maps to a subfolder under {baseFolder}/{obj}/ holding a preview.png.
-  // Missing methods (e.g. water_manhole_cover has no meshy) render as empty cells.
+  // Each column points to one image file under {baseFolder}/{obj}/.
+  // The input is split into two columns (raw + target); methods use their preview.png.
+  // Missing files (e.g. water_manhole_cover has no meshy) render as empty cells.
   const demoColumns = [
-    { key: "input",       label: "Input" },
-    { key: "materialmvp", label: "MaterialMVP" },
-    { key: "hunyuan2_1",  label: "Hunyuan3D 2.1" },
-    { key: "meshy",       label: "Meshy" },
-    { key: "trellis2",    label: "TRELLIS" }
+    { key: "raw",         label: "Raw",           src: "input/raw.png" },
+    { key: "target",      label: "Target",        src: "input/target.png" },
+    { key: "materialmvp", label: "MaterialMVP",   src: "materialmvp/preview.png" },
+    { key: "hunyuan2_1",  label: "Hunyuan3D 2.1", src: "hunyuan2_1/preview.png" },
+    { key: "meshy",       label: "Meshy",         src: "meshy/preview.png" },
+    { key: "trellis2",    label: "TRELLIS",       src: "trellis2/preview.png" }
   ];
   // Per-(object, column) part counts, shown under each image (including input).
   // Each column can have a different number of parts. Anything not listed here falls
   // back to "--". Fill in real numbers later, e.g.
   //   bicycle: { input: 5, materialmvp: 5, hunyuan2_1: 4, meshy: 3, trellis2: 6 },
   const demoPartCounts = {};
+  // Optional note shown under an object's name. Anything not listed has no note.
+  const demoNotes = {
+    water_manhole_cover: "非水密包含薄片"
+  };
 
   function renderGallery(containerId, objects, baseFolder) {
       const container = document.getElementById(containerId);
@@ -1316,7 +1424,7 @@
           const row = document.createElement('div');
           row.className = 'demo-row';
           const cells = demoColumns.map(c => {
-              const src = `static/images/${baseFolder}/${obj}/${c.key}/preview.png`;
+              const src = `static/images/${baseFolder}/${obj}/${c.src}`;
               // Every column (including input) shows a part count under the image.
               const counts = demoPartCounts[obj] || {};
               const n = counts[c.key] != null ? counts[c.key] : '--';
@@ -1329,7 +1437,8 @@
                   ${caption}
               </div>`;
           }).join('');
-          row.innerHTML = `<div class="demo-row-label">${prettyLabel(obj)}</div>${cells}`;
+          const note = demoNotes[obj] ? `<span class="demo-row-note">${demoNotes[obj]}</span>` : '';
+          row.innerHTML = `<div class="demo-row-label">${prettyLabel(obj)}${note}</div>${cells}`;
           container.appendChild(row);
       });
   }
