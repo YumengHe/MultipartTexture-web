@@ -6,7 +6,7 @@
   <meta name="description" content="Fishbone is a fully automatic mesh deformation framework that turns a single 3D asset into diverse, controllable variations via a coupled rib-spine control structure.">
   <meta name="keywords" content="Fishbone, mesh deformation, rib-spine control structure, geodesic ribs, skinning, dynamics, animation, 3D shape generation, robot learning, data diversification">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Fishbone</title>
+  <title>Multipart Texture</title>
 
   <link rel="stylesheet" href="./static/css/google-fonts-local.css">
   <link rel="stylesheet" href="./static/css/bulma.min.css">
@@ -33,7 +33,7 @@
       <div class="container is-max-desktop">
         <div class="columns is-centered">
           <div class="column has-text-centered">
-            <h1 class="title is-1 publication-title">Fishbone: From One 3D Asset to a Million Controllable Edits</h1>
+            <h1 class="title is-1 publication-title">Multipart Texture</h1>
 
             <!-- Authors -->
             <div class="is-size-5 publication-authors">
@@ -49,16 +49,15 @@
   </section>
   
 
-  <section class="hero teaser">
+  <!-- <section class="hero teaser">
     <div class="container is-max-desktop">
       <div class="hero-body">
         <img src="./static/images/Teaser.png" class="interpolation-image" />
         <h2 class="subtitle has-text-justified">
-          <strong>Fishbone</strong> extracts a coupled rib&ndash;spine control structure from an input mesh and defines a compact deformation space over rib- and spine-driven primitives. From a single freeform asset, this unified handle system enables diverse, geometrically plausible shape variations, spanning local cross-sectional edits as well as global bending, twisting, and stretching, all driven by intuitive low-dimensional parameters. The rib&ndash;spine representation also supports real-time reduced-space simulation and keyframe animation.
         </h2>
       </div>
     </div>
-  </section>
+  </section> -->
 
     <!-- Image Slider Section -->
     <section class="hero is-light is-small">
@@ -87,17 +86,13 @@
           <h2 class="title is-3">✨ Abstract ✨</h2>
           <div class="content has-text-justified">
             <p>
-              We present <strong>Fishbone</strong>, a fully automatic mesh deformation framework that generates diverse, controllable variations of any input triangle mesh.
-              The control structure is a tuple of <em>ribs</em> (cross-sectional iso-contours extracted at successive geodesic levels on the surface) and a smooth <em>spine</em> curve threaded through their centers, derived directly from the mesh via the heat method and a robust center-finding procedure with no manual annotation, template fitting, or per-shape rigging.
-              On top of it we define six rib-driven and three spine-driven deformation primitives, all driven by low-dimensional parameters and propagated to mesh vertices through a Gaussian-weighted skinning scheme that preserves local detail.
-              The same handle system is <em>simulation-ready</em>, <em>real-time</em>, and <em>interactive</em>: lumped mass and damping are inherited from the precomputed skinning weights, the integrator runs at interactive frame rates, and user input projects back to the reduced spine through the same matrix that lifts spine motion to the mesh.
-              Experiments show greater deformation diversity and geometric plausibility than cage-based, skeleton-driven, and neural baselines, while supporting batch processing of large asset libraries, sim-to-real diversification in robotics, and procedural content creation.
+              
             </p>
           </div>
         </div>
       </div>
       <!-- Paper video -->
-      <div class="columns is-centered has-text-centered">
+      <!-- <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
           <div class="publication-video">
             <video controls autoplay muted loop playsinline style="width: 100%;">
@@ -106,7 +101,7 @@
             </video>
           </div>
         </div>
-      </div>
+      </div> -->
 
     </div>
   </section>
@@ -119,135 +114,8 @@
           <img src="./static/images/Pipeline.png" class="interpolation-image" />
           <div class="content has-text-justified">
             <p>
-              From left to right, our geometry-driven pipeline takes a raw <em>input mesh</em>, runs a lightweight cleaning + watertightness-repair pass to produce a <em>clean mesh</em>, extracts <em>ribs</em> as iso-contours of a heat-method geodesic field rooted at an automatically selected face of the part's AABB, kept as closed loops on solid meshes and as open polylines on thin-shell parts, <em>evaluates spine points</em> per rib by maximizing a flatness-+-centroid-+-parent score, <em>generates the spine</em> by chaining the per-rib spine points into a branching tree, and <em>computes per-vertex skinning weights</em> that bind the mesh to the surrounding ribs via soft-cutoff Gaussians of the projected rib distance.
-            </p>
-            <p>
-              The same control structure &#8497; = (&#8475;, &#119982;, <strong>W</strong>) then drives three downstream stages, all sharing the cached weights: a parameterized static <em>deformation</em> algebra of rib- and spine-driven primitives, a reduced-coordinate <em>dynamics</em> solver with mesh lift, and a physics-free keyframe <em>animation</em> pipeline.
             </p>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Deformation Modes Section -->
-  <section class="section">
-    <div class="container">
-      <h2 class="title is-3" style="text-align:center;">🔧 Deformation 🔧</h2>
-
-      <h3 class="deformation-subtitle">Rib-driven Deformation</h3>
-      <div class="deformation-grid">
-        <div class="deformation-item">
-          <video autoplay muted loop playsinline>
-            <source src="./static/images/deformation/bear_mode1.mp4" type="video/mp4">
-          </video>
-          <h4>Uniform Scale</h4>
-        </div>
-        <div class="deformation-item">
-          <video autoplay muted loop playsinline>
-            <source src="./static/images/deformation/bear_mode2.mp4" type="video/mp4">
-          </video>
-          <h4>Anisotropic Scale</h4>
-        </div>
-        <div class="deformation-item">
-          <video autoplay muted loop playsinline>
-            <source src="./static/images/deformation/bear_mode3.mp4" type="video/mp4">
-          </video>
-          <h4>Translation</h4>
-        </div>
-        <div class="deformation-item">
-          <video autoplay muted loop playsinline>
-            <source src="./static/images/deformation/bear_mode4.mp4" type="video/mp4">
-          </video>
-          <h4>Rotation</h4>
-        </div>
-        <div class="deformation-item">
-          <video autoplay muted loop playsinline>
-            <source src="./static/images/deformation/bear_mode5.mp4" type="video/mp4">
-          </video>
-          <h4>Local Deform</h4>
-        </div>
-        <div class="deformation-item">
-          <video autoplay muted loop playsinline>
-            <source src="./static/images/deformation/bear_mode6.mp4" type="video/mp4">
-          </video>
-          <h4>Cross Section</h4>
-        </div>
-      </div>
-
-      <h3 class="deformation-subtitle">Spine-driven Deformation</h3>
-      <div class="deformation-grid">
-        <div class="deformation-item">
-          <video autoplay muted loop playsinline>
-            <source src="./static/images/deformation/bear_mode7.mp4" type="video/mp4">
-          </video>
-          <h4>Stretch</h4>
-        </div>
-        <div class="deformation-item">
-          <video autoplay muted loop playsinline>
-            <source src="./static/images/deformation/bear_mode8.mp4" type="video/mp4">
-          </video>
-          <h4>Bend</h4>
-        </div>
-        <div class="deformation-item">
-          <video autoplay muted loop playsinline>
-            <source src="./static/images/deformation/bear_mode9.mp4" type="video/mp4">
-          </video>
-          <h4>Twist</h4>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Dynamics Section -->
-  <section class="section">
-    <div class="container">
-      <h2 class="title is-3" style="text-align:center;">⚙️ Dynamics ⚙️</h2>
-      <div class="deformation-grid">
-        <div class="deformation-item">
-          <video autoplay loop muted playsinline>
-            <source src="static/images/dynamics_animation/mushroom_dynamics.mp4" type="video/mp4">
-          </video>
-          <h4>Mushroom</h4>
-        </div>
-        <div class="deformation-item">
-          <video autoplay loop muted playsinline>
-            <source src="static/images/dynamics_animation/plant2_dynamics.mp4" type="video/mp4">
-          </video>
-          <h4>Plant</h4>
-        </div>
-        <div class="deformation-item">
-          <video autoplay loop muted playsinline>
-            <source src="static/images/dynamics_animation/tuna_dynamics.mp4" type="video/mp4">
-          </video>
-          <h4>Tuna</h4>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Animation Section -->
-  <section class="section">
-    <div class="container">
-      <h2 class="title is-3" style="text-align:center;">🎞️ Animation 🎞️</h2>
-      <div class="deformation-grid">
-        <div class="deformation-item">
-          <video autoplay loop muted playsinline>
-            <source src="static/images/dynamics_animation/cat2_animation.mp4" type="video/mp4">
-          </video>
-          <h4>Cat</h4>
-        </div>
-        <div class="deformation-item">
-          <video autoplay loop muted playsinline>
-            <source src="static/images/dynamics_animation/rose_animation.mp4" type="video/mp4">
-          </video>
-          <h4>Rose</h4>
-        </div>
-        <div class="deformation-item">
-          <video autoplay loop muted playsinline>
-            <source src="static/images/dynamics_animation/teletubbies_animation.mp4" type="video/mp4">
-          </video>
-          <h4>Teletubbies</h4>
         </div>
       </div>
     </div>
@@ -256,238 +124,13 @@
   <!-- Gallery Section -->
   <section class="section">
     <div class="container">
-        <h2 class="title is-3" style="text-align: center;">🎬 More Demo 🎬</h2>
+        <h2 class="title is-3" style="text-align: center;">🎬 Comparison 🎬</h2>
         <br>
         <div id="with-video-section">
             <div id="video-items"></div>
         </div>
     </div>
   </section>
-
-  <!-- Editing GUI Section -->
-  <section class="section">
-    <div class="container">
-      <h2 class="title is-3" style="text-align:center;">🖥️ Editing GUI 🖥️</h2>
-      <p style="text-align:center; margin-bottom: 1.5rem;">
-        An interactive editor lets users sculpt deformations directly on the Fishbone
-        representation.
-      </p>
-      <figure style="text-align:center;">
-        <img src="static/images/GUI/image.png" alt="Editing GUI"
-             style="max-width:100%; height:auto; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.12);">
-      </figure>
-    </div>
-  </section>
-
-  <!-- 3D Shape Generation Section -->
-  <section class="section">
-    <div class="container">
-      <h2 class="title is-3" style="text-align:center;">🧊 3D Shape Generation 🧊</h2>
-      <p style="text-align:center; margin-bottom: 1.5rem;">
-        Generated 3D shapes compared against ground truth and <strong>PartCrafter</strong>. Each row shows
-        the input, ground-truth mesh / rib / spine, the PartCrafter output, and our generated mesh / rib / spine.
-      </p>
-      <div id="shape-generation-items"></div>
-    </div>
-  </section>
-
-  <!-- Editing Comparison Section -->
-  <section class="section">
-    <div class="container">
-      <h2 class="title is-3" style="text-align:center;">♠️ Editing Comparison ♠️</h2>
-      <p style="text-align:center; margin-bottom: 1.5rem;">
-        Editing comparison across <strong>Ours</strong>, <strong>WIR3D</strong>, and <strong>ARAP</strong>.
-        For each method we show its representation and the resulting deformation; the leftmost column is the input mesh.
-      </p>
-      <div id="editing-comparison-items"></div>
-    </div>
-  </section>
-
-  <!-- Robot Learning via Scene Diversification Section -->
-  <section class="section">
-    <div class="container">
-      <h2 class="title is-3" style="text-align:center;">🤖 Robot Learning via Data Diversification 🤖</h2>
-      <p style="text-align:center; margin-bottom: 1.5rem;">
-        Policy is trained from Fishbone-generated deformation variants of single objects.
-        We present <strong>single object</strong> scene and <strong>multi object</strong> scene for three objects.
-      </p>
-
-      <div class="robot-grid">
-        <div class="robot-header"></div>
-        <div class="robot-header">Croissant</div>
-        <div class="robot-header">Tuna</div>
-        <div class="robot-header">Cup</div>
-
-        <div class="robot-row-label">Single Object</div>
-        <div class="robot-cell">
-          <video autoplay loop muted playsinline>
-            <source src="static/images/robot/croissant_single_eval_rollout.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="robot-cell">
-          <video autoplay loop muted playsinline>
-            <source src="static/images/robot/tuna_single_eval_rollout.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="robot-cell">
-          <video autoplay loop muted playsinline>
-            <source src="static/images/robot/cup_single_eval_rollout.mp4" type="video/mp4">
-          </video>
-        </div>
-
-        <div class="robot-row-label">Multi Objects</div>
-        <div class="robot-cell">
-          <video autoplay loop muted playsinline>
-            <source src="static/images/robot/croissant_multi_eval_rollout.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="robot-cell">
-          <video autoplay loop muted playsinline>
-            <source src="static/images/robot/tuna_multi_eval_rollout.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="robot-cell">
-          <video autoplay loop muted playsinline>
-            <source src="static/images/robot/cup_multi_eval_rollout.mp4" type="video/mp4">
-          </video>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Agent Section -->
-  <section class="section">
-    <div class="container">
-      <h2 class="title is-3" style="text-align:center;">💬 Agent 💬</h2>
-      <p style="text-align:center; margin-bottom: 1.5rem;">
-        A VLM agent drives the editing GUI through tool calls — listing ribs, selecting them, and
-        applying deformations on behalf of the user.
-      </p>
-
-      <div class="agent-transcript">
-        <div class="agent-turn agent-user">
-          <span class="agent-role">user</span>
-          <div class="agent-content">make the four legs thicker</div>
-        </div>
-
-        <div class="agent-turn agent-meta">
-          <span class="agent-role">active part</span>
-          <div class="agent-content"><code>{"type":"active_part","part":"geometry_0"}</code></div>
-        </div>
-
-        <div class="agent-turn agent-tool-call">
-          <span class="agent-role">tool call</span>
-          <div class="agent-content"><code>list_ribs({})</code></div>
-        </div>
-        <div class="agent-turn agent-tool-result">
-          <span class="agent-role">tool result</span>
-          <div class="agent-content">
-            <code>list_ribs:</code> Available ribs on part <code>'geometry_0'</code>:
-            <code>['r1', 'r2', 'r3', 'r4-1', 'r4-2', 'r4-3', 'r5-1', 'r5-2', 'r5-3', 'r6', 'r7', 'r8-1', 'r8-2', 'r8-3', 'r9-1', 'r9-2', 'r9-3', 'r10']</code>
-            <div class="agent-hint">(Names are labelled in the screenshot. Lower indices are usually closer to the part's starting end.)</div>
-            <img class="agent-screenshot" src="static/images/agent/image1.png" alt="list_ribs screenshot" title="Click to enlarge">
-          </div>
-        </div>
-
-        <div class="agent-turn agent-tool-call">
-          <span class="agent-role">tool call</span>
-          <div class="agent-content"><code>select_ribs({"ribs":["r4-2","r5-2","r4-3","r5-3","r8-2","r9-2","r8-3","r9-3"]})</code></div>
-        </div>
-        <div class="agent-turn agent-tool-result">
-          <span class="agent-role">tool result</span>
-          <div class="agent-content">
-            <code>select_ribs:</code> Selected 8 rib(s): <code>['r4-2', 'r5-2', 'r4-3', 'r5-3', 'r8-2', 'r9-2', 'r8-3', 'r9-3']</code>
-            <img class="agent-screenshot" src="static/images/agent/image2.png" alt="select_ribs screenshot" title="Click to enlarge">
-          </div>
-        </div>
-
-        <div class="agent-turn agent-tool-call">
-          <span class="agent-role">tool call</span>
-          <div class="agent-content"><code>deform({"mode":1,"params":{"uniform_scale":1.35}})</code></div>
-        </div>
-        <div class="agent-turn agent-tool-result">
-          <span class="agent-role">tool result</span>
-          <div class="agent-content">
-            <code>deform:</code> Applied mode 1 (uniform_scale) with params <code>{'uniform_scale': 1.35}</code> to 8 rib(s).
-            <img class="agent-screenshot" src="static/images/agent/image3.png" alt="deform screenshot" title="Click to enlarge">
-          </div>
-        </div>
-
-        <div class="agent-turn agent-eval">
-          <span class="agent-role">evaluation</span>
-          <div class="agent-content">✓ APPROVED — The four legs are visibly thicker with smooth geometry and a reasonable magnitude change.</div>
-        </div>
-
-        <div class="agent-turn agent-tool-call">
-          <span class="agent-role">tool call</span>
-          <div class="agent-content"><code>done({"message":"Made all four legs thicker by uniformly scaling the leg ribs outward."})</code></div>
-        </div>
-        <div class="agent-turn agent-tool-result">
-          <span class="agent-role">tool result</span>
-          <div class="agent-content"><code>done:</code> Made all four legs thicker by uniformly scaling the leg ribs outward.</div>
-        </div>
-
-        <div class="agent-turn agent-done">
-          <span class="agent-role">done</span>
-          <div class="agent-content">Made all four legs thicker by uniformly scaling the leg ribs outward.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Ablation: Rib Extraction Design Choices Section -->
-  <section class="section">
-    <div class="container">
-      <h2 class="title is-3" style="text-align:center;">♣️ Ablation: Rib Extraction Design Choices ♣️</h2>
-      <p style="margin-bottom: 1.5rem; text-align: justify;">
-        Each panel ablates one component of our rib extraction. <strong>Ours</strong> uses heat-method
-        geodesic ribs with automatic root-axis selection and adaptive level count
-        <em>K</em> = clip(round(10 <em>L<sub>p</sub></em> / <em>L<sub>o</sub></em>), 3, 10).
-        Removing the <strong>heat method</strong> (grid ribs) or <strong>auto root-axis selection</strong>
-        misaligns the rib stack with the object's principal axis. Fixed-<em>K</em> variants instead
-        over- or under-sample multi-part objects: <em>K</em>=5 under-resolves large parts (e.g., the
-        plant stem in row 4), while <em>K</em>=10 and 15 over-resolve small parts (leaves, buds).
-      </p>
-      <div id="ablation-rib-items"></div>
-    </div>
-  </section>
-
-  <!-- Ablation: Score-maximization vs. Midplane Center Section -->
-  <section class="section">
-    <div class="container">
-      <h2 class="title is-3" style="text-align:center;">♣️ Ablation: Score-maximization vs. Midplane Center ♣️</h2>
-      <p style="text-align:center; margin-bottom: 1.5rem;">
-        Comparison between selecting spine points by <strong>score maximization</strong> and our
-        <strong>midplane center</strong> criterion.
-      </p>
-      <div id="ablation-spine-items"></div>
-    </div>
-  </section>
-
-  <!-- Ablation: Branching Section -->
-  <section class="section">
-    <div class="container">
-      <h2 class="title is-3" style="text-align:center;">♣️ Ablation: Branching Tree Handling ♣️</h2>
-      <p style="text-align:center; margin-bottom: 1.5rem;">
-        Effect of the branching design on the spine structure. Each row compares the spine
-        produced <strong>without branching</strong> against our full method <strong>with branching</strong>.
-      </p>
-      <div id="ablation-branch-items"></div>
-    </div>
-  </section>
-
-  <!-- Ablation: Mesh Lifting Section -->
-  <section class="section">
-    <div class="container">
-      <h2 class="title is-3" style="text-align:center;">♣️ Ablation: Mesh Lifting ♣️</h2>
-      <p style="text-align:center; margin-bottom: 1.5rem;">
-        Comparison of mesh lifting strategies on the same input.
-      </p>
-      <div id="ablation-meshlifting-items"></div>
-    </div>
-  </section>
-
-
 
 <style>
     /* Deformation modes grid: 3 videos per row */
@@ -1097,7 +740,7 @@
 
   .demo-header {
       display: grid;
-      grid-template-columns: 110px repeat(6, 1fr);
+      grid-template-columns: 110px repeat(5, 1fr);
       gap: 12px;
       padding: 12px 16px;
       background: #f8f9fa;
@@ -1113,7 +756,7 @@
 
   .demo-row {
       display: grid;
-      grid-template-columns: 110px repeat(6, 1fr);
+      grid-template-columns: 110px repeat(5, 1fr);
       gap: 12px;
       align-items: center;
       background: rgba(139, 140, 192, 0.08);
@@ -1555,30 +1198,19 @@
   }
 
   const demoObjects = [
-    "anglerfish", "banana", "bird2", "bread11", "bread6", "cat2",
-    "deer2", "donut2", "dragon", "hand", "horse", "koifish", "nefertiti", "plant2", "plant5",
-    "rose", "shiba", "spot", "sunflower", "tree", "wolf", "woodhand"
+    "bicycle", "carved_wooden_elephant", "dustpan", "hammer", "propane_tank",
+    "rubber_duck_toy", "scissors", "spongebob", "stitcher", "telescope",
+    "transformer", "water_manhole_cover", "wet_floor_sign"
   ];
+  // Each column maps to a subfolder under cases/{obj}/ holding a preview.png.
+  // Missing methods (e.g. water_manhole_cover has no meshy) render as empty cells.
   const demoColumns = [
-    { key: "",                          label: "Input Mesh" },
-    { key: "rib",                       label: "Rib" },
-    { key: "spine",                     label: "Spine" },
-    { key: "skinning",                  label: "Skinning" },
-    { key: "deformation",               label: "Deformation" },
-    { key: ["animation", "dynamics"],   label: "Dynamics/Animation" }
+    { key: "input",       label: "Input" },
+    { key: "materialmvp", label: "MaterialMVP" },
+    { key: "hunyuan2_1",  label: "Hunyuan3D 2.1" },
+    { key: "meshy",       label: "Meshy" },
+    { key: "trellis2",    label: "TRELLIS" }
   ];
-  const demoExt = "png";
-
-  window.handleDemoImageError = function(img) {
-      const fbs = JSON.parse(img.dataset.fallbacks || '[]');
-      if (fbs.length) {
-          img.dataset.fallbacks = JSON.stringify(fbs.slice(1));
-          img.src = fbs[0];
-      } else {
-          img.parentElement.classList.add('empty');
-          img.remove();
-      }
-  };
 
   async function loadGallery() {
       try {
@@ -1596,16 +1228,10 @@
               const row = document.createElement('div');
               row.className = 'demo-row';
               const cells = demoColumns.map(c => {
-                  const keys = Array.isArray(c.key) ? c.key : [c.key];
-                  const srcs = keys.map(k =>
-                      k ? `static/images/demo/${obj}/${obj}_${k}.${demoExt}`
-                        : `static/images/demo/${obj}/${obj}.${demoExt}`
-                  );
-                  const fallbacks = srcs.slice(1);
+                  const src = `static/images/cases/${obj}/${c.key}/preview.png`;
                   return `<div class="demo-cell">
-                      <img src="${srcs[0]}" alt="${c.label}"
-                           data-fallbacks='${JSON.stringify(fallbacks)}'
-                           onerror="handleDemoImageError(this)">
+                      <img src="${src}" alt="${c.label}"
+                           onerror="this.parentElement.classList.add('empty'); this.remove();">
                   </div>`;
               }).join('');
               row.innerHTML = `<div class="demo-row-label">${prettyLabel(obj)}</div>${cells}`;
