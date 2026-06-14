@@ -24,7 +24,9 @@
   <script src="./static/js/jquery.min.js"></script>
   <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/image-slider.js"></script>
+  <script src="./static/js/bulma-slider.js"></script>
   <script src="./static/js/index.js"></script>
+  <script src="./static/js/mesh_metrics.js"></script>
 </head>
 
 <body>
@@ -161,6 +163,102 @@
             </tr>
           </thead>
           <tbody>
+            <tr>
+              <td><a href="https://matlat-proj.github.io/" target="_blank" rel="noopener">MatLat</a></td>
+              <td>CVPR 2026</td>
+              <td>Given 3D mesh + material / appearance condition</td>
+              <td>PBR texture / material channels</td>
+              <td>A close match for mesh-based material texturing. It works on PBR channels directly, with the material latent space, VAE fine-tuning, and patch locality regularization all aimed at cleaner material details.</td>
+              <td>It does not try to repair mesh or UV issues. Fine-grained semantic regions or part-level controls would still need to come from another module.</td>
+            </tr>
+            <tr>
+              <td><a href="https://arxiv.org/abs/2603.15436" target="_blank" rel="noopener">MV2UV</a></td>
+              <td>2026</td>
+              <td>Untextured mesh + known UV + image / multiview prompts</td>
+              <td>High-quality UV texture map</td>
+              <td>Directly targets the "put a texture on this mesh" setting. The mix of multiview priors, UV refinement, and inpainting is useful for occluded, unseen, and view-conflicting regions.</td>
+              <td>Mesh and UV quality still matter. The output is mainly an RGB UV texture map, not a full PBR material breakdown.</td>
+            </tr>
+            <tr>
+              <td><a href="https://github.com/YixunLiang/UniTEX" target="_blank" rel="noopener">UniTEX</a></td>
+              <td>CVPR 2026</td>
+              <td>3D shape / mesh + prompt or multiview texture synthesis prior</td>
+              <td>Consistent 3D texture in unified 3D functional space</td>
+              <td>Uses a Large Texturing Model with Texture Functions, which sidesteps some of the topology ambiguity of UV-based methods. It is most interesting when consistency and coverage matter more than a simple one-shot texture map.</td>
+              <td>The two-stage setup is heavier than direct UV generation. If the target is a standard texture file, export and baking details still need to be checked.</td>
+            </tr>
+            <tr>
+              <td><a href="https://chenweilinx.github.io/CustomTex/" target="_blank" rel="noopener">CustomTex</a></td>
+              <td>CVPR 2026</td>
+              <td>Untextured indoor 3D scene + reference images for each object instance</td>
+              <td>Unified high-resolution scene texture map</td>
+              <td>Useful when the asset is an indoor scene rather than a single object. Instance-level reference control helps each object follow its own reference while reducing baked-in shading and artifacts.</td>
+              <td>Less relevant for generic single-object mesh texturing. It also assumes per-instance references and a more optimization / distillation-style workflow.</td>
+            </tr>
+            <tr>
+              <td><a href="https://github.com/SII-Hui/NI-Tex" target="_blank" rel="noopener">NI-Tex</a></td>
+              <td>CVPR 2026</td>
+              <td>Garment mesh + garment image / non-isometric deformation reference</td>
+              <td>Spatially aligned PBR garment materials</td>
+              <td>A strong fit for garments, especially when non-isometric deformation makes direct texture transfer hard. The output is spatially aligned PBR material suitable for a production garment pipeline.</td>
+              <td>The scope is narrow. It should not be treated as a general solution for hard-surface objects, props, or indoor scenes.</td>
+            </tr>
+            <tr>
+              <td><a href="https://www.hi3d.ai/zh" target="_blank" rel="noopener">Hitem3D 2.0</a></td>
+              <td>2026</td>
+              <td>Single or multiple reference images + 3D geometry / generated multiview conditions</td>
+              <td>High-fidelity, geometry-aligned 3D texture</td>
+              <td>Combines 2D multiview priors with a native 3D representation. The pipeline pays attention to geometric alignment, view consistency, illumination uniformity, and unseen areas.</td>
+              <td>It is a fairly heavy pipeline. For a clean mesh with good UVs, this may be more machinery than the task needs.</td>
+            </tr>
+            <tr>
+              <td><a href="https://github.com/yx345kw/EmissionGen" target="_blank" rel="noopener">EmissionGen</a></td>
+              <td>2026</td>
+              <td>Untextured 3D mesh + emission material reference / prompt</td>
+              <td>Emission texture / emissive material maps</td>
+              <td>Fills a specific gap: emissive texture generation for LEDs, signs, cyberpunk-style assets, and similar materials. Most texture methods still spend more attention on albedo / metallic / roughness.</td>
+              <td>The scope is intentionally vertical, closer to a benchmark and baseline than a general PBR material generator.</td>
+            </tr>
+            <tr>
+              <td><a href="https://arxiv.org/abs/2603.08228" target="_blank" rel="noopener">GarmentPainter</a></td>
+              <td>2026</td>
+              <td>Garment mesh UV position map + character reference image / type selection</td>
+              <td>Garment UV texture</td>
+              <td>A straightforward garment UV texturing route. The UV position map gives structural guidance, and component-level generation is useful for clothing parts.</td>
+              <td>It is built around garment assumptions: UV position maps, clothing components, and garment priors. Arbitrary meshes are outside its comfort zone.</td>
+            </tr>
+            <tr>
+              <td><a href="https://natex-ldm.github.io/" target="_blank" rel="noopener">NaTex</a></td>
+              <td>2025</td>
+              <td>3D geometry / mesh condition</td>
+              <td>Dense color point cloud / surface texture in 3D space</td>
+              <td>Predicts texture color in 3D space instead of stitching together 2D views. That makes occlusion, mesh-texture alignment, and cross-view consistency less brittle.</td>
+              <td>The representation is 3D-native. A standard game / DCC pipeline would likely need a baking step before it becomes a UV texture asset.</td>
+            </tr>
+            <tr>
+              <td><a href="https://calitex-project.github.io/" target="_blank" rel="noopener">CaliTex</a></td>
+              <td>2025</td>
+              <td>Mesh / geometry condition + appearance prompt or multiview condition</td>
+              <td>Seamless, view-consistent texture</td>
+              <td>The main appeal is its geometry-calibrated attention: the texture model is asked to pay attention in a way that follows the 3D structure. Part-Aligned Attention and Condition-Routed Attention are aimed at view mismatch and ambiguous attention.</td>
+              <td>The extra calibration and two-stage DiT design make it harder to drop into a lightweight UV inpainting pipeline. It also puts more pressure on the part / geometry conditions.</td>
+            </tr>
+            <tr>
+              <td><a href="https://vast-ai-research.github.io/LaFiTe/" target="_blank" rel="noopener">LaFiTe</a></td>
+              <td>2025</td>
+              <td>Arbitrary mesh / surface + condition input</td>
+              <td>3D-native sparse latent color field / surface texture</td>
+              <td>Moves the texture representation away from fixed UVs or rendered views and learns a sparse latent color field on the surface. That is a good fit for seamless 3D-surface texture generation, editing, and material synthesis.</td>
+              <td>It is not a conventional UV texture-map output. For production assets, the color field would usually need to be converted or baked.</td>
+            </tr>
+            <tr>
+              <td><a href="https://www.neural4d.com/research-page/textrix" target="_blank" rel="noopener">TEXTRIX</a></td>
+              <td>2025</td>
+              <td>3D model / mesh + condition input</td>
+              <td>Latent 3D attribute grid for texture synthesis and 3D part segmentation</td>
+              <td>Puts color and other attributes into a volumetric 3D latent grid. This avoids some multiview fusion artifacts and also gives the method a path toward fine 3D part segmentation.</td>
+              <td>It is broader than texture generation alone. It may also be sensitive to poor mesh quality, topology defects, and self-intersections.</td>
+            </tr>
             <tr>
               <td><a href="https://zebinhe.github.io/MaterialMVP/" target="_blank" rel="noopener">MaterialMVP</a></td>
               <td>2025</td>
@@ -974,12 +1072,46 @@
       width: 100%;
   }
 
-  .demo-part-count {
-      font-size: 11px;
-      font-weight: 500;
-      color: #888;
+  .demo-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 3px;
+      width: 100%;
+      font-size: 10px;
+      font-weight: 600;
+      line-height: 1.15;
+      color: #4b5563;
       text-transform: none;
       text-align: center;
+  }
+
+  .demo-metric {
+      flex: 1 1 42px;
+      min-width: 0;
+      padding: 2px 3px;
+      border: 1px solid #e5e7eb;
+      border-radius: 4px;
+      background: #f8fafc;
+      white-space: nowrap;
+  }
+
+  .demo-metric.is-good {
+      color: #166534;
+      background: #f0fdf4;
+      border-color: #bbf7d0;
+  }
+
+  .demo-metric.is-bad {
+      color: #9f1239;
+      background: #fff1f2;
+      border-color: #fecdd3;
+  }
+
+  .demo-metrics.is-missing .demo-metric {
+      color: #9ca3af;
+      background: #f3f4f6;
+      border-color: #e5e7eb;
   }
 
   .demo-row-note {
@@ -1420,6 +1552,7 @@
     "bear", "carved_wooden_elephant", "dustpan", "hammer", "propane_tank",
     "rubber_duck_toy", "cube", "wet_floor_sign"
   ];
+  const demoObjects = [...demoMultipartObjects, ...demoSinglepartObjects];
   // Each column points to one image file under {baseFolder}/{obj}/.
   // The input is split into two columns (raw + target); methods use their preview.png.
   // Missing files (e.g. water_manhole_cover has no meshy) render as empty cells.
@@ -1431,15 +1564,65 @@
     { key: "meshy",       label: "Meshy",         src: "meshy/preview.png" },
     { key: "trellis2",    label: "TRELLIS",       src: "trellis2/preview.png" }
   ];
-  // Per-(object, column) part counts, shown under each image (including input).
-  // Each column can have a different number of parts. Anything not listed here falls
-  // back to "--". Fill in real numbers later, e.g.
-  //   bicycle: { input: 5, materialmvp: 5, hunyuan2_1: 4, meshy: 3, trellis2: 6 },
-  const demoPartCounts = {};
+  // Per-(object, column) mesh metrics shown under each image.
+  // Data is generated by MultipartTexture/update_web_mesh_metrics.py.
+  const demoMeshMetrics = window.MULTIPART_TEXTURE_MESH_METRICS || { objects: {} };
+
+  function formatMetricNumber(value) {
+      return value == null ? '--' : Number(value).toLocaleString('en-US');
+  }
+
+  function formatWatertight(value) {
+      if (value === true) return 'Yes';
+      if (value === false) return 'No';
+      return '--';
+  }
+
+  function escapeAttribute(value) {
+      return String(value)
+          .replace(/&/g, '&amp;')
+          .replace(/"/g, '&quot;')
+          .replace(/</g, '&lt;');
+  }
+
+  function metricForCell(obj, key) {
+      const objectMetrics = demoMeshMetrics.objects && demoMeshMetrics.objects[obj];
+      return objectMetrics ? objectMetrics[key] : null;
+  }
+
+  function renderMetricCaption(obj, key) {
+      const metric = metricForCell(obj, key);
+      if (!metric || metric.available === false) {
+          return `<div class="demo-metrics is-missing" title="No mesh found for this cell">
+              <span class="demo-metric">P --</span>
+              <span class="demo-metric">V --</span>
+              <span class="demo-metric">WT --</span>
+          </div>`;
+      }
+
+      const watertightClass = metric.watertight === true
+          ? 'is-good'
+          : (metric.watertight === false ? 'is-bad' : '');
+      const title = [
+          `Parts: ${formatMetricNumber(metric.parts)}`,
+          `Vertices: ${formatMetricNumber(metric.vertices)}`,
+          `Watertight: ${formatWatertight(metric.watertight)}`,
+          metric.watertightReason ? `Reason: ${metric.watertightReason}` : null
+      ].filter(Boolean).join(' | ');
+
+      return `<div class="demo-metrics" title="${escapeAttribute(title)}">
+          <span class="demo-metric">P ${formatMetricNumber(metric.parts)}</span>
+          <span class="demo-metric">V ${formatMetricNumber(metric.vertices)}</span>
+          <span class="demo-metric ${watertightClass}">WT ${formatWatertight(metric.watertight)}</span>
+      </div>`;
+  }
   // Optional note shown under an object's name. Anything not listed has no note.
   const demoNotes = {
-    water_manhole_cover: "非水密包含薄片"
+    water_manhole_cover: "Thin details; mesh is not watertight."
   };
+  /*
+    water_manhole_cover: "非水密包含薄片"
+  */
 
   function renderGallery(containerId, objects, baseFolder) {
       const container = document.getElementById(containerId);
@@ -1458,10 +1641,7 @@
           row.className = 'demo-row';
           const cells = demoColumns.map(c => {
               const src = `static/images/${baseFolder}/${obj}/${c.src}`;
-              // Every column (including input) shows a part count under the image.
-              const counts = demoPartCounts[obj] || {};
-              const n = counts[c.key] != null ? counts[c.key] : '--';
-              const caption = `<div class="demo-part-count">${n} parts</div>`;
+              const caption = renderMetricCaption(obj, c.key);
               return `<div class="demo-cell-wrap">
                   <div class="demo-cell">
                       <img src="${src}" alt="${c.label}"
