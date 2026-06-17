@@ -1,19 +1,20 @@
 window.MULTIPART_TEXTURE_MESH_METRICS = {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-15T00:46:02+00:00",
+  "generatedAt": "2026-06-17T08:35:42+00:00",
   "variants": [
     "raw",
     "target",
     "materialmvp",
     "hunyuan2_1",
     "meshy",
-    "trellis2"
+    "trellis2",
+    "unitex"
   ],
   "summary": {
     "objectCount": 17,
-    "availableMeshCount": 92,
-    "watertightCount": 60,
-    "notWatertightCount": 32,
+    "availableMeshCount": 102,
+    "watertightCount": 67,
+    "notWatertightCount": 35,
     "undeterminedCount": 0
   },
   "objects": {
@@ -113,6 +114,22 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "nonmanifoldEdges": 0,
         "componentCount": 1,
         "errors": {}
+      },
+      "unitex": {
+        "available": true,
+        "mesh": "MultipartTexture-output/meshes/cases/bear/unitex/mesh.glb",
+        "parts": 1,
+        "vertices": 19210,
+        "edges": 54498,
+        "watertight": true,
+        "judgement": "watertight",
+        "watertightReason": "all_scene_geometries_closed_manifold_after_vertex_weld",
+        "meshKind": "scene",
+        "faces": 35318,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "componentCount": 1,
+        "errors": {}
       }
     },
     "bicycle": {
@@ -185,6 +202,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "nonmanifoldEdges": 142,
         "componentCount": 145,
         "errors": {}
+      },
+      "unitex": {
+        "available": false
       }
     },
     "carved_wooden_elephant": {
@@ -283,6 +303,22 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "nonmanifoldEdges": 0,
         "componentCount": 1,
         "errors": {}
+      },
+      "unitex": {
+        "available": true,
+        "mesh": "MultipartTexture-output/meshes/cases/carved_wooden_elephant/unitex/mesh.glb",
+        "parts": 1,
+        "vertices": 1664,
+        "edges": 4409,
+        "watertight": true,
+        "judgement": "watertight",
+        "watertightReason": "all_scene_geometries_closed_manifold_after_vertex_weld",
+        "meshKind": "scene",
+        "faces": 2752,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "componentCount": 1,
+        "errors": {}
       }
     },
     "cello": {
@@ -335,20 +371,7 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "errors": {}
       },
       "hunyuan2_1": {
-        "available": true,
-        "mesh": "MultipartTexture-output/meshes/cases/cello/hunyuan2_1/cello/textured_mesh.glb",
-        "parts": 1,
-        "vertices": 350209,
-        "edges": 732005,
-        "watertight": false,
-        "judgement": "not_watertight",
-        "watertightReason": "scene_contains_non_watertight_geometry",
-        "meshKind": "scene",
-        "faces": 398065,
-        "boundaryEdges": 21,
-        "nonmanifoldEdges": 178,
-        "componentCount": 17,
-        "errors": {}
+        "available": false
       },
       "meshy": {
         "available": true,
@@ -381,12 +404,28 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "nonmanifoldEdges": 178,
         "componentCount": 17,
         "errors": {}
+      },
+      "unitex": {
+        "available": true,
+        "mesh": "MultipartTexture-output/meshes/cases/cello/unitex/mesh.glb",
+        "parts": 1,
+        "vertices": 107658,
+        "edges": 307389,
+        "watertight": false,
+        "judgement": "not_watertight",
+        "watertightReason": "scene_contains_non_watertight_geometry",
+        "meshKind": "scene",
+        "faces": 199926,
+        "boundaryEdges": 536,
+        "nonmanifoldEdges": 0,
+        "componentCount": 15,
+        "errors": {}
       }
     },
     "cube": {
       "raw": {
         "available": true,
-        "mesh": "MultipartTexture-web/static/images/comparison_singlepart/cube/input/mesh.glb",
+        "mesh": "MultipartTexture/input/singlepart/cube/mesh.glb",
         "parts": 1,
         "vertices": 24,
         "edges": 30,
@@ -402,7 +441,7 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
       },
       "target": {
         "available": true,
-        "mesh": "MultipartTexture-web/static/images/comparison_singlepart/cube/input/mesh.glb",
+        "mesh": "MultipartTexture/input/singlepart/cube/mesh.glb",
         "parts": 1,
         "vertices": 24,
         "edges": 30,
@@ -470,6 +509,22 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "parts": 1,
         "vertices": 24,
         "edges": 30,
+        "watertight": true,
+        "judgement": "watertight",
+        "watertightReason": "all_scene_geometries_closed_manifold_after_vertex_weld",
+        "meshKind": "scene",
+        "faces": 12,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "componentCount": 1,
+        "errors": {}
+      },
+      "unitex": {
+        "available": true,
+        "mesh": "MultipartTexture-output/meshes/cases/cube/unitex/mesh.glb",
+        "parts": 1,
+        "vertices": 14,
+        "edges": 25,
         "watertight": true,
         "judgement": "watertight",
         "watertightReason": "all_scene_geometries_closed_manifold_after_vertex_weld",
@@ -577,6 +632,22 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "nonmanifoldEdges": 0,
         "componentCount": 1,
         "errors": {}
+      },
+      "unitex": {
+        "available": true,
+        "mesh": "MultipartTexture-output/meshes/cases/dustpan/unitex/mesh.glb",
+        "parts": 1,
+        "vertices": 2566,
+        "edges": 6894,
+        "watertight": true,
+        "judgement": "watertight",
+        "watertightReason": "all_scene_geometries_closed_manifold_after_vertex_weld",
+        "meshKind": "scene",
+        "faces": 4332,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "componentCount": 1,
+        "errors": {}
       }
     },
     "hammer": {
@@ -666,6 +737,22 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "parts": 1,
         "vertices": 1480,
         "edges": 3571,
+        "watertight": true,
+        "judgement": "watertight",
+        "watertightReason": "all_scene_geometries_closed_manifold_after_vertex_weld",
+        "meshKind": "scene",
+        "faces": 2124,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "componentCount": 1,
+        "errors": {}
+      },
+      "unitex": {
+        "available": true,
+        "mesh": "MultipartTexture-output/meshes/cases/hammer/unitex/mesh.glb",
+        "parts": 1,
+        "vertices": 1432,
+        "edges": 3532,
         "watertight": true,
         "judgement": "watertight",
         "watertightReason": "all_scene_geometries_closed_manifold_after_vertex_weld",
@@ -773,6 +860,22 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "nonmanifoldEdges": 7,
         "componentCount": 10,
         "errors": {}
+      },
+      "unitex": {
+        "available": true,
+        "mesh": "MultipartTexture-output/meshes/cases/propane_tank/unitex/mesh.glb",
+        "parts": 1,
+        "vertices": 4360,
+        "edges": 9529,
+        "watertight": false,
+        "judgement": "not_watertight",
+        "watertightReason": "scene_contains_non_watertight_geometry",
+        "meshKind": "scene",
+        "faces": 5238,
+        "boundaryEdges": 104,
+        "nonmanifoldEdges": 14,
+        "componentCount": 16,
+        "errors": {}
       }
     },
     "rubber_duck_toy": {
@@ -871,6 +974,22 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "nonmanifoldEdges": 0,
         "componentCount": 1,
         "errors": {}
+      },
+      "unitex": {
+        "available": true,
+        "mesh": "MultipartTexture-output/meshes/cases/rubber_duck_toy/unitex/mesh.glb",
+        "parts": 1,
+        "vertices": 2489,
+        "edges": 6766,
+        "watertight": true,
+        "judgement": "watertight",
+        "watertightReason": "all_scene_geometries_closed_manifold_after_vertex_weld",
+        "meshKind": "scene",
+        "faces": 4288,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "componentCount": 1,
+        "errors": {}
       }
     },
     "scissors": {
@@ -943,6 +1062,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "nonmanifoldEdges": 0,
         "componentCount": 1,
         "errors": {}
+      },
+      "unitex": {
+        "available": false
       }
     },
     "shiba": {
@@ -1041,12 +1163,28 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "nonmanifoldEdges": 0,
         "componentCount": 4,
         "errors": {}
+      },
+      "unitex": {
+        "available": true,
+        "mesh": "MultipartTexture-output/meshes/cases/shiba/unitex/mesh.glb",
+        "parts": 1,
+        "vertices": 2531,
+        "edges": 6842,
+        "watertight": false,
+        "judgement": "not_watertight",
+        "watertightReason": "scene_contains_non_watertight_geometry",
+        "meshKind": "scene",
+        "faces": 4316,
+        "boundaryEdges": 32,
+        "nonmanifoldEdges": 0,
+        "componentCount": 4,
+        "errors": {}
       }
     },
     "spongebob": {
       "raw": {
         "available": true,
-        "mesh": "MultipartTexture/input/singlepart/spongebob/mesh.glb",
+        "mesh": "MultipartTexture-web/assets/cases/spongebob/input/mesh.glb",
         "parts": 1,
         "vertices": 24,
         "edges": 30,
@@ -1062,7 +1200,7 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
       },
       "target": {
         "available": true,
-        "mesh": "MultipartTexture/input/singlepart/spongebob/mesh.glb",
+        "mesh": "MultipartTexture-web/assets/cases/spongebob/input/mesh.glb",
         "parts": 1,
         "vertices": 24,
         "edges": 30,
@@ -1139,6 +1277,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "nonmanifoldEdges": 0,
         "componentCount": 1,
         "errors": {}
+      },
+      "unitex": {
+        "available": false
       }
     },
     "stitcher": {
@@ -1211,6 +1352,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "nonmanifoldEdges": 0,
         "componentCount": 1,
         "errors": {}
+      },
+      "unitex": {
+        "available": false
       }
     },
     "telescope": {
@@ -1283,6 +1427,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "nonmanifoldEdges": 0,
         "componentCount": 1,
         "errors": {}
+      },
+      "unitex": {
+        "available": false
       }
     },
     "transformer": {
@@ -1355,6 +1502,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "nonmanifoldEdges": 0,
         "componentCount": 5,
         "errors": {}
+      },
+      "unitex": {
+        "available": false
       }
     },
     "water_manhole_cover": {
@@ -1453,6 +1603,22 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "nonmanifoldEdges": 0,
         "componentCount": 7,
         "errors": {}
+      },
+      "unitex": {
+        "available": true,
+        "mesh": "MultipartTexture-output/meshes/cases/water_manhole_cover/unitex/mesh.glb",
+        "parts": 1,
+        "vertices": 5135,
+        "edges": 11195,
+        "watertight": false,
+        "judgement": "not_watertight",
+        "watertightReason": "scene_contains_non_watertight_geometry",
+        "meshKind": "scene",
+        "faces": 6301,
+        "boundaryEdges": 211,
+        "nonmanifoldEdges": 0,
+        "componentCount": 7,
+        "errors": {}
       }
     },
     "wet_floor_sign": {
@@ -1542,6 +1708,22 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "parts": 1,
         "vertices": 286,
         "edges": 482,
+        "watertight": true,
+        "judgement": "watertight",
+        "watertightReason": "all_scene_geometries_closed_manifold_after_vertex_weld",
+        "meshKind": "scene",
+        "faces": 228,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "componentCount": 1,
+        "errors": {}
+      },
+      "unitex": {
+        "available": true,
+        "mesh": "MultipartTexture-output/meshes/cases/wet_floor_sign/unitex/mesh.glb",
+        "parts": 1,
+        "vertices": 242,
+        "edges": 460,
         "watertight": true,
         "judgement": "watertight",
         "watertightReason": "all_scene_geometries_closed_manifold_after_vertex_weld",
