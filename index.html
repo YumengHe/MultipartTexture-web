@@ -123,17 +123,6 @@
     </div>
   </section>
 
-  <!-- Multipart Comparison Section -->
-  <section class="section">
-    <div class="container">
-        <h2 class="title is-3" style="text-align: center;">🎬 Multipart Comparison 🎬</h2>
-        <br>
-        <div id="with-video-section">
-            <div id="video-items-multipart"></div>
-        </div>
-    </div>
-  </section>
-
   <!-- Singlepart Comparison Section -->
   <section class="section">
     <div class="container">
@@ -141,6 +130,17 @@
         <br>
         <div id="with-video-section">
             <div id="video-items-singlepart"></div>
+        </div>
+    </div>
+  </section>
+
+  <!-- Multipart Comparison Section -->
+  <section class="section">
+    <div class="container">
+        <h2 class="title is-3" style="text-align: center;">🎬 Multipart Comparison 🎬</h2>
+        <br>
+        <div id="with-video-section">
+            <div id="video-items-multipart"></div>
         </div>
     </div>
   </section>
@@ -163,6 +163,7 @@
             </tr>
           </thead>
           <tbody>
+            <!-- 2026 -->
             <tr>
               <td><a href="https://matlat-proj.github.io/" target="_blank" rel="noopener">MatLat</a></td>
               <td>CVPR 2026</td>
@@ -235,6 +236,7 @@
               <td>A straightforward garment UV texturing route. The UV position map gives structural guidance, and component-level generation is useful for clothing parts.</td>
               <td>It is built around garment assumptions: UV position maps, clothing components, and garment priors. Arbitrary meshes are outside its comfort zone.</td>
             </tr>
+            <!-- 2025 -->
             <tr>
               <td><a href="https://natex-ldm.github.io/" target="_blank" rel="noopener">NaTex</a></td>
               <td>2025</td>
@@ -284,13 +286,38 @@
               <td>It regenerates the object, so small parts and topology can drift</td>
             </tr>
             <tr>
-              <td><a href="https://www.meshy.ai/" target="_blank" rel="noopener">Meshy</a></td>
-              <td>N/A</td>
-              <td>Text, image, or uploaded mesh</td>
-              <td>Export-ready textured 3D model or retextured mesh</td>
-              <td>Fast and convenient for getting a previewable textured model</td>
-              <td>Closed service, so exact behavior and part preservation are hard to inspect</td>
+              <td><a href="https://mvpaint.github.io/" target="_blank" rel="noopener">MVPaint</a></td>
+              <td>2025</td>
+              <td>3D mesh + text prompt</td>
+              <td>High-resolution seamless UV texture</td>
+              <td>Synchronized views make the painted texture more consistent around the object</td>
+              <td>Still a multi-stage RGB texture pipeline, without geometry or PBR decomposition</td>
             </tr>
+            <tr>
+              <td><a href="https://amap-cvlab.github.io/MV-Painter/" target="_blank" rel="noopener">MVPainter</a></td>
+              <td>2025</td>
+              <td>Reference image + known 3D geometry</td>
+              <td>PBR textured mesh</td>
+              <td>Uses geometry control to keep generated views closer to the reference</td>
+              <td>Needs a good reference and has more moving parts in the pipeline</td>
+            </tr>
+            <tr>
+              <td><a href="https://xhuangcv.github.io/MaterialAnything/" target="_blank" rel="noopener">Material Anything</a></td>
+              <td>2025</td>
+              <td>Textured or texture-less 3D object</td>
+              <td>UV-ready PBR material maps</td>
+              <td>Useful for turning an existing object into cleaner PBR material maps</td>
+              <td>Material-focused; it does not solve part segmentation or geometry layout</td>
+            </tr>
+            <tr>
+              <td><a href="https://heheyas.github.io/MeshGen/" target="_blank" rel="noopener">MeshGen</a></td>
+              <td>2025</td>
+              <td>Single image</td>
+              <td>PBR textured 3D mesh</td>
+              <td>Builds both shape and PBR texture from one image</td>
+              <td>Can change the target topology, so it is not ideal for preserving multipart meshes</td>
+            </tr>
+            <!-- 2024 -->
             <tr>
               <td><a href="https://trellis3d.github.io/" target="_blank" rel="noopener">TRELLIS</a></td>
               <td>2024</td>
@@ -316,14 +343,6 @@
               <td>Does not really reason about materials or object parts beyond the texture map</td>
             </tr>
             <tr>
-              <td><a href="https://mvpaint.github.io/" target="_blank" rel="noopener">MVPaint</a></td>
-              <td>2025</td>
-              <td>3D mesh + text prompt</td>
-              <td>High-resolution seamless UV texture</td>
-              <td>Synchronized views make the painted texture more consistent around the object</td>
-              <td>Still a multi-stage RGB texture pipeline, without geometry or PBR decomposition</td>
-            </tr>
-            <tr>
               <td><a href="https://arxiv.org/abs/2406.18539" target="_blank" rel="noopener">TexPainter</a></td>
               <td>2024</td>
               <td>3D mesh + text prompt</td>
@@ -347,6 +366,7 @@
               <td>Sampling and resampling across views helps reduce seams</td>
               <td>Can still paint details that do not quite fit the geometry</td>
             </tr>
+            <!-- 2023 -->
             <tr>
               <td><a href="https://daveredrum.github.io/Text2Tex/" target="_blank" rel="noopener">Text2Tex</a></td>
               <td>2023</td>
@@ -363,29 +383,14 @@
               <td>Covers texture generation, editing, and transfer in one framework</td>
               <td>Iterative view painting may bake lighting and inconsistent details</td>
             </tr>
+            <!-- N/A -->
             <tr>
-              <td><a href="https://amap-cvlab.github.io/MV-Painter/" target="_blank" rel="noopener">MVPainter</a></td>
-              <td>2025</td>
-              <td>Reference image + known 3D geometry</td>
-              <td>PBR textured mesh</td>
-              <td>Uses geometry control to keep generated views closer to the reference</td>
-              <td>Needs a good reference and has more moving parts in the pipeline</td>
-            </tr>
-            <tr>
-              <td><a href="https://xhuangcv.github.io/MaterialAnything/" target="_blank" rel="noopener">Material Anything</a></td>
-              <td>2025</td>
-              <td>Textured or texture-less 3D object</td>
-              <td>UV-ready PBR material maps</td>
-              <td>Useful for turning an existing object into cleaner PBR material maps</td>
-              <td>Material-focused; it does not solve part segmentation or geometry layout</td>
-            </tr>
-            <tr>
-              <td><a href="https://heheyas.github.io/MeshGen/" target="_blank" rel="noopener">MeshGen</a></td>
-              <td>2025</td>
-              <td>Single image</td>
-              <td>PBR textured 3D mesh</td>
-              <td>Builds both shape and PBR texture from one image</td>
-              <td>Can change the target topology, so it is not ideal for preserving multipart meshes</td>
+              <td><a href="https://www.meshy.ai/" target="_blank" rel="noopener">Meshy</a></td>
+              <td>N/A</td>
+              <td>Text, image, or uploaded mesh</td>
+              <td>Export-ready textured 3D model or retextured mesh</td>
+              <td>Fast and convenient for getting a previewable textured model</td>
+              <td>Closed service, so exact behavior and part preservation are hard to inspect</td>
             </tr>
           </tbody>
         </table>
@@ -1095,13 +1100,24 @@
   }
 
   .demo-metric {
-      flex: 1 1 42px;
       min-width: 0;
       padding: 2px 3px;
       border: 1px solid #e5e7eb;
       border-radius: 4px;
       background: #f8fafc;
       white-space: nowrap;
+  }
+
+  .demo-metric.metric-p {
+      flex: 0 0 28px;
+  }
+
+  .demo-metric.metric-v {
+      flex: 1 1 50px;
+  }
+
+  .demo-metric.metric-wt {
+      flex: 0 0 32px;
   }
 
   .demo-metric.is-good {
@@ -1566,7 +1582,7 @@
   // Missing files (e.g. water_manhole_cover has no meshy) render as empty cells.
   const demoColumns = [
     { key: "raw",         label: "Raw",           src: "input/raw.png" },
-    { key: "target",      label: "Target",        src: "input/target.png" },
+    { key: "target",      label: "Target Image",  src: "input/target.png" },
     { key: "materialmvp", label: "MaterialMVP",   src: "materialmvp/preview.png" },
     { key: "hunyuan2_1",  label: "Hunyuan3D 2.1", src: "hunyuan2_1/preview.png" },
     { key: "meshy",       label: "Meshy",         src: "meshy/preview.png" },
@@ -1583,8 +1599,8 @@
   }
 
   function formatWatertight(value) {
-      if (value === true) return 'Yes';
-      if (value === false) return 'No';
+      if (value === true) return 'WT';
+      if (value === false) return 'NWT';
       return '--';
   }
 
@@ -1601,12 +1617,20 @@
   }
 
   function renderMetricCaption(obj, key) {
+      // Don't show metrics for target (it's just a reference image), but keep placeholder for alignment
+      if (key === 'target') {
+          return `<div class="demo-metrics" style="visibility: hidden;">
+              <span class="demo-metric metric-p">P --</span>
+              <span class="demo-metric metric-v">V --</span>
+              <span class="demo-metric metric-wt">--</span>
+          </div>`;
+      }
       const metric = metricForCell(obj, key);
       if (!metric || metric.available === false) {
           return `<div class="demo-metrics is-missing" title="No mesh found for this cell">
-              <span class="demo-metric">P --</span>
-              <span class="demo-metric">V --</span>
-              <span class="demo-metric">WT --</span>
+              <span class="demo-metric metric-p">P --</span>
+              <span class="demo-metric metric-v">V --</span>
+              <span class="demo-metric metric-wt">--</span>
           </div>`;
       }
 
@@ -1621,9 +1645,9 @@
       ].filter(Boolean).join(' | ');
 
       return `<div class="demo-metrics" title="${escapeAttribute(title)}">
-          <span class="demo-metric">P ${formatMetricNumber(metric.parts)}</span>
-          <span class="demo-metric">V ${formatMetricNumber(metric.vertices)}</span>
-          <span class="demo-metric ${watertightClass}">WT ${formatWatertight(metric.watertight)}</span>
+          <span class="demo-metric metric-p">P ${formatMetricNumber(metric.parts)}</span>
+          <span class="demo-metric metric-v">V ${formatMetricNumber(metric.vertices)}</span>
+          <span class="demo-metric metric-wt ${watertightClass}">${formatWatertight(metric.watertight)}</span>
       </div>`;
   }
   // Optional note shown under an object's name. Anything not listed has no note.
