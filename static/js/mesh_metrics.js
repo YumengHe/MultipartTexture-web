@@ -1,6 +1,6 @@
 window.MULTIPART_TEXTURE_MESH_METRICS = {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-17T08:35:42+00:00",
+  "generatedAt": "2026-06-19T01:33:38+00:00",
   "variants": [
     "raw",
     "target",
@@ -8,12 +8,13 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
     "hunyuan2_1",
     "meshy",
     "trellis2",
-    "unitex"
+    "unitex",
+    "lumitex"
   ],
   "summary": {
     "objectCount": 17,
-    "availableMeshCount": 102,
-    "watertightCount": 67,
+    "availableMeshCount": 105,
+    "watertightCount": 70,
     "notWatertightCount": 35,
     "undeterminedCount": 0
   },
@@ -130,6 +131,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "nonmanifoldEdges": 0,
         "componentCount": 1,
         "errors": {}
+      },
+      "lumitex": {
+        "available": false
       }
     },
     "bicycle": {
@@ -204,6 +208,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "errors": {}
       },
       "unitex": {
+        "available": false
+      },
+      "lumitex": {
         "available": false
       }
     },
@@ -319,6 +326,22 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "nonmanifoldEdges": 0,
         "componentCount": 1,
         "errors": {}
+      },
+      "lumitex": {
+        "available": true,
+        "mesh": "MultipartTexture-output/meshes/cases/carved_wooden_elephant/lumitex/mesh.glb",
+        "parts": 1,
+        "vertices": 1664,
+        "edges": 4409,
+        "watertight": true,
+        "judgement": "watertight",
+        "watertightReason": "all_scene_geometries_closed_manifold_after_vertex_weld",
+        "meshKind": "scene",
+        "faces": 2752,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "componentCount": 1,
+        "errors": {}
       }
     },
     "cello": {
@@ -420,6 +443,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "nonmanifoldEdges": 0,
         "componentCount": 15,
         "errors": {}
+      },
+      "lumitex": {
+        "available": false
       }
     },
     "cube": {
@@ -534,6 +560,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "nonmanifoldEdges": 0,
         "componentCount": 1,
         "errors": {}
+      },
+      "lumitex": {
+        "available": false
       }
     },
     "dustpan": {
@@ -648,6 +677,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "nonmanifoldEdges": 0,
         "componentCount": 1,
         "errors": {}
+      },
+      "lumitex": {
+        "available": false
       }
     },
     "hammer": {
@@ -753,6 +785,22 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "parts": 1,
         "vertices": 1432,
         "edges": 3532,
+        "watertight": true,
+        "judgement": "watertight",
+        "watertightReason": "all_scene_geometries_closed_manifold_after_vertex_weld",
+        "meshKind": "scene",
+        "faces": 2124,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "componentCount": 1,
+        "errors": {}
+      },
+      "lumitex": {
+        "available": true,
+        "mesh": "MultipartTexture-output/meshes/cases/hammer/lumitex/mesh.glb",
+        "parts": 1,
+        "vertices": 2228,
+        "edges": 4157,
         "watertight": true,
         "judgement": "watertight",
         "watertightReason": "all_scene_geometries_closed_manifold_after_vertex_weld",
@@ -876,6 +924,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "nonmanifoldEdges": 14,
         "componentCount": 16,
         "errors": {}
+      },
+      "lumitex": {
+        "available": false
       }
     },
     "rubber_duck_toy": {
@@ -990,6 +1041,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "nonmanifoldEdges": 0,
         "componentCount": 1,
         "errors": {}
+      },
+      "lumitex": {
+        "available": false
       }
     },
     "scissors": {
@@ -1064,6 +1118,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "errors": {}
       },
       "unitex": {
+        "available": false
+      },
+      "lumitex": {
         "available": false
       }
     },
@@ -1179,6 +1236,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "nonmanifoldEdges": 0,
         "componentCount": 4,
         "errors": {}
+      },
+      "lumitex": {
+        "available": false
       }
     },
     "spongebob": {
@@ -1280,6 +1340,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
       },
       "unitex": {
         "available": false
+      },
+      "lumitex": {
+        "available": false
       }
     },
     "stitcher": {
@@ -1354,6 +1417,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "errors": {}
       },
       "unitex": {
+        "available": false
+      },
+      "lumitex": {
         "available": false
       }
     },
@@ -1430,6 +1496,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
       },
       "unitex": {
         "available": false
+      },
+      "lumitex": {
+        "available": false
       }
     },
     "transformer": {
@@ -1504,6 +1573,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "errors": {}
       },
       "unitex": {
+        "available": false
+      },
+      "lumitex": {
         "available": false
       }
     },
@@ -1619,6 +1691,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "nonmanifoldEdges": 0,
         "componentCount": 7,
         "errors": {}
+      },
+      "lumitex": {
+        "available": false
       }
     },
     "wet_floor_sign": {
@@ -1721,6 +1796,22 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
       "unitex": {
         "available": true,
         "mesh": "MultipartTexture-output/meshes/cases/wet_floor_sign/unitex/mesh.glb",
+        "parts": 1,
+        "vertices": 242,
+        "edges": 460,
+        "watertight": true,
+        "judgement": "watertight",
+        "watertightReason": "all_scene_geometries_closed_manifold_after_vertex_weld",
+        "meshKind": "scene",
+        "faces": 228,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "componentCount": 1,
+        "errors": {}
+      },
+      "lumitex": {
+        "available": true,
+        "mesh": "MultipartTexture-output/meshes/cases/wet_floor_sign/lumitex/mesh.glb",
         "parts": 1,
         "vertices": 242,
         "edges": 460,
