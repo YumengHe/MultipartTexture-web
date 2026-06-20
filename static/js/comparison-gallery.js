@@ -30,7 +30,7 @@ const galleryConfig = {
             ]
         }
     },
-    columns: ["raw", "target", "materialmvp", "hunyuan2_1", "meshy", "trellis2", "unitex", "lumitex"],
+    columns: ["raw", "target", "materialmvp", "hunyuan2_1", "meshy", "trellis2", "unitex", "lumitex", "texgen"],
     labels: {
         raw: "Raw",
         target: "Target Image",
@@ -39,7 +39,8 @@ const galleryConfig = {
         meshy: "Meshy",
         trellis2: "Trellis",
         unitex: "UniTex",
-        lumitex: "LumiTex"
+        lumitex: "LumiTex",
+        texgen: "TexGen"
     }
 };
 let demoColumns = [];
