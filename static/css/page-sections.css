@@ -4,7 +4,7 @@
   }
 
   .compare-paper-table {
-      min-width: 980px;
+      min-width: 1080px;
       font-size: 0.92rem;
       line-height: 1.35;
   }
@@ -27,6 +27,44 @@
   .compare-paper-table td:nth-child(2) {
       width: 70px;
       white-space: nowrap;
+  }
+
+  .compare-paper-table td:nth-child(3) {
+      width: 110px;
+      white-space: nowrap;
+  }
+
+  .open-source-status {
+      display: inline-block;
+      min-width: 58px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      line-height: 1.35;
+      text-align: center;
+  }
+
+  .open-source-status.yes {
+      color: #1f6b3a;
+      background: #e5f6ea;
+  }
+
+  .open-source-status.partial {
+      color: #8a5a00;
+      background: #fff1c2;
+  }
+
+  .open-source-status.no {
+      color: #8c2f39;
+      background: #fde8eb;
+  }
+
+  .compare-paper-note {
+      margin-top: 0.6rem;
+      font-size: 0.82rem;
+      color: #555;
+      line-height: 1.4;
   }
 
   /* Deformation modes grid: 3 videos per row */

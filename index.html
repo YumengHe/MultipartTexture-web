@@ -160,6 +160,7 @@
             <tr>
               <th>Paper</th>
               <th>Year</th>
+              <th>Open Source</th>
               <th>Input</th>
               <th>Output</th>
               <th>Pro</th>
@@ -171,6 +172,7 @@
             <tr>
               <td><a href="https://matlat-proj.github.io/" target="_blank" rel="noopener">MatLat</a></td>
               <td>CVPR 2026</td>
+              <td><span class="open-source-status yes">Yes</span></td>
               <td>Given 3D mesh + material / appearance condition</td>
               <td>PBR texture / material channels</td>
               <td>A close match for mesh-based material texturing. It works on PBR channels directly, with the material latent space, VAE fine-tuning, and patch locality regularization all aimed at cleaner material details.</td>
@@ -179,6 +181,7 @@
             <tr>
               <td><a href="https://lumitex.vercel.app/" target="_blank" rel="noopener">LumiTex</a></td>
               <td>ICLR 2026</td>
+              <td><span class="open-source-status yes">Yes</span></td>
               <td>Reference image + mesh. The official inference format uses ref.png plus an OBJ/GLB mesh; the method also conditions on mesh normals, canonical coordinates, multiview renders, and DINOv2 / VAE image features.</td>
               <td>PBR texture maps: albedo / basecolor, metallic, and roughness, with geometry-guided LVSM texture inpainting to complete occluded or missing regions for relightable materials.</td>
               <td>Targets PBR material decomposition instead of a single attractive RGB texture, using illumination context to avoid baking highlights and shadows into albedo. The multi-branch albedo and metallic-roughness design, lighting-aware material attention, and view-space / LVSM inpainting are especially relevant for high-fidelity mesh + image texturing.</td>
@@ -187,6 +190,7 @@
             <tr>
               <td><a href="https://arxiv.org/abs/2603.15436" target="_blank" rel="noopener">MV2UV</a></td>
               <td>2026</td>
+              <td><span class="open-source-status no">No</span></td>
               <td>Untextured mesh + known UV + image / multiview prompts</td>
               <td>High-quality UV texture map</td>
               <td>Directly targets the "put a texture on this mesh" setting. The mix of multiview priors, UV refinement, and inpainting is useful for occluded, unseen, and view-conflicting regions.</td>
@@ -195,6 +199,7 @@
             <tr>
               <td><a href="https://github.com/YixunLiang/UniTEX" target="_blank" rel="noopener">UniTEX</a></td>
               <td>CVPR 2026</td>
+              <td><span class="open-source-status yes">Yes</span></td>
               <td>3D shape / mesh + prompt or multiview texture synthesis prior</td>
               <td>Consistent 3D texture in unified 3D functional space</td>
               <td>Uses a Large Texturing Model with Texture Functions, which sidesteps some of the topology ambiguity of UV-based methods. It is most interesting when consistency and coverage matter more than a simple one-shot texture map.</td>
@@ -203,6 +208,7 @@
             <tr>
               <td><a href="https://chenweilinx.github.io/CustomTex/" target="_blank" rel="noopener">CustomTex</a></td>
               <td>CVPR 2026</td>
+              <td><span class="open-source-status no">No</span></td>
               <td>Untextured indoor 3D scene + reference images for each object instance</td>
               <td>Unified high-resolution scene texture map</td>
               <td>Useful when the asset is an indoor scene rather than a single object. Instance-level reference control helps each object follow its own reference while reducing baked-in shading and artifacts.</td>
@@ -211,6 +217,7 @@
             <tr>
               <td><a href="https://github.com/SII-Hui/NI-Tex" target="_blank" rel="noopener">NI-Tex</a></td>
               <td>CVPR 2026</td>
+              <td><span class="open-source-status yes">Yes</span></td>
               <td>Garment mesh + garment image / non-isometric deformation reference</td>
               <td>Spatially aligned PBR garment materials</td>
               <td>A strong fit for garments, especially when non-isometric deformation makes direct texture transfer hard. The output is spatially aligned PBR material suitable for a production garment pipeline.</td>
@@ -219,6 +226,7 @@
             <tr>
               <td><a href="https://www.hi3d.ai/zh" target="_blank" rel="noopener">Hitem3D 2.0</a></td>
               <td>2026</td>
+              <td><span class="open-source-status no">No</span></td>
               <td>Single or multiple reference images + 3D geometry / generated multiview conditions</td>
               <td>High-fidelity, geometry-aligned 3D texture</td>
               <td>Combines 2D multiview priors with a native 3D representation. The pipeline pays attention to geometric alignment, view consistency, illumination uniformity, and unseen areas.</td>
@@ -227,6 +235,7 @@
             <tr>
               <td><a href="https://github.com/yx345kw/EmissionGen" target="_blank" rel="noopener">EmissionGen</a></td>
               <td>2026</td>
+              <td><span class="open-source-status partial">Partial</span></td>
               <td>Untextured 3D mesh + emission material reference / prompt</td>
               <td>Emission texture / emissive material maps</td>
               <td>Fills a specific gap: emissive texture generation for LEDs, signs, cyberpunk-style assets, and similar materials. Most texture methods still spend more attention on albedo / metallic / roughness.</td>
@@ -235,6 +244,7 @@
             <tr>
               <td><a href="https://arxiv.org/abs/2603.08228" target="_blank" rel="noopener">GarmentPainter</a></td>
               <td>2026</td>
+              <td><span class="open-source-status no">No</span></td>
               <td>Garment mesh UV position map + character reference image / type selection</td>
               <td>Garment UV texture</td>
               <td>A straightforward garment UV texturing route. The UV position map gives structural guidance, and component-level generation is useful for clothing parts.</td>
@@ -244,6 +254,7 @@
             <tr>
               <td><a href="https://natex-ldm.github.io/" target="_blank" rel="noopener">NaTex</a></td>
               <td>2025</td>
+              <td><span class="open-source-status partial">Partial</span></td>
               <td>3D geometry / mesh condition</td>
               <td>Dense color point cloud / surface texture in 3D space</td>
               <td>Predicts texture color in 3D space instead of stitching together 2D views. That makes occlusion, mesh-texture alignment, and cross-view consistency less brittle.</td>
@@ -252,6 +263,7 @@
             <tr>
               <td><a href="https://calitex-project.github.io/" target="_blank" rel="noopener">CaliTex</a></td>
               <td>2025</td>
+              <td><span class="open-source-status partial">Partial</span></td>
               <td>Mesh / geometry condition + appearance prompt or multiview condition</td>
               <td>Seamless, view-consistent texture</td>
               <td>The main appeal is its geometry-calibrated attention: the texture model is asked to pay attention in a way that follows the 3D structure. Part-Aligned Attention and Condition-Routed Attention are aimed at view mismatch and ambiguous attention.</td>
@@ -260,6 +272,7 @@
             <tr>
               <td><a href="https://vast-ai-research.github.io/LaFiTe/" target="_blank" rel="noopener">LaFiTe</a></td>
               <td>2025</td>
+              <td><span class="open-source-status no">No</span></td>
               <td>Arbitrary mesh / surface + condition input</td>
               <td>3D-native sparse latent color field / surface texture</td>
               <td>Moves the texture representation away from fixed UVs or rendered views and learns a sparse latent color field on the surface. That is a good fit for seamless 3D-surface texture generation, editing, and material synthesis.</td>
@@ -268,6 +281,7 @@
             <tr>
               <td><a href="https://www.neural4d.com/research-page/textrix" target="_blank" rel="noopener">TEXTRIX</a></td>
               <td>2025</td>
+              <td><span class="open-source-status no">No</span></td>
               <td>3D model / mesh + condition input</td>
               <td>Latent 3D attribute grid for texture synthesis and 3D part segmentation</td>
               <td>Puts color and other attributes into a volumetric 3D latent grid. This avoids some multiview fusion artifacts and also gives the method a path toward fine 3D part segmentation.</td>
@@ -276,6 +290,7 @@
             <tr>
               <td><a href="https://zebinhe.github.io/MaterialMVP/" target="_blank" rel="noopener">MaterialMVP</a></td>
               <td>2025</td>
+              <td><span class="open-source-status yes">Yes</span></td>
               <td>3D mesh + image prompt</td>
               <td>PBR texture maps: albedo, metallic, roughness</td>
               <td>Good at separating color from roughness/metallic instead of baking lighting into one texture</td>
@@ -284,6 +299,7 @@
             <tr>
               <td><a href="https://github.com/tencent-hunyuan/hunyuan3d-2.1" target="_blank" rel="noopener">Hunyuan3D 2.1</a></td>
               <td>2025</td>
+              <td><span class="open-source-status yes">Yes</span></td>
               <td>Single image</td>
               <td>Textured 3D asset with mesh and PBR textures</td>
               <td>Handy when there is only one photo and we need a complete textured asset</td>
@@ -292,6 +308,7 @@
             <tr>
               <td><a href="https://mvpaint.github.io/" target="_blank" rel="noopener">MVPaint</a></td>
               <td>2025</td>
+              <td><span class="open-source-status yes">Yes</span></td>
               <td>3D mesh + text prompt</td>
               <td>High-resolution seamless UV texture</td>
               <td>Synchronized views make the painted texture more consistent around the object</td>
@@ -300,6 +317,7 @@
             <tr>
               <td><a href="https://amap-cvlab.github.io/MV-Painter/" target="_blank" rel="noopener">MVPainter</a></td>
               <td>2025</td>
+              <td><span class="open-source-status yes">Yes</span></td>
               <td>Reference image + known 3D geometry</td>
               <td>PBR textured mesh</td>
               <td>Uses geometry control to keep generated views closer to the reference</td>
@@ -308,6 +326,7 @@
             <tr>
               <td><a href="https://xhuangcv.github.io/MaterialAnything/" target="_blank" rel="noopener">Material Anything</a></td>
               <td>2025</td>
+              <td><span class="open-source-status yes">Yes</span></td>
               <td>Textured or texture-less 3D object</td>
               <td>UV-ready PBR material maps</td>
               <td>Useful for turning an existing object into cleaner PBR material maps</td>
@@ -316,6 +335,7 @@
             <tr>
               <td><a href="https://heheyas.github.io/MeshGen/" target="_blank" rel="noopener">MeshGen</a></td>
               <td>2025</td>
+              <td><span class="open-source-status yes">Yes</span></td>
               <td>Single image</td>
               <td>PBR textured 3D mesh</td>
               <td>Builds both shape and PBR texture from one image</td>
@@ -325,6 +345,7 @@
             <tr>
               <td><a href="https://trellis3d.github.io/" target="_blank" rel="noopener">TRELLIS</a></td>
               <td>2024</td>
+              <td><span class="open-source-status yes">Yes</span></td>
               <td>Text or image prompt</td>
               <td>3D asset decoded as mesh, 3D Gaussian, or radiance field</td>
               <td>Can produce several 3D representations from the same prompt or image</td>
@@ -333,6 +354,7 @@
             <tr>
               <td><a href="https://paint3d.github.io/" target="_blank" rel="noopener">Paint3D</a></td>
               <td>2024</td>
+              <td><span class="open-source-status yes">Yes</span></td>
               <td>Untextured mesh + text or image prompt</td>
               <td>Lighting-less 2K UV texture map</td>
               <td>Removes much of the lighting baked into view-based textures</td>
@@ -341,6 +363,7 @@
             <tr>
               <td><a href="https://cvmi-lab.github.io/TEXGen/" target="_blank" rel="noopener">TEXGen</a></td>
               <td>2024</td>
+              <td><span class="open-source-status yes">Yes</span></td>
               <td>Mesh + text, single image, or sparse views</td>
               <td>High-resolution UV texture map</td>
               <td>Works in UV space, which helps with completion and seam handling</td>
@@ -349,6 +372,7 @@
             <tr>
               <td><a href="https://arxiv.org/abs/2406.18539" target="_blank" rel="noopener">TexPainter</a></td>
               <td>2024</td>
+              <td><span class="open-source-status yes">Yes</span></td>
               <td>3D mesh + text prompt</td>
               <td>Multi-view-consistent mesh texture</td>
               <td>Color fusion helps when different rendered views disagree</td>
@@ -357,6 +381,7 @@
             <tr>
               <td><a href="https://github.com/LIU-Yuxin/SyncMVD" target="_blank" rel="noopener">SyncMVD</a></td>
               <td>2024</td>
+              <td><span class="open-source-status yes">Yes</span></td>
               <td>3D mesh + text prompt</td>
               <td>Consistent UV texture for the input object</td>
               <td>Shares the texture during denoising, so different views fight less</td>
@@ -365,6 +390,7 @@
             <tr>
               <td><a href="https://dong-huo.github.io/TexGen/" target="_blank" rel="noopener">TexGen</a></td>
               <td>2024</td>
+              <td><span class="open-source-status no">No</span></td>
               <td>3D mesh + text prompt</td>
               <td>RGB UV texture map</td>
               <td>Sampling and resampling across views helps reduce seams</td>
@@ -374,6 +400,7 @@
             <tr>
               <td><a href="https://daveredrum.github.io/Text2Tex/" target="_blank" rel="noopener">Text2Tex</a></td>
               <td>2023</td>
+              <td><span class="open-source-status yes">Yes</span></td>
               <td>3D mesh + text prompt</td>
               <td>Textured mesh / UV texture</td>
               <td>Simple progressive painting strategy; easy to understand and compare against</td>
@@ -382,6 +409,7 @@
             <tr>
               <td><a href="https://texturepaper.github.io/TEXTurePaper/" target="_blank" rel="noopener">TEXTure</a></td>
               <td>2023</td>
+              <td><span class="open-source-status yes">Yes</span></td>
               <td>3D shape + text, image, or scribble guidance</td>
               <td>Generated, edited, or transferred texture</td>
               <td>Covers texture generation, editing, and transfer in one framework</td>
@@ -391,6 +419,7 @@
             <tr>
               <td><a href="https://www.meshy.ai/" target="_blank" rel="noopener">Meshy</a></td>
               <td>N/A</td>
+              <td><span class="open-source-status no">No</span></td>
               <td>Text, image, or uploaded mesh</td>
               <td>Export-ready textured 3D model or retextured mesh</td>
               <td>Fast and convenient for getting a previewable textured model</td>
@@ -398,6 +427,7 @@
             </tr>
           </tbody>
         </table>
+        <p class="compare-paper-note"><strong>Open Source:</strong> Yes = public implementation repository is available; Partial = public repository exists but the core release is incomplete, placeholder-only, benchmark-only, or still under review; No = no usable public implementation found.</p>
       </div>
     </div>
   </section>
