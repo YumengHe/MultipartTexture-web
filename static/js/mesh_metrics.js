@@ -1,6 +1,6 @@
 window.MULTIPART_TEXTURE_MESH_METRICS = {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-20T08:51:15+00:00",
+  "generatedAt": "2026-06-25T05:52:13+00:00",
   "variants": [
     "raw",
     "target",
@@ -13,13 +13,62 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
     "texgen"
   ],
   "summary": {
-    "objectCount": 17,
-    "availableMeshCount": 117,
+    "objectCount": 22,
+    "availableMeshCount": 142,
     "watertightCount": 77,
-    "notWatertightCount": 40,
+    "notWatertightCount": 65,
     "undeterminedCount": 0
   },
   "objects": {
+    "CoffeeCart": {
+      "raw": {
+        "available": false
+      },
+      "target": {
+        "available": false
+      },
+      "materialmvp": {
+        "available": true,
+        "parts": 1,
+        "vertices": 26468,
+        "watertight": false,
+        "inferenceTimeSeconds": 142.1266589164734
+      },
+      "hunyuan2_1": {
+        "available": true,
+        "parts": 1,
+        "vertices": 26490,
+        "watertight": false,
+        "inferenceTimeSeconds": 117.26149090193212
+      },
+      "meshy": {
+        "available": false
+      },
+      "trellis2": {
+        "available": true,
+        "parts": 1,
+        "vertices": 27344,
+        "watertight": false,
+        "inferenceTimeSeconds": 46.00091910362244
+      },
+      "unitex": {
+        "available": true,
+        "parts": 1,
+        "vertices": 15678,
+        "watertight": false,
+        "inferenceTimeSeconds": 241.895345
+      },
+      "lumitex": {
+        "available": false
+      },
+      "texgen": {
+        "available": true,
+        "parts": 1,
+        "vertices": 21772,
+        "watertight": false,
+        "inferenceTimeSeconds": 69.29750085994601
+      }
+    },
     "bear": {
       "raw": {
         "available": true,
@@ -112,6 +161,104 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
       },
       "texgen": {
         "available": false
+      }
+    },
+    "bridge_venetian": {
+      "raw": {
+        "available": false
+      },
+      "target": {
+        "available": false
+      },
+      "materialmvp": {
+        "available": true,
+        "parts": 1,
+        "vertices": 80798,
+        "watertight": false,
+        "inferenceTimeSeconds": 134.77343845367432
+      },
+      "hunyuan2_1": {
+        "available": true,
+        "parts": 1,
+        "vertices": 214914,
+        "watertight": false,
+        "inferenceTimeSeconds": 81.08148370799609
+      },
+      "meshy": {
+        "available": false
+      },
+      "trellis2": {
+        "available": true,
+        "parts": 1,
+        "vertices": 264906,
+        "watertight": false,
+        "inferenceTimeSeconds": 44.40817356109619
+      },
+      "unitex": {
+        "available": true,
+        "parts": 1,
+        "vertices": 195644,
+        "watertight": false,
+        "inferenceTimeSeconds": 238.88105
+      },
+      "lumitex": {
+        "available": false
+      },
+      "texgen": {
+        "available": true,
+        "parts": 1,
+        "vertices": 221984,
+        "watertight": false,
+        "inferenceTimeSeconds": 70.58968021196779
+      }
+    },
+    "brutalist_building": {
+      "raw": {
+        "available": false
+      },
+      "target": {
+        "available": false
+      },
+      "materialmvp": {
+        "available": true,
+        "parts": 1,
+        "vertices": 36762,
+        "watertight": false,
+        "inferenceTimeSeconds": 166.0847692489624
+      },
+      "hunyuan2_1": {
+        "available": true,
+        "parts": 1,
+        "vertices": 104745,
+        "watertight": false,
+        "inferenceTimeSeconds": 101.69359386095311
+      },
+      "meshy": {
+        "available": false
+      },
+      "trellis2": {
+        "available": true,
+        "parts": 1,
+        "vertices": 117778,
+        "watertight": false,
+        "inferenceTimeSeconds": 76.17271900177002
+      },
+      "unitex": {
+        "available": true,
+        "parts": 1,
+        "vertices": 97156,
+        "watertight": false,
+        "inferenceTimeSeconds": 233.355306
+      },
+      "lumitex": {
+        "available": false
+      },
+      "texgen": {
+        "available": true,
+        "parts": 1,
+        "vertices": 99718,
+        "watertight": false,
+        "inferenceTimeSeconds": 110.91552548692562
       }
     },
     "carved_wooden_elephant": {
@@ -276,6 +423,55 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "watertight": true
       }
     },
+    "drill_press": {
+      "raw": {
+        "available": false
+      },
+      "target": {
+        "available": false
+      },
+      "materialmvp": {
+        "available": true,
+        "parts": 1,
+        "vertices": 41984,
+        "watertight": false,
+        "inferenceTimeSeconds": 139.91429543495178
+      },
+      "hunyuan2_1": {
+        "available": true,
+        "parts": 1,
+        "vertices": 54473,
+        "watertight": false,
+        "inferenceTimeSeconds": 86.4474474719027
+      },
+      "meshy": {
+        "available": false
+      },
+      "trellis2": {
+        "available": true,
+        "parts": 1,
+        "vertices": 59013,
+        "watertight": false,
+        "inferenceTimeSeconds": 45.99240469932556
+      },
+      "unitex": {
+        "available": true,
+        "parts": 1,
+        "vertices": 46980,
+        "watertight": false,
+        "inferenceTimeSeconds": 228.277486
+      },
+      "lumitex": {
+        "available": false
+      },
+      "texgen": {
+        "available": true,
+        "parts": 1,
+        "vertices": 49882,
+        "watertight": false,
+        "inferenceTimeSeconds": 69.78492657199968
+      }
+    },
     "dustpan": {
       "raw": {
         "available": true,
@@ -436,6 +632,55 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "parts": 1,
         "vertices": 4408,
         "watertight": false
+      }
+    },
+    "robot_arm": {
+      "raw": {
+        "available": false
+      },
+      "target": {
+        "available": false
+      },
+      "materialmvp": {
+        "available": true,
+        "parts": 1,
+        "vertices": 28932,
+        "watertight": false,
+        "inferenceTimeSeconds": 147.402281999588
+      },
+      "hunyuan2_1": {
+        "available": true,
+        "parts": 1,
+        "vertices": 51974,
+        "watertight": false,
+        "inferenceTimeSeconds": 84.24476786400191
+      },
+      "meshy": {
+        "available": false
+      },
+      "trellis2": {
+        "available": true,
+        "parts": 1,
+        "vertices": 55076,
+        "watertight": false,
+        "inferenceTimeSeconds": 75.83058047294617
+      },
+      "unitex": {
+        "available": true,
+        "parts": 1,
+        "vertices": 46402,
+        "watertight": false,
+        "inferenceTimeSeconds": 232.245888
+      },
+      "lumitex": {
+        "available": false
+      },
+      "texgen": {
+        "available": true,
+        "parts": 1,
+        "vertices": 49182,
+        "watertight": false,
+        "inferenceTimeSeconds": 120.33638108207379
       }
     },
     "rubber_duck_toy": {

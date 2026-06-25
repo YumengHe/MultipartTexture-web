@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
 // Strip trailing digits and replace underscores so folder keys like "bread11" or
 // "monstera_tree" become "bread" / "monstera tree" for display. CSS capitalizes the
 // first letter via text-transform on the label classes.
@@ -14,7 +14,7 @@ const galleryConfig = {
     groups: {
         multipart: {
             baseFolder: "comparison_multipart",
-            objects: ["cello", "shiba", "water_manhole_cover"]
+            objects: ["cello", "shiba", "water_manhole_cover", "bridge_venetian", "brutalist_building", "CoffeeCart", "drill_press", "robot_arm"]
         },
         singlepart: {
             baseFolder: "comparison_singlepart",
@@ -41,6 +41,9 @@ const galleryConfig = {
         unitex: "UniTex",
         lumitex: "LumiTex",
         texgen: "TexGen"
+    },
+    missingPreviewSrcs: {
+        lumitex: "static/images/generation_error.png"
     }
 };
 let demoColumns = [];
@@ -57,8 +60,9 @@ function columnsFromVariants(variants) {
             label: variantLabel(variant),
             src: variant === "raw" ? "input/raw.png" : (variant === "target" ? "input/target.png" : `${variant}/preview.png`)
         };
-        if (!inputVariantKeys.has(variant)) {
-            column.missingSrc = "static/images/generation_error.png";
+        const missingSrc = galleryConfig.missingPreviewSrcs && galleryConfig.missingPreviewSrcs[variant];
+        if (missingSrc) {
+            column.missingSrc = missingSrc;
         }
         return column;
     });
@@ -106,6 +110,15 @@ function formatWatertight(value) {
     return '--';
 }
 
+function formatInferenceTime(seconds) {
+    if (seconds == null || !Number.isFinite(Number(seconds))) return '--';
+    const value = Number(seconds);
+    if (value < 60) return `${value.toFixed(1)}s`;
+    const minutes = Math.floor(value / 60);
+    const remaining = Math.round(value % 60);
+    return `${minutes}m ${remaining}s`;
+}
+
 function escapeAttribute(value) {
     return String(value)
         .replace(/&/g, '&amp;')
@@ -129,6 +142,7 @@ function renderMetricCaption(obj, key) {
             <span class="demo-metric metric-p">P --</span>
             <span class="demo-metric metric-v">V --</span>
             <span class="demo-metric metric-wt">--</span>
+            <span class="demo-metric metric-t">T --</span>
         </div>`;
     }
     const metric = metricForCell(obj, key);
@@ -137,6 +151,7 @@ function renderMetricCaption(obj, key) {
             <span class="demo-metric metric-p">P --</span>
             <span class="demo-metric metric-v">V --</span>
             <span class="demo-metric metric-wt">--</span>
+            <span class="demo-metric metric-t">T --</span>
         </div>`;
     }
 
@@ -146,13 +161,15 @@ function renderMetricCaption(obj, key) {
     const title = [
         `Parts: ${formatMetricNumber(metric.parts)}`,
         `Vertices: ${formatMetricNumber(metric.vertices)}`,
-        `Watertight: ${formatWatertight(metric.watertight)}`
+        `Watertight: ${formatWatertight(metric.watertight)}`,
+        metric.inferenceTimeSeconds == null ? null : `Inference time: ${formatInferenceTime(metric.inferenceTimeSeconds)}`
     ].filter(Boolean).join(' | ');
 
     return `<div class="demo-metrics" title="${escapeAttribute(title)}">
         <span class="demo-metric metric-p">P ${formatMetricNumber(metric.parts)}</span>
         <span class="demo-metric metric-v">V ${formatMetricNumber(metric.vertices)}</span>
         <span class="demo-metric metric-wt ${watertightClass}">${formatWatertight(metric.watertight)}</span>
+        <span class="demo-metric metric-t">T ${formatInferenceTime(metric.inferenceTimeSeconds)}</span>
     </div>`;
 }
 // Optional note shown under an object's name. Anything not listed has no note.
@@ -160,13 +177,14 @@ const demoNotes = {
   water_manhole_cover: "Thin details; mesh is not watertight."
 };
 /*
-  water_manhole_cover: "非水密包含薄片"
+  water_manhole_cover: "闈炴按瀵嗗寘鍚杽鐗?
 */
 
-function renderGallery(containerId, objects, baseFolder) {
+function renderGallery(containerId, objects, baseFolder, columns = demoColumns, options = {}) {
     const container = document.getElementById(containerId);
     if (!container) return;
-    container.style.setProperty('--demo-column-count', demoColumns.length);
+    const showMetrics = options.showMetrics !== false;
+    container.style.setProperty('--demo-column-count', columns.length);
 
     const shell = document.createElement('div');
     shell.className = 'demo-gallery-shell';
@@ -183,21 +201,21 @@ function renderGallery(containerId, objects, baseFolder) {
     const headerDiv = document.createElement('div');
     headerDiv.className = 'demo-header';
     headerDiv.innerHTML = `<div class="demo-header-label"></div>` +
-        demoColumns.map(c => `<div class="demo-header-label">${c.label}</div>`).join('');
+        columns.map(c => `<div class="demo-header-label">${c.label}</div>`).join('');
     stack.appendChild(headerDiv);
 
     // One row per object
     objects.forEach(obj => {
         const row = document.createElement('div');
         row.className = 'demo-row';
-        const cells = demoColumns.map(c => {
+        const cells = columns.map(c => {
             const src = `static/images/${baseFolder}/${obj}/${c.src}`;
-            const caption = renderMetricCaption(obj, c.key);
+            const caption = showMetrics ? renderMetricCaption(obj, c.key) : '';
             const metric = metricForCell(obj, c.key);
-            if (c.missingSrc && isMissingMetric(metric)) {
+            if (showMetrics && c.missingSrc && isMissingMetric(metric)) {
                 return `<div class="demo-cell-wrap">
                 <div class="demo-cell">
-                    <img src="${c.missingSrc}" alt="Generation error">
+                    <img src="${c.missingSrc}" alt="${c.label} unavailable">
                 </div>
                 ${caption}
             </div>`;
@@ -340,3 +358,8 @@ async function loadGallery() {
 window.addEventListener('DOMContentLoaded', loadGallery);
 
 })();
+
+
+
+
+
