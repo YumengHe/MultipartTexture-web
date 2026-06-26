@@ -1,6 +1,6 @@
 window.MULTIPART_TEXTURE_MESH_METRICS = {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-25T05:52:13+00:00",
+  "generatedAt": "2026-06-26T00:33:16+00:00",
   "variants": [
     "raw",
     "target",
@@ -14,9 +14,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
   ],
   "summary": {
     "objectCount": 22,
-    "availableMeshCount": 142,
+    "availableMeshCount": 152,
     "watertightCount": 77,
-    "notWatertightCount": 65,
+    "notWatertightCount": 75,
     "undeterminedCount": 0
   },
   "objects": {
@@ -42,7 +42,10 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "inferenceTimeSeconds": 117.26149090193212
       },
       "meshy": {
-        "available": false
+        "available": true,
+        "parts": 1,
+        "vertices": 25494,
+        "watertight": false
       },
       "trellis2": {
         "available": true,
@@ -59,7 +62,11 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "inferenceTimeSeconds": 241.895345
       },
       "lumitex": {
-        "available": false
+        "available": true,
+        "parts": 1,
+        "vertices": 21538,
+        "watertight": false,
+        "inferenceTimeSeconds": 146.61595863685943
       },
       "texgen": {
         "available": true,
@@ -185,7 +192,10 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "inferenceTimeSeconds": 81.08148370799609
       },
       "meshy": {
-        "available": false
+        "available": true,
+        "parts": 1,
+        "vertices": 232419,
+        "watertight": false
       },
       "trellis2": {
         "available": true,
@@ -202,7 +212,11 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "inferenceTimeSeconds": 238.88105
       },
       "lumitex": {
-        "available": false
+        "available": true,
+        "parts": 1,
+        "vertices": 150506,
+        "watertight": false,
+        "inferenceTimeSeconds": 166.0885848409962
       },
       "texgen": {
         "available": true,
@@ -234,7 +248,10 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "inferenceTimeSeconds": 101.69359386095311
       },
       "meshy": {
-        "available": false
+        "available": true,
+        "parts": 1,
+        "vertices": 93673,
+        "watertight": false
       },
       "trellis2": {
         "available": true,
@@ -251,7 +268,11 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "inferenceTimeSeconds": 233.355306
       },
       "lumitex": {
-        "available": false
+        "available": true,
+        "parts": 1,
+        "vertices": 76858,
+        "watertight": false,
+        "inferenceTimeSeconds": 148.6800315999426
       },
       "texgen": {
         "available": true,
@@ -445,7 +466,10 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "inferenceTimeSeconds": 86.4474474719027
       },
       "meshy": {
-        "available": false
+        "available": true,
+        "parts": 1,
+        "vertices": 54519,
+        "watertight": false
       },
       "trellis2": {
         "available": true,
@@ -462,7 +486,11 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "inferenceTimeSeconds": 228.277486
       },
       "lumitex": {
-        "available": false
+        "available": true,
+        "parts": 1,
+        "vertices": 47997,
+        "watertight": false,
+        "inferenceTimeSeconds": 162.8505165290553
       },
       "texgen": {
         "available": true,
@@ -656,7 +684,10 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "inferenceTimeSeconds": 84.24476786400191
       },
       "meshy": {
-        "available": false
+        "available": true,
+        "parts": 1,
+        "vertices": 57280,
+        "watertight": false
       },
       "trellis2": {
         "available": true,
@@ -673,7 +704,11 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "inferenceTimeSeconds": 232.245888
       },
       "lumitex": {
-        "available": false
+        "available": true,
+        "parts": 1,
+        "vertices": 46609,
+        "watertight": false,
+        "inferenceTimeSeconds": 144.51550073805265
       },
       "texgen": {
         "available": true,
