@@ -188,7 +188,7 @@
               <td>PBR texture maps: albedo / basecolor, metallic, and roughness, with geometry-guided LVSM texture inpainting to complete occluded or missing regions for relightable materials.</td>
               <td>rembg input image, processed image, processed mesh (OBJ/MTL), multiview alpha/CCM/normal/normal-bump maps, multiview albedo result, and the textured mesh (OBJ/MTL/JPG/GLB) written to the run's tmp directory.</td>
               <td>Targets PBR material decomposition instead of a single attractive RGB texture, using illumination context to avoid baking highlights and shadows into albedo. The multi-branch albedo and metallic-roughness design, lighting-aware material attention, and view-space / LVSM inpainting are especially relevant for high-fidelity mesh + image texturing.</td>
-              <td>Training is expensive: the paper reports roughly 92K objects, 30 views, 3 environment maps, and about 106 GPU days. It is aimed at whole-mesh PBR texturing, not multipart per-part alignment, part-boundary consistency, or repeated-part consistency.</td>
+              <td>Training is expensive: the paper reports roughly 92K objects, 30 views, 3 environment maps, and about 106 GPU days. Inference is also memory-heavy and poorly optimized: the inpainting pipeline keeps the multiview model and the LVSM model in memory at once without offloading, so it needs a large amount of free GPU memory and otherwise runs out of memory. It is aimed at whole-mesh PBR texturing, not multipart per-part alignment, part-boundary consistency, or repeated-part consistency.</td>
             </tr>
             <tr>
               <td><a href="https://arxiv.org/abs/2603.15436" target="_blank" rel="noopener">MV2UV</a></td>
