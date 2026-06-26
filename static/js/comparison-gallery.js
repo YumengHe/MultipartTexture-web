@@ -1,4 +1,4 @@
-﻿(function () {
+(function () {
 // Strip trailing digits and replace underscores so folder keys like "bread11" or
 // "monstera_tree" become "bread" / "monstera tree" for display. CSS capitalizes the
 // first letter via text-transform on the label classes.
@@ -14,7 +14,7 @@ const galleryConfig = {
     groups: {
         multipart: {
             baseFolder: "comparison_multipart",
-            objects: ["cello", "shiba", "water_manhole_cover", "bridge_venetian", "brutalist_building", "CoffeeCart", "drill_press", "robot_arm"]
+            objects: ["cello", "shiba", "water_manhole_cover", "bridge_venetian", "brutalist_building", "CoffeeCart", "drill_press", "robot_arm", "drawer"]
         },
         singlepart: {
             baseFolder: "comparison_singlepart",
@@ -41,9 +41,6 @@ const galleryConfig = {
         unitex: "UniTex",
         lumitex: "LumiTex",
         texgen: "TexGen"
-    },
-    missingPreviewSrcs: {
-        lumitex: "static/images/generation_error.png"
     }
 };
 let demoColumns = [];
@@ -60,10 +57,6 @@ function columnsFromVariants(variants) {
             label: variantLabel(variant),
             src: variant === "raw" ? "input/raw.png" : (variant === "target" ? "input/target.png" : `${variant}/preview.png`)
         };
-        const missingSrc = galleryConfig.missingPreviewSrcs && galleryConfig.missingPreviewSrcs[variant];
-        if (missingSrc) {
-            column.missingSrc = missingSrc;
-        }
         return column;
     });
 }
@@ -135,23 +128,25 @@ function isMissingMetric(metric) {
     return !metric || metric.available === false;
 }
 
+function resultStatusForCell(obj, key) {
+    const metric = metricForCell(obj, key);
+    if (metric && metric.resultStatus) return metric.resultStatus;
+    if (inputVariantKeys.has(key)) return 'input';
+    return isMissingMetric(metric) ? 'not_started' : 'succeeded';
+}
+
 function renderMetricCaption(obj, key) {
-    // Don't show metrics for target (it's just a reference image), but keep placeholder for alignment
-    if (key === 'target') {
-        return `<div class="demo-metrics" style="visibility: hidden;">
-            <span class="demo-metric metric-p">P --</span>
-            <span class="demo-metric metric-v">V --</span>
-            <span class="demo-metric metric-wt">--</span>
-            <span class="demo-metric metric-t">T --</span>
-        </div>`;
-    }
+    if (key === 'target') return '';
+    const resultStatus = resultStatusForCell(obj, key);
+    if (resultStatus === 'not_started' || resultStatus === 'failed') return '';
+    const isInputVariant = inputVariantKeys.has(key);
     const metric = metricForCell(obj, key);
     if (!metric || metric.available === false) {
         return `<div class="demo-metrics is-missing" title="No mesh found for this cell">
             <span class="demo-metric metric-p">P --</span>
             <span class="demo-metric metric-v">V --</span>
             <span class="demo-metric metric-wt">--</span>
-            <span class="demo-metric metric-t">T --</span>
+            ${isInputVariant ? '' : '<span class="demo-metric metric-t">T --</span>'}
         </div>`;
     }
 
@@ -162,14 +157,14 @@ function renderMetricCaption(obj, key) {
         `Parts: ${formatMetricNumber(metric.parts)}`,
         `Vertices: ${formatMetricNumber(metric.vertices)}`,
         `Watertight: ${formatWatertight(metric.watertight)}`,
-        metric.inferenceTimeSeconds == null ? null : `Inference time: ${formatInferenceTime(metric.inferenceTimeSeconds)}`
+        isInputVariant || metric.inferenceTimeSeconds == null ? null : `Inference time: ${formatInferenceTime(metric.inferenceTimeSeconds)}`
     ].filter(Boolean).join(' | ');
 
     return `<div class="demo-metrics" title="${escapeAttribute(title)}">
         <span class="demo-metric metric-p">P ${formatMetricNumber(metric.parts)}</span>
         <span class="demo-metric metric-v">V ${formatMetricNumber(metric.vertices)}</span>
         <span class="demo-metric metric-wt ${watertightClass}">${formatWatertight(metric.watertight)}</span>
-        <span class="demo-metric metric-t">T ${formatInferenceTime(metric.inferenceTimeSeconds)}</span>
+        ${isInputVariant ? '' : `<span class="demo-metric metric-t">T ${formatInferenceTime(metric.inferenceTimeSeconds)}</span>`}
     </div>`;
 }
 // Optional note shown under an object's name. Anything not listed has no note.
@@ -211,19 +206,14 @@ function renderGallery(containerId, objects, baseFolder, columns = demoColumns, 
         const cells = columns.map(c => {
             const src = `static/images/${baseFolder}/${obj}/${c.src}`;
             const caption = showMetrics ? renderMetricCaption(obj, c.key) : '';
-            const metric = metricForCell(obj, c.key);
-            if (showMetrics && c.missingSrc && isMissingMetric(metric)) {
-                return `<div class="demo-cell-wrap">
-                <div class="demo-cell">
-                    <img src="${c.missingSrc}" alt="${c.label} unavailable">
-                </div>
-                ${caption}
-            </div>`;
-            }
+            const resultStatus = resultStatusForCell(obj, c.key);
+            const imageMarkup = resultStatus === 'failed'
+                ? '<img src="static/images/generation_error.png" alt="Generation failed">'
+                : `<img src="${src}" alt="${c.label}"
+                         onerror="this.parentElement.classList.add('empty'); this.remove();">`;
             return `<div class="demo-cell-wrap">
                 <div class="demo-cell">
-                    <img src="${src}" alt="${c.label}"
-                         onerror="this.parentElement.classList.add('empty'); this.remove();">
+                    ${imageMarkup}
                 </div>
                 ${caption}
             </div>`;
@@ -358,6 +348,7 @@ async function loadGallery() {
 window.addEventListener('DOMContentLoaded', loadGallery);
 
 })();
+
 
 
 
