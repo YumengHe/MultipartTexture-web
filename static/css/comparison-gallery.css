@@ -198,6 +198,10 @@
     border-color: #e5e7eb;
 }
 
+.demo-metrics.is-placeholder {
+    visibility: hidden;
+}
+
 .demo-row-note {
     display: block;
     margin-top: 4px;

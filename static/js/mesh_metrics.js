@@ -1,6 +1,6 @@
 window.MULTIPART_TEXTURE_MESH_METRICS = {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-26T02:34:47+00:00",
+  "generatedAt": "2026-06-26T06:12:39+00:00",
   "variants": [
     "raw",
     "target",
@@ -14,9 +14,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
   ],
   "summary": {
     "objectCount": 23,
-    "availableMeshCount": 163,
+    "availableMeshCount": 172,
     "watertightCount": 75,
-    "notWatertightCount": 88,
+    "notWatertightCount": 97,
     "undeterminedCount": 0
   },
   "objects": {
@@ -431,8 +431,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
       "materialmvp": {
         "available": true,
         "parts": 1,
-        "vertices": 1153187,
+        "vertices": 28949,
         "watertight": false,
+        "inferenceTimeSeconds": 163.70042037963867,
         "resultStatus": "succeeded"
       },
       "hunyuan2_1": {
@@ -440,6 +441,7 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "parts": 1,
         "vertices": 350209,
         "watertight": false,
+        "inferenceTimeSeconds": 947.3464754431043,
         "resultStatus": "succeeded"
       },
       "meshy": {
@@ -453,26 +455,33 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
       "trellis2": {
         "available": true,
         "parts": 1,
-        "vertices": 357353,
+        "vertices": 357606,
         "watertight": false,
+        "inferenceTimeSeconds": 75.64105892181396,
         "resultStatus": "succeeded"
       },
       "unitex": {
         "available": true,
         "parts": 1,
-        "vertices": 107658,
+        "vertices": 107722,
         "watertight": false,
+        "inferenceTimeSeconds": 141.849293,
         "resultStatus": "succeeded"
       },
       "lumitex": {
-        "available": false,
-        "resultStatus": "not_started"
+        "available": true,
+        "parts": 1,
+        "vertices": 270480,
+        "watertight": false,
+        "inferenceTimeSeconds": 314.6891088190023,
+        "resultStatus": "succeeded"
       },
       "texgen": {
         "available": true,
         "parts": 1,
         "vertices": 198833,
         "watertight": false,
+        "inferenceTimeSeconds": 109.2870243510697,
         "resultStatus": "succeeded"
       }
     },
@@ -554,12 +563,20 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "resultStatus": "input"
       },
       "materialmvp": {
-        "available": false,
-        "resultStatus": "not_started"
+        "available": true,
+        "parts": 1,
+        "vertices": 5107,
+        "watertight": false,
+        "inferenceTimeSeconds": 134.01774787902832,
+        "resultStatus": "succeeded"
       },
       "hunyuan2_1": {
-        "available": false,
-        "resultStatus": "not_started"
+        "available": true,
+        "parts": 1,
+        "vertices": 5102,
+        "watertight": false,
+        "inferenceTimeSeconds": 81.22376052616164,
+        "resultStatus": "succeeded"
       },
       "meshy": {
         "available": true,
@@ -570,20 +587,36 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "resultStatus": "succeeded"
       },
       "trellis2": {
-        "available": false,
-        "resultStatus": "not_started"
+        "available": true,
+        "parts": 1,
+        "vertices": 5085,
+        "watertight": false,
+        "inferenceTimeSeconds": 120.26405787467957,
+        "resultStatus": "succeeded"
       },
       "unitex": {
-        "available": false,
-        "resultStatus": "not_started"
+        "available": true,
+        "parts": 1,
+        "vertices": 4785,
+        "watertight": false,
+        "inferenceTimeSeconds": 115.778295,
+        "resultStatus": "succeeded"
       },
       "lumitex": {
-        "available": false,
-        "resultStatus": "not_started"
+        "available": true,
+        "parts": 1,
+        "vertices": 4551,
+        "watertight": false,
+        "inferenceTimeSeconds": 207.96851660916582,
+        "resultStatus": "succeeded"
       },
       "texgen": {
-        "available": false,
-        "resultStatus": "not_started"
+        "available": true,
+        "parts": 1,
+        "vertices": 4785,
+        "watertight": false,
+        "inferenceTimeSeconds": 98.3238262210507,
+        "resultStatus": "succeeded"
       }
     },
     "drill_press": {
@@ -1051,6 +1084,7 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "parts": 1,
         "vertices": 3236,
         "watertight": false,
+        "inferenceTimeSeconds": 126.53316116333008,
         "resultStatus": "succeeded"
       },
       "hunyuan2_1": {
@@ -1058,6 +1092,7 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "parts": 1,
         "vertices": 3223,
         "watertight": false,
+        "inferenceTimeSeconds": 73.39008956006728,
         "resultStatus": "succeeded"
       },
       "meshy": {
@@ -1073,6 +1108,7 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "parts": 1,
         "vertices": 3199,
         "watertight": false,
+        "inferenceTimeSeconds": 34.529470920562744,
         "resultStatus": "succeeded"
       },
       "unitex": {
@@ -1080,17 +1116,23 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "parts": 1,
         "vertices": 2531,
         "watertight": false,
+        "inferenceTimeSeconds": 118.396163,
         "resultStatus": "succeeded"
       },
       "lumitex": {
-        "available": false,
-        "resultStatus": "not_started"
+        "available": true,
+        "parts": 1,
+        "vertices": 2531,
+        "watertight": false,
+        "inferenceTimeSeconds": 206.4781415599864,
+        "resultStatus": "succeeded"
       },
       "texgen": {
         "available": true,
         "parts": 1,
         "vertices": 2531,
         "watertight": false,
+        "inferenceTimeSeconds": 108.43738737190142,
         "resultStatus": "succeeded"
       }
     },
@@ -1314,13 +1356,15 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "parts": 1,
         "vertices": 5329,
         "watertight": false,
+        "inferenceTimeSeconds": 139.11652994155884,
         "resultStatus": "succeeded"
       },
       "hunyuan2_1": {
         "available": true,
         "parts": 1,
-        "vertices": 5360,
+        "vertices": 5378,
         "watertight": false,
+        "inferenceTimeSeconds": 77.84017172805034,
         "resultStatus": "succeeded"
       },
       "meshy": {
@@ -1336,6 +1380,7 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "parts": 1,
         "vertices": 5251,
         "watertight": false,
+        "inferenceTimeSeconds": 38.46486043930054,
         "resultStatus": "succeeded"
       },
       "unitex": {
@@ -1343,17 +1388,23 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "parts": 1,
         "vertices": 5135,
         "watertight": false,
+        "inferenceTimeSeconds": 117.454691,
         "resultStatus": "succeeded"
       },
       "lumitex": {
-        "available": false,
-        "resultStatus": "not_started"
+        "available": true,
+        "parts": 1,
+        "vertices": 5135,
+        "watertight": false,
+        "inferenceTimeSeconds": 175.16990281804465,
+        "resultStatus": "succeeded"
       },
       "texgen": {
         "available": true,
         "parts": 1,
         "vertices": 5141,
         "watertight": false,
+        "inferenceTimeSeconds": 95.91528062010184,
         "resultStatus": "succeeded"
       }
     },

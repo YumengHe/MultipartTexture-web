@@ -136,7 +136,16 @@ function resultStatusForCell(obj, key) {
 }
 
 function renderMetricCaption(obj, key) {
-    if (key === 'target') return '';
+    if (key === 'target') {
+        // The target column intentionally shows no metrics, but it must still
+        // reserve the same caption height as the other columns so the image
+        // stays top-aligned (parallel) with them instead of centering.
+        return `<div class="demo-metrics is-placeholder" aria-hidden="true">
+            <span class="demo-metric metric-p">P --</span>
+            <span class="demo-metric metric-v">V --</span>
+            <span class="demo-metric metric-wt">--</span>
+        </div>`;
+    }
     const resultStatus = resultStatusForCell(obj, key);
     if (resultStatus === 'not_started' || resultStatus === 'failed') return '';
     const isInputVariant = inputVariantKeys.has(key);
