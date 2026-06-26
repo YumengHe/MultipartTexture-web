@@ -186,7 +186,7 @@
               <td><span class="open-source-status yes">Yes</span></td>
               <td>Reference image + mesh. The official inference format uses ref.png plus an OBJ/GLB mesh; the method also conditions on mesh normals, canonical coordinates, multiview renders, and DINOv2 / VAE image features.</td>
               <td>PBR texture maps: albedo / basecolor, metallic, and roughness, with geometry-guided LVSM texture inpainting to complete occluded or missing regions for relightable materials.</td>
-              <td>-</td>
+              <td>rembg input image, processed image, processed mesh (OBJ/MTL), multiview alpha/CCM/normal/normal-bump maps, multiview albedo result, and the textured mesh (OBJ/MTL/JPG/GLB) written to the run's tmp directory.</td>
               <td>Targets PBR material decomposition instead of a single attractive RGB texture, using illumination context to avoid baking highlights and shadows into albedo. The multi-branch albedo and metallic-roughness design, lighting-aware material attention, and view-space / LVSM inpainting are especially relevant for high-fidelity mesh + image texturing.</td>
               <td>Training is expensive: the paper reports roughly 92K objects, 30 views, 3 environment maps, and about 106 GPU days. It is aimed at whole-mesh PBR texturing, not multipart per-part alignment, part-boundary consistency, or repeated-part consistency.</td>
             </tr>
@@ -307,7 +307,7 @@
               <td><span class="open-source-status yes">Yes</span></td>
               <td>3D mesh + image prompt</td>
               <td>PBR texture maps: albedo, metallic, roughness</td>
-              <td>-</td>
+              <td>remeshed white mesh, multiview normal and position geometry renders, multiview albedo and metallic-roughness predictions, super-resolution enhanced albedo/MR views, baked-before-inpaint albedo/MR UV textures with masks, inpainted albedo/MR UV maps, and the final textured mesh with albedo/metallic/roughness maps (OBJ/MTL/GLB).</td>
               <td>Good at separating color from roughness/metallic instead of baking lighting into one texture</td>
               <td>Needs a clean mesh/UV, and it does not decide where object parts should be</td>
             </tr>
@@ -317,7 +317,7 @@
               <td><span class="open-source-status yes">Yes</span></td>
               <td>Single image</td>
               <td>Textured 3D asset with mesh and PBR textures</td>
-              <td>-</td>
+              <td>input image and mesh, selected views, multiview normal and position maps, image prompt, multiview albedo and metallic-roughness, super-resolution enhanced multiview, baked-before-inpaint albedo/MR textures with masks, inpainted albedo/MR UV textures, and the saved textured mesh with PBR maps (OBJ/MTL/GLB).</td>
               <td>Handy when there is only one photo and we need a complete textured asset</td>
               <td>It regenerates the object, so small parts and topology can drift</td>
             </tr>
@@ -368,7 +368,7 @@
               <td><span class="open-source-status yes">Yes</span></td>
               <td>Text or image prompt</td>
               <td>3D asset decoded as mesh, 3D Gaussian, or radiance field</td>
-              <td>-</td>
+              <td>preprocessed image, normalized mesh, image-condition embedding, shape and texture sparse latents (SLat), decoded PBR voxel, exported base-color and metallic-roughness UV maps, and the final textured mesh (GLB). The texturing pipeline runs mostly in memory, so the latents and voxel are not written to disk unless explicitly dumped.</td>
               <td>Can produce several 3D representations from the same prompt or image</td>
               <td>More about generating a new asset than keeping a given multipart mesh unchanged</td>
             </tr>
@@ -450,7 +450,7 @@
               <td><span class="open-source-status no">No</span></td>
               <td>Text, image, or uploaded mesh</td>
               <td>Export-ready textured 3D model or retextured mesh</td>
-              <td>-</td>
+              <td>Closed cloud API — no inspectable inference intermediates; only the final downloaded GLB, preview, and base-color/metallic/roughness/normal/emission texture maps are available, with intermediate state limited to API task-progress polling.</td>
               <td>Fast and convenient for getting a previewable textured model</td>
               <td>Closed service, so exact behavior and part preservation are hard to inspect</td>
             </tr>
