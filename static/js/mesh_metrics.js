@@ -1,6 +1,6 @@
 window.MULTIPART_TEXTURE_MESH_METRICS = {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-26T06:12:39+00:00",
+  "generatedAt": "2026-06-26T09:13:17+00:00",
   "variants": [
     "raw",
     "target",
@@ -14,9 +14,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
   ],
   "summary": {
     "objectCount": 23,
-    "availableMeshCount": 172,
-    "watertightCount": 75,
-    "notWatertightCount": 97,
+    "availableMeshCount": 177,
+    "watertightCount": 79,
+    "notWatertightCount": 98,
     "undeterminedCount": 0
   },
   "objects": {
@@ -143,8 +143,12 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "resultStatus": "succeeded"
       },
       "lumitex": {
-        "available": false,
-        "resultStatus": "not_started"
+        "available": true,
+        "parts": 1,
+        "vertices": 19855,
+        "watertight": true,
+        "inferenceTimeSeconds": 211.32142489380203,
+        "resultStatus": "succeeded"
       },
       "texgen": {
         "available": true,
@@ -403,6 +407,7 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "parts": 1,
         "vertices": 1664,
         "watertight": true,
+        "inferenceTimeSeconds": 203.98604683298618,
         "resultStatus": "succeeded"
       },
       "texgen": {
@@ -536,8 +541,12 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "resultStatus": "succeeded"
       },
       "lumitex": {
-        "available": false,
-        "resultStatus": "not_started"
+        "available": true,
+        "parts": 1,
+        "vertices": 36,
+        "watertight": true,
+        "inferenceTimeSeconds": 208.37031061993912,
+        "resultStatus": "succeeded"
       },
       "texgen": {
         "available": true,
@@ -742,8 +751,12 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "resultStatus": "succeeded"
       },
       "lumitex": {
-        "available": false,
-        "resultStatus": "not_started"
+        "available": true,
+        "parts": 1,
+        "vertices": 2566,
+        "watertight": true,
+        "inferenceTimeSeconds": 203.50204027001746,
+        "resultStatus": "succeeded"
       },
       "texgen": {
         "available": true,
@@ -806,8 +819,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
       "lumitex": {
         "available": true,
         "parts": 1,
-        "vertices": 2228,
+        "vertices": 1306,
         "watertight": true,
+        "inferenceTimeSeconds": 210.88489661598578,
         "resultStatus": "succeeded"
       },
       "texgen": {
@@ -869,8 +883,12 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "resultStatus": "succeeded"
       },
       "lumitex": {
-        "available": false,
-        "resultStatus": "not_started"
+        "available": true,
+        "parts": 1,
+        "vertices": 4359,
+        "watertight": false,
+        "inferenceTimeSeconds": 219.78171406593174,
+        "resultStatus": "succeeded"
       },
       "texgen": {
         "available": true,
@@ -1003,8 +1021,12 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "resultStatus": "succeeded"
       },
       "lumitex": {
-        "available": false,
-        "resultStatus": "not_started"
+        "available": true,
+        "parts": 1,
+        "vertices": 2489,
+        "watertight": true,
+        "inferenceTimeSeconds": 209.46116706589237,
+        "resultStatus": "succeeded"
       },
       "texgen": {
         "available": true,
@@ -1463,6 +1485,7 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "parts": 1,
         "vertices": 242,
         "watertight": true,
+        "inferenceTimeSeconds": 208.91438809293322,
         "resultStatus": "succeeded"
       },
       "texgen": {
