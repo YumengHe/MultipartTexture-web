@@ -163,6 +163,7 @@
               <th>Open Source</th>
               <th>Input</th>
               <th>Output</th>
+              <th>Inference / Cache States</th>
               <th>Pro</th>
               <th>Con</th>
             </tr>
@@ -175,6 +176,7 @@
               <td><span class="open-source-status yes">Yes</span></td>
               <td>Given 3D mesh + material / appearance condition</td>
               <td>PBR texture / material channels</td>
+              <td>-</td>
               <td>A close match for mesh-based material texturing. It works on PBR channels directly, with the material latent space, VAE fine-tuning, and patch locality regularization all aimed at cleaner material details.</td>
               <td>It does not try to repair mesh or UV issues. Fine-grained semantic regions or part-level controls would still need to come from another module.</td>
             </tr>
@@ -184,6 +186,7 @@
               <td><span class="open-source-status yes">Yes</span></td>
               <td>Reference image + mesh. The official inference format uses ref.png plus an OBJ/GLB mesh; the method also conditions on mesh normals, canonical coordinates, multiview renders, and DINOv2 / VAE image features.</td>
               <td>PBR texture maps: albedo / basecolor, metallic, and roughness, with geometry-guided LVSM texture inpainting to complete occluded or missing regions for relightable materials.</td>
+              <td>-</td>
               <td>Targets PBR material decomposition instead of a single attractive RGB texture, using illumination context to avoid baking highlights and shadows into albedo. The multi-branch albedo and metallic-roughness design, lighting-aware material attention, and view-space / LVSM inpainting are especially relevant for high-fidelity mesh + image texturing.</td>
               <td>Training is expensive: the paper reports roughly 92K objects, 30 views, 3 environment maps, and about 106 GPU days. It is aimed at whole-mesh PBR texturing, not multipart per-part alignment, part-boundary consistency, or repeated-part consistency.</td>
             </tr>
@@ -193,6 +196,7 @@
               <td><span class="open-source-status no">No</span></td>
               <td>Untextured mesh + known UV + image / multiview prompts</td>
               <td>High-quality UV texture map</td>
+              <td>-</td>
               <td>Directly targets the "put a texture on this mesh" setting. The mix of multiview priors, UV refinement, and inpainting is useful for occluded, unseen, and view-conflicting regions.</td>
               <td>Mesh and UV quality still matter. The output is mainly an RGB UV texture map, not a full PBR material breakdown.</td>
             </tr>
@@ -202,6 +206,7 @@
               <td><span class="open-source-status yes">Yes</span></td>
               <td>3D shape / mesh + prompt or multiview texture synthesis prior</td>
               <td>Consistent 3D texture in unified 3D functional space</td>
+              <td>rembg image, processed mesh/image, multiview RGB/normal/alpha/CCM renders, coarse and sharp point clouds, visible/valid UV masks, completed UV maps, and w/ or w/o LTM textured mesh snapshots. Turntable MP4 files exist only under the UniTEX cache, not in copied website assets.</td>
               <td>Uses a Large Texturing Model with Texture Functions, which sidesteps some of the topology ambiguity of UV-based methods. It is most interesting when consistency and coverage matter more than a simple one-shot texture map.</td>
               <td>The two-stage setup is heavier than direct UV generation. If the target is a standard texture file, export and baking details still need to be checked.</td>
             </tr>
@@ -211,6 +216,7 @@
               <td><span class="open-source-status no">No</span></td>
               <td>Untextured indoor 3D scene + reference images for each object instance</td>
               <td>Unified high-resolution scene texture map</td>
+              <td>-</td>
               <td>Useful when the asset is an indoor scene rather than a single object. Instance-level reference control helps each object follow its own reference while reducing baked-in shading and artifacts.</td>
               <td>Less relevant for generic single-object mesh texturing. It also assumes per-instance references and a more optimization / distillation-style workflow.</td>
             </tr>
@@ -220,6 +226,7 @@
               <td><span class="open-source-status yes">Yes</span></td>
               <td>Garment mesh + garment image / non-isometric deformation reference</td>
               <td>Spatially aligned PBR garment materials</td>
+              <td>-</td>
               <td>A strong fit for garments, especially when non-isometric deformation makes direct texture transfer hard. The output is spatially aligned PBR material suitable for a production garment pipeline.</td>
               <td>The scope is narrow. It should not be treated as a general solution for hard-surface objects, props, or indoor scenes.</td>
             </tr>
@@ -229,6 +236,7 @@
               <td><span class="open-source-status no">No</span></td>
               <td>Single or multiple reference images + 3D geometry / generated multiview conditions</td>
               <td>High-fidelity, geometry-aligned 3D texture</td>
+              <td>-</td>
               <td>Combines 2D multiview priors with a native 3D representation. The pipeline pays attention to geometric alignment, view consistency, illumination uniformity, and unseen areas.</td>
               <td>It is a fairly heavy pipeline. For a clean mesh with good UVs, this may be more machinery than the task needs.</td>
             </tr>
@@ -238,6 +246,7 @@
               <td><span class="open-source-status partial">Partial</span></td>
               <td>Untextured 3D mesh + emission material reference / prompt</td>
               <td>Emission texture / emissive material maps</td>
+              <td>-</td>
               <td>Fills a specific gap: emissive texture generation for LEDs, signs, cyberpunk-style assets, and similar materials. Most texture methods still spend more attention on albedo / metallic / roughness.</td>
               <td>The scope is intentionally vertical, closer to a benchmark and baseline than a general PBR material generator.</td>
             </tr>
@@ -247,6 +256,7 @@
               <td><span class="open-source-status no">No</span></td>
               <td>Garment mesh UV position map + character reference image / type selection</td>
               <td>Garment UV texture</td>
+              <td>-</td>
               <td>A straightforward garment UV texturing route. The UV position map gives structural guidance, and component-level generation is useful for clothing parts.</td>
               <td>It is built around garment assumptions: UV position maps, clothing components, and garment priors. Arbitrary meshes are outside its comfort zone.</td>
             </tr>
@@ -257,6 +267,7 @@
               <td><span class="open-source-status partial">Partial</span></td>
               <td>3D geometry / mesh condition</td>
               <td>Dense color point cloud / surface texture in 3D space</td>
+              <td>-</td>
               <td>Predicts texture color in 3D space instead of stitching together 2D views. That makes occlusion, mesh-texture alignment, and cross-view consistency less brittle.</td>
               <td>The representation is 3D-native. A standard game / DCC pipeline would likely need a baking step before it becomes a UV texture asset.</td>
             </tr>
@@ -266,6 +277,7 @@
               <td><span class="open-source-status partial">Partial</span></td>
               <td>Mesh / geometry condition + appearance prompt or multiview condition</td>
               <td>Seamless, view-consistent texture</td>
+              <td>-</td>
               <td>The main appeal is its geometry-calibrated attention: the texture model is asked to pay attention in a way that follows the 3D structure. Part-Aligned Attention and Condition-Routed Attention are aimed at view mismatch and ambiguous attention.</td>
               <td>The extra calibration and two-stage DiT design make it harder to drop into a lightweight UV inpainting pipeline. It also puts more pressure on the part / geometry conditions.</td>
             </tr>
@@ -275,6 +287,7 @@
               <td><span class="open-source-status no">No</span></td>
               <td>Arbitrary mesh / surface + condition input</td>
               <td>3D-native sparse latent color field / surface texture</td>
+              <td>-</td>
               <td>Moves the texture representation away from fixed UVs or rendered views and learns a sparse latent color field on the surface. That is a good fit for seamless 3D-surface texture generation, editing, and material synthesis.</td>
               <td>It is not a conventional UV texture-map output. For production assets, the color field would usually need to be converted or baked.</td>
             </tr>
@@ -284,6 +297,7 @@
               <td><span class="open-source-status no">No</span></td>
               <td>3D model / mesh + condition input</td>
               <td>Latent 3D attribute grid for texture synthesis and 3D part segmentation</td>
+              <td>-</td>
               <td>Puts color and other attributes into a volumetric 3D latent grid. This avoids some multiview fusion artifacts and also gives the method a path toward fine 3D part segmentation.</td>
               <td>It is broader than texture generation alone. It may also be sensitive to poor mesh quality, topology defects, and self-intersections.</td>
             </tr>
@@ -293,6 +307,7 @@
               <td><span class="open-source-status yes">Yes</span></td>
               <td>3D mesh + image prompt</td>
               <td>PBR texture maps: albedo, metallic, roughness</td>
+              <td>-</td>
               <td>Good at separating color from roughness/metallic instead of baking lighting into one texture</td>
               <td>Needs a clean mesh/UV, and it does not decide where object parts should be</td>
             </tr>
@@ -302,6 +317,7 @@
               <td><span class="open-source-status yes">Yes</span></td>
               <td>Single image</td>
               <td>Textured 3D asset with mesh and PBR textures</td>
+              <td>-</td>
               <td>Handy when there is only one photo and we need a complete textured asset</td>
               <td>It regenerates the object, so small parts and topology can drift</td>
             </tr>
@@ -311,6 +327,7 @@
               <td><span class="open-source-status yes">Yes</span></td>
               <td>3D mesh + text prompt</td>
               <td>High-resolution seamless UV texture</td>
+              <td>-</td>
               <td>Synchronized views make the painted texture more consistent around the object</td>
               <td>Still a multi-stage RGB texture pipeline, without geometry or PBR decomposition</td>
             </tr>
@@ -320,6 +337,7 @@
               <td><span class="open-source-status yes">Yes</span></td>
               <td>Reference image + known 3D geometry</td>
               <td>PBR textured mesh</td>
+              <td>-</td>
               <td>Uses geometry control to keep generated views closer to the reference</td>
               <td>Needs a good reference and has more moving parts in the pipeline</td>
             </tr>
@@ -329,6 +347,7 @@
               <td><span class="open-source-status yes">Yes</span></td>
               <td>Textured or texture-less 3D object</td>
               <td>UV-ready PBR material maps</td>
+              <td>-</td>
               <td>Useful for turning an existing object into cleaner PBR material maps</td>
               <td>Material-focused; it does not solve part segmentation or geometry layout</td>
             </tr>
@@ -338,6 +357,7 @@
               <td><span class="open-source-status yes">Yes</span></td>
               <td>Single image</td>
               <td>PBR textured 3D mesh</td>
+              <td>-</td>
               <td>Builds both shape and PBR texture from one image</td>
               <td>Can change the target topology, so it is not ideal for preserving multipart meshes</td>
             </tr>
@@ -348,6 +368,7 @@
               <td><span class="open-source-status yes">Yes</span></td>
               <td>Text or image prompt</td>
               <td>3D asset decoded as mesh, 3D Gaussian, or radiance field</td>
+              <td>-</td>
               <td>Can produce several 3D representations from the same prompt or image</td>
               <td>More about generating a new asset than keeping a given multipart mesh unchanged</td>
             </tr>
@@ -357,6 +378,7 @@
               <td><span class="open-source-status yes">Yes</span></td>
               <td>Untextured mesh + text or image prompt</td>
               <td>Lighting-less 2K UV texture map</td>
+              <td>-</td>
               <td>Removes much of the lighting baked into view-based textures</td>
               <td>Mainly outputs RGB texture and still depends on the given UV/mesh quality</td>
             </tr>
@@ -366,6 +388,7 @@
               <td><span class="open-source-status yes">Yes</span></td>
               <td>Mesh + text, single image, or sparse views</td>
               <td>High-resolution UV texture map</td>
+              <td>generated prediction texture, per-view predicted images, GT/reference view images, baked texture views, rendered previews of predicted/GT/baked results, final UV texture, OBJ/MTL, and converted GLB.</td>
               <td>Works in UV space, which helps with completion and seam handling</td>
               <td>Does not really reason about materials or object parts beyond the texture map</td>
             </tr>
@@ -375,6 +398,7 @@
               <td><span class="open-source-status yes">Yes</span></td>
               <td>3D mesh + text prompt</td>
               <td>Multi-view-consistent mesh texture</td>
+              <td>-</td>
               <td>Color fusion helps when different rendered views disagree</td>
               <td>Per-object optimization costs time and does not add material maps</td>
             </tr>
@@ -384,15 +408,17 @@
               <td><span class="open-source-status yes">Yes</span></td>
               <td>3D mesh + text prompt</td>
               <td>Consistent UV texture for the input object</td>
+              <td>-</td>
               <td>Shares the texture during denoising, so different views fight less</td>
               <td>Fixed camera views can still miss hidden or thin parts</td>
             </tr>
             <tr>
-              <td><a href="https://dong-huo.github.io/TexGen/" target="_blank" rel="noopener">TexGen</a></td>
+              <td><a href="https://dong-huo.github.io/TexGen/" target="_blank" rel="noopener">TexGen (Dong et al.)</a></td>
               <td>2024</td>
               <td><span class="open-source-status no">No</span></td>
               <td>3D mesh + text prompt</td>
               <td>RGB UV texture map</td>
+              <td>-</td>
               <td>Sampling and resampling across views helps reduce seams</td>
               <td>Can still paint details that do not quite fit the geometry</td>
             </tr>
@@ -403,6 +429,7 @@
               <td><span class="open-source-status yes">Yes</span></td>
               <td>3D mesh + text prompt</td>
               <td>Textured mesh / UV texture</td>
+              <td>-</td>
               <td>Simple progressive painting strategy; easy to understand and compare against</td>
               <td>Sequential painting can accumulate seams and view-to-view mismatch</td>
             </tr>
@@ -412,6 +439,7 @@
               <td><span class="open-source-status yes">Yes</span></td>
               <td>3D shape + text, image, or scribble guidance</td>
               <td>Generated, edited, or transferred texture</td>
+              <td>-</td>
               <td>Covers texture generation, editing, and transfer in one framework</td>
               <td>Iterative view painting may bake lighting and inconsistent details</td>
             </tr>
@@ -422,6 +450,7 @@
               <td><span class="open-source-status no">No</span></td>
               <td>Text, image, or uploaded mesh</td>
               <td>Export-ready textured 3D model or retextured mesh</td>
+              <td>-</td>
               <td>Fast and convenient for getting a previewable textured model</td>
               <td>Closed service, so exact behavior and part preservation are hard to inspect</td>
             </tr>
