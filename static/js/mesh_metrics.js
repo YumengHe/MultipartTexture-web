@@ -1,6 +1,6 @@
 window.MULTIPART_TEXTURE_MESH_METRICS = {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-26T09:13:17+00:00",
+  "generatedAt": "2026-06-26T09:46:25+00:00",
   "variants": [
     "raw",
     "target",
@@ -13,9 +13,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
     "texgen"
   ],
   "summary": {
-    "objectCount": 23,
-    "availableMeshCount": 177,
-    "watertightCount": 79,
+    "objectCount": 22,
+    "availableMeshCount": 173,
+    "watertightCount": 75,
     "notWatertightCount": 98,
     "undeterminedCount": 0
   },
@@ -1156,56 +1156,6 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "watertight": false,
         "inferenceTimeSeconds": 108.43738737190142,
         "resultStatus": "succeeded"
-      }
-    },
-    "spongebob": {
-      "raw": {
-        "available": false,
-        "resultStatus": "input"
-      },
-      "target": {
-        "available": false,
-        "resultStatus": "input"
-      },
-      "materialmvp": {
-        "available": true,
-        "parts": 1,
-        "vertices": 24,
-        "watertight": true,
-        "resultStatus": "succeeded"
-      },
-      "hunyuan2_1": {
-        "available": true,
-        "parts": 1,
-        "vertices": 24,
-        "watertight": true,
-        "resultStatus": "succeeded"
-      },
-      "meshy": {
-        "available": true,
-        "parts": 1,
-        "vertices": 24,
-        "watertight": true,
-        "resultStatus": "succeeded"
-      },
-      "trellis2": {
-        "available": true,
-        "parts": 1,
-        "vertices": 24,
-        "watertight": true,
-        "resultStatus": "succeeded"
-      },
-      "unitex": {
-        "available": false,
-        "resultStatus": "not_started"
-      },
-      "lumitex": {
-        "available": false,
-        "resultStatus": "not_started"
-      },
-      "texgen": {
-        "available": false,
-        "resultStatus": "not_started"
       }
     },
     "stitcher": {
