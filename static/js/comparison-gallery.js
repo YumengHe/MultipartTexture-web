@@ -14,7 +14,7 @@ const galleryConfig = {
     groups: {
         multipart: {
             baseFolder: "comparison_multipart",
-            objects: ["cello", "shiba", "water_manhole_cover", "bridge_venetian", "brutalist_building", "CoffeeCart", "drill_press", "robot_arm", "drawer"]
+            objects: ["cello", "shiba", "water_manhole_cover", "bridge_venetian", "brutalist_building", "CoffeeCart", "drill_press", "robot_arm", "drawer", "block_person", "blocks_toy"]
         },
         singlepart: {
             baseFolder: "comparison_singlepart",
@@ -31,6 +31,9 @@ const galleryConfig = {
         }
     },
     columns: ["raw", "target", "materialmvp", "hunyuan2_1", "meshy", "trellis2", "unitex", "lumitex", "texgen"],
+    // Columns pinned to the left (must be the leading columns in `columns`).
+    // Locked via the .demo-frozen-col class instead of CSS positional selectors.
+    frozenColumns: ["raw", "target"],
     labels: {
         raw: "Raw",
         target: "Target Image",
@@ -176,19 +179,111 @@ function renderMetricCaption(obj, key) {
         ${isInputVariant ? '' : `<span class="demo-metric metric-t">T ${formatInferenceTime(metric.inferenceTimeSeconds)}</span>`}
     </div>`;
 }
-// Optional note shown under an object's name. Anything not listed has no note.
-const demoNotes = {
-  water_manhole_cover: "Thin details; mesh is not watertight."
-};
-/*
-  water_manhole_cover: "闈炴按瀵嗗寘鍚杽鐗?
-*/
+
+// Returns the class/style needed to pin a column to the left, based on the
+// galleryConfig.frozenColumns list. Locking is by column key, not grid position.
+function frozenClassInfo(key) {
+    const frozen = galleryConfig.frozenColumns || [];
+    const idx = frozen.indexOf(key);
+    if (idx < 0) return { className: '', style: '' };
+    const isLast = idx === frozen.length - 1;
+    return {
+        className: ' demo-frozen-col' + (isLast ? ' demo-frozen-last' : ''),
+        style: ` style="--demo-frozen-index:${idx}"`
+    };
+}
+
+// All galleries share one sidebar state, persisted in localStorage, so a single
+// click toggles every table at once. The toggle is a floating handle docked to
+// the right edge of the frozen sidebar (Apple-style collapse chevron).
+const SIDEBAR_STORAGE_KEY = 'mtx-comparison-sidebar-hidden';
+const sidebarShells = [];
+const sidebarButtons = [];
+let sidebarHidden = false;
+
+function readSidebarPref() {
+    try { return localStorage.getItem(SIDEBAR_STORAGE_KEY) === '1'; }
+    catch (e) { return false; }
+}
+
+function writeSidebarPref(hidden) {
+    try { localStorage.setItem(SIDEBAR_STORAGE_KEY, hidden ? '1' : '0'); }
+    catch (e) { /* storage unavailable; ignore */ }
+}
+
+// Docks the floating toggle to the right edge of the frozen sidebar (or near the
+// far left once collapsed). Measured live so it tracks resting + scrolled states.
+function repositionSidebarToggle(shell) {
+    const button = shell.querySelector('.demo-sidebar-toggle');
+    if (!button) return;
+    const shellRect = shell.getBoundingClientRect();
+    const half = (button.offsetWidth || 28) / 2;
+
+    // Measure the live right edge of the last frozen column so the handle tracks
+    // the sidebar at rest, while scrolling, and during the collapse animation.
+    let left = half + 2;
+    const frozenEdge = shell.querySelector('.demo-header-label.demo-frozen-last')
+        || shell.querySelector('.demo-cell-wrap.demo-frozen-last');
+    if (frozenEdge) {
+        left = Math.max(half + 2, frozenEdge.getBoundingClientRect().right - shellRect.left);
+    }
+    button.style.left = `${left}px`;
+
+    const header = shell.querySelector('.demo-header');
+    if (header) {
+        const headerRect = header.getBoundingClientRect();
+        button.style.top = `${headerRect.top - shellRect.top + headerRect.height / 2}px`;
+    }
+}
+
+function applySidebarState(hidden) {
+    sidebarHidden = hidden;
+    sidebarShells.forEach(shell => shell.classList.toggle('names-hidden', hidden));
+    sidebarButtons.forEach(button => {
+        button.setAttribute('aria-pressed', String(hidden));
+        button.title = hidden ? 'Show input columns' : 'Hide input columns';
+    });
+    // During the slide, only move the handle each frame (cheap) instead of
+    // recomputing both scrollbars every frame, then sync the scrollbar once at
+    // the end. Avoids layout thrashing against the grid-template-columns animation.
+    const start = performance.now();
+    (function track(now) {
+        sidebarShells.forEach(repositionSidebarToggle);
+        if (((now || start) - start) < 400) {
+            requestAnimationFrame(track);
+        } else {
+            window.dispatchEvent(new Event('resize'));
+        }
+    })(start);
+}
+
+function buildSidebarToggle(shell) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'demo-sidebar-toggle';
+    button.setAttribute('aria-pressed', 'false');
+    button.setAttribute('aria-label', 'Toggle input columns');
+    button.title = 'Hide input columns';
+    button.innerHTML = '<span class="demo-toggle-icon" aria-hidden="true">\u00AB</span>';
+
+    button.addEventListener('click', () => {
+        const next = !sidebarHidden;
+        applySidebarState(next);
+        writeSidebarPref(next);
+    });
+
+    sidebarShells.push(shell);
+    sidebarButtons.push(button);
+    return button;
+}
 
 function renderGallery(containerId, objects, baseFolder, columns = demoColumns, options = {}) {
     const container = document.getElementById(containerId);
     if (!container) return;
     const showMetrics = options.showMetrics !== false;
+    const frozenCount = (galleryConfig.frozenColumns || []).length;
     container.style.setProperty('--demo-column-count', columns.length);
+    container.style.setProperty('--demo-visible-count', Math.max(1, columns.length - frozenCount));
 
     const shell = document.createElement('div');
     shell.className = 'demo-gallery-shell';
@@ -201,18 +296,21 @@ function renderGallery(containerId, objects, baseFolder, columns = demoColumns, 
     const stack = document.createElement('div');
     stack.className = 'demo-gallery-stack';
 
-    // Header row
+    // Header row (leading empty corner above the object-name column)
     const headerDiv = document.createElement('div');
     headerDiv.className = 'demo-header';
-    headerDiv.innerHTML = `<div class="demo-header-label"></div>` +
-        columns.map(c => `<div class="demo-header-label">${c.label}</div>`).join('');
+    headerDiv.innerHTML = `<div class="demo-header-label"></div>` + columns.map(c => {
+        const frozen = frozenClassInfo(c.key);
+        return `<div class="demo-header-label${frozen.className}"${frozen.style}>${c.label}</div>`;
+    }).join('');
     stack.appendChild(headerDiv);
 
-    // One row per object
+    // One row per object (object-name text column shown at rest, leftmost)
     objects.forEach(obj => {
         const row = document.createElement('div');
         row.className = 'demo-row';
         const cells = columns.map(c => {
+            const frozen = frozenClassInfo(c.key);
             const src = `static/images/${baseFolder}/${obj}/${c.src}`;
             const caption = showMetrics ? renderMetricCaption(obj, c.key) : '';
             const resultStatus = resultStatusForCell(obj, c.key);
@@ -220,15 +318,14 @@ function renderGallery(containerId, objects, baseFolder, columns = demoColumns, 
                 ? '<img src="static/images/generation_error.png" alt="Generation failed">'
                 : `<img src="${src}" alt="${c.label}"
                          onerror="this.parentElement.classList.add('empty'); this.remove();">`;
-            return `<div class="demo-cell-wrap">
+            return `<div class="demo-cell-wrap${frozen.className}"${frozen.style}>
                 <div class="demo-cell">
                     ${imageMarkup}
                 </div>
                 ${caption}
             </div>`;
         }).join('');
-        const note = demoNotes[obj] ? `<span class="demo-row-note">${demoNotes[obj]}</span>` : '';
-        row.innerHTML = `<div class="demo-row-label">${prettyLabel(obj)}${note}</div>${cells}`;
+        row.innerHTML = `<div class="demo-row-label"><span class="demo-row-label-text">${prettyLabel(obj)}</span></div>` + cells;
         stack.appendChild(row);
     });
 
@@ -242,6 +339,7 @@ function renderGallery(containerId, objects, baseFolder, columns = demoColumns, 
     viewport.appendChild(stack);
     shell.appendChild(viewport);
     shell.appendChild(scrollbar);
+    shell.appendChild(buildSidebarToggle(shell));
     container.appendChild(shell);
     setupGalleryScroller(shell, viewport, scrollbar.querySelector('.demo-scrollbar-thumb'));
 }
@@ -274,8 +372,8 @@ function setupGalleryScroller(shell, viewport, thumb) {
         thumb.style.transform = `translateX(${left}px)`;
     }
 
-    viewport.addEventListener('scroll', updateScrollState, { passive: true });
-    window.addEventListener('resize', updateScrollState);
+    viewport.addEventListener('scroll', () => { updateScrollState(); repositionSidebarToggle(shell); }, { passive: true });
+    window.addEventListener('resize', () => { updateScrollState(); repositionSidebarToggle(shell); });
 
     viewport.addEventListener('pointerdown', (event) => {
         if (event.button !== 0 || event.target.closest('.demo-scrollbar')) return;
@@ -334,7 +432,7 @@ function setupGalleryScroller(shell, viewport, thumb) {
 
     thumb.addEventListener('pointerup', stopThumbDrag);
     thumb.addEventListener('pointercancel', stopThumbDrag);
-    requestAnimationFrame(updateScrollState);
+    requestAnimationFrame(() => { updateScrollState(); repositionSidebarToggle(shell); });
 }
 
 async function loadGallery() {
@@ -349,6 +447,8 @@ async function loadGallery() {
         }
         renderGallery('video-items-multipart', multipart.objects, multipart.baseFolder);
         renderGallery('video-items-singlepart', singlepart.objects, singlepart.baseFolder);
+        // Restore the user's saved sidebar choice and apply it to all galleries.
+        applySidebarState(readSidebarPref());
     } catch (error) {
         console.error('Loading failed:', error);
     }

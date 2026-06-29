@@ -3,6 +3,11 @@
 #video-items-singlepart {
     --demo-label-width: clamp(92px, 9vw, 132px);
     --demo-cell-width: clamp(138px, 13vw, 176px);
+    --demo-gap: 12px;
+    /* Spacing is baked into the track width (gap:0) so columns can collapse to 0
+       smoothly via a grid-template-columns transition, with no leftover gutters. */
+    --demo-track: calc(var(--demo-cell-width) + var(--demo-gap));
+    --demo-name-track: calc(var(--demo-label-width) + var(--demo-gap));
     position: relative;
     max-width: 100%;
     margin: 0 auto;
@@ -29,6 +34,7 @@
     left: 0;
     background: linear-gradient(90deg, #fff 10%, rgba(255, 255, 255, 0));
     opacity: 0;
+    display: none; /* left column is frozen, no left-edge fade needed */
 }
 
 .demo-gallery-shell::after {
@@ -45,10 +51,80 @@
     opacity: 0;
 }
 
+/* Sidebar collapse handle: a floating chevron docked to the frozen panel edge */
+.demo-sidebar-toggle {
+    position: absolute;
+    z-index: 40;
+    top: 22px;  /* refined to the header center by JS */
+    left: 0;    /* docked to the frozen edge by JS */
+    transform: translate(-50%, -50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 1px solid rgba(60, 60, 67, 0.16);
+    border-radius: 9px;
+    background: rgba(255, 255, 255, 0.92);
+    -webkit-backdrop-filter: blur(8px) saturate(160%);
+    backdrop-filter: blur(8px) saturate(160%);
+    color: #3a3a3c;
+    font-size: 15px;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.16);
+    transition: top 0.2s ease,
+                background 0.2s ease,
+                box-shadow 0.2s ease,
+                transform 0.12s ease;
+}
+
+.demo-sidebar-toggle:hover {
+    background: #ffffff;
+    box-shadow: 0 5px 14px rgba(15, 23, 42, 0.24);
+}
+
+.demo-sidebar-toggle:active {
+    transform: translate(-50%, -50%) scale(0.9);
+}
+
+.demo-sidebar-toggle:focus-visible {
+    outline: 2px solid #6b6fd6;
+    outline-offset: 2px;
+}
+
+.demo-toggle-icon {
+    display: block;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Collapsed: flip the chevron to point the other way */
+.demo-sidebar-toggle[aria-pressed="true"] .demo-toggle-icon {
+    transform: rotate(180deg);
+}
+
+/* Collapsed state: the sidebar tracks (name + Raw + Target) shrink to 0, which
+   the grid-template-columns transition animates as a smooth slide-in collapse. */
+.demo-gallery-shell.names-hidden .demo-header,
+.demo-gallery-shell.names-hidden .demo-row {
+    grid-template-columns: 0px 0px 0px repeat(var(--demo-visible-count, 7), var(--demo-track));
+}
+
+/* While collapsed, unpin the (now zero-width) frozen columns to the left so the
+   handle settles at the left edge instead of their scrolled offset. */
+.demo-gallery-shell.names-hidden .demo-header-label.demo-frozen-col,
+.demo-gallery-shell.names-hidden .demo-cell-wrap.demo-frozen-col {
+    left: 0;
+}
+
 .demo-gallery-viewport {
+    position: relative;
     overflow-x: auto;
-    overflow-y: visible;
-    padding: 4px 2px 16px;
+    overflow-y: auto;
+    max-height: min(78vh, 720px);
+    overscroll-behavior: contain;
+    padding: 0 2px 16px;
     cursor: grab;
     scroll-behavior: smooth;
     scrollbar-width: none;
@@ -78,17 +154,22 @@
 }
 
 .demo-header {
+    position: sticky;
+    top: 0;
+    z-index: 30;
     display: grid;
-    grid-template-columns: var(--demo-label-width) repeat(var(--demo-column-count, 8), var(--demo-cell-width));
-    gap: 12px;
+    grid-template-columns: var(--demo-name-track) var(--demo-track) var(--demo-track) repeat(var(--demo-visible-count, 7), var(--demo-track));
+    gap: 0;
     padding: 12px 16px;
-    background: #f8f9fa;
-    border-radius: 8px;
+    background: #f4f5f7;
+    border-radius: 10px 10px 4px 4px;
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.06), 0 8px 18px -14px rgba(15, 23, 42, 0.45);
     font-weight: 700;
     font-size: 14px;
     color: #333;
     width: max-content;
     min-width: 100%;
+    transition: grid-template-columns 0.36s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .demo-header-label {
@@ -100,8 +181,8 @@
 
 .demo-row {
     display: grid;
-    grid-template-columns: var(--demo-label-width) repeat(var(--demo-column-count, 8), var(--demo-cell-width));
-    gap: 12px;
+    grid-template-columns: var(--demo-name-track) var(--demo-track) var(--demo-track) repeat(var(--demo-visible-count, 7), var(--demo-track));
+    gap: 0;
     align-items: center;
     background: rgba(139, 140, 192, 0.08);
     border-radius: 8px;
@@ -109,7 +190,8 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     width: max-content;
     min-width: 100%;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease,
+                grid-template-columns 0.36s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .demo-row:hover {
@@ -117,16 +199,60 @@
     box-shadow: 0 8px 24px rgba(58, 65, 111, 0.12);
 }
 
+/* Object-name text column: visible at rest as the leftmost column; it scrolls
+   away when scrolling sideways, where the frozen Raw/Target columns take over. */
 .demo-row-label {
+    position: relative;
+    align-self: stretch;
+    overflow: hidden;
+    background: #eceef6;
+    border-radius: 6px;
+}
+
+/* The name is absolutely positioned so a long, wrapped label never drives the
+   row height — the row height stays defined by the image cells, even when the
+   column collapses to 0 width. */
+.demo-row-label-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 6px;
     font-size: 14px;
     font-weight: 600;
     color: #444;
     text-align: center;
-    padding: 8px;
-    background: rgba(139, 140, 192, 0.1);
-    border-radius: 6px;
     text-transform: capitalize;
     word-break: break-word;
+}
+
+/* Frozen columns: pinned to the left, locked by the .demo-frozen-col class
+   (set in comparison-gallery.js from galleryConfig.frozenColumns), not by
+   nth-child position. --demo-frozen-index is the 0-based slot in the panel. */
+.demo-header-label.demo-frozen-col,
+.demo-cell-wrap.demo-frozen-col {
+    position: sticky;
+    left: calc(var(--demo-track) * var(--demo-frozen-index, 0));
+}
+
+.demo-header-label.demo-frozen-col {
+    z-index: 5;
+    background: #f4f5f7; /* match the header background */
+    overflow: hidden;     /* clip the label as its track collapses to 0 */
+    white-space: nowrap;  /* keep one line so the header height stays put */
+}
+
+.demo-cell-wrap.demo-frozen-col {
+    z-index: 3;
+    align-self: stretch;
+    justify-content: center;
+    background: #f6f6fa; /* match the row background; fills the whole track so scrolled cells stay masked */
+}
+
+/* Right-edge divider on the last frozen column */
+.demo-frozen-last {
+    box-shadow: 6px 0 14px -10px rgba(15, 23, 42, 0.4);
 }
 
 .demo-cell-wrap {
@@ -135,10 +261,11 @@
     align-items: center;
     gap: 4px;
     min-width: 0;
+    overflow: hidden; /* let the cell shrink cleanly to 0 during the collapse animation */
 }
 
 .demo-cell-wrap .demo-cell {
-    width: 100%;
+    width: calc(100% - var(--demo-gap)); /* spacing comes from the track padding */
 }
 
 .demo-metrics {
@@ -146,7 +273,7 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 3px;
-    width: 100%;
+    width: calc(100% - var(--demo-gap));
     font-size: 10px;
     font-weight: 600;
     line-height: 1.15;
@@ -281,6 +408,7 @@
     #video-items-singlepart {
         --demo-label-width: 82px;
         --demo-cell-width: clamp(124px, 45vw, 152px);
+        --demo-gap: 8px;
     }
 
     .demo-header {
