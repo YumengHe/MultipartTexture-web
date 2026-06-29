@@ -1,6 +1,6 @@
 window.MULTIPART_TEXTURE_MESH_METRICS = {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-27T05:20:38+00:00",
+  "generatedAt": "2026-06-29T09:55:33+00:00",
   "variants": [
     "raw",
     "target",
@@ -13,10 +13,10 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
     "texgen"
   ],
   "summary": {
-    "objectCount": 22,
-    "availableMeshCount": 173,
-    "watertightCount": 75,
-    "notWatertightCount": 98,
+    "objectCount": 24,
+    "availableMeshCount": 191,
+    "watertightCount": 92,
+    "notWatertightCount": 99,
     "undeterminedCount": 0
   },
   "objects": {
@@ -1443,6 +1443,150 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "parts": 1,
         "vertices": 251,
         "watertight": true,
+        "resultStatus": "succeeded"
+      }
+    },
+    "block_person": {
+      "raw": {
+        "available": true,
+        "parts": 8,
+        "vertices": 15528,
+        "watertight": true,
+        "resultStatus": "input"
+      },
+      "target": {
+        "available": true,
+        "parts": 8,
+        "vertices": 15528,
+        "watertight": true,
+        "resultStatus": "input"
+      },
+      "materialmvp": {
+        "available": true,
+        "parts": 1,
+        "vertices": 15528,
+        "watertight": true,
+        "inferenceTimeSeconds": 141.30001878738403,
+        "resultStatus": "succeeded"
+      },
+      "hunyuan2_1": {
+        "available": true,
+        "parts": 1,
+        "vertices": 2942,
+        "watertight": true,
+        "inferenceTimeSeconds": 69.72498869500123,
+        "resultStatus": "succeeded"
+      },
+      "meshy": {
+        "available": true,
+        "parts": 1,
+        "vertices": 15484,
+        "watertight": true,
+        "inferenceTimeSeconds": 72.07,
+        "resultStatus": "succeeded"
+      },
+      "trellis2": {
+        "available": true,
+        "parts": 1,
+        "vertices": 15528,
+        "watertight": true,
+        "inferenceTimeSeconds": 38.44540190696716,
+        "resultStatus": "succeeded"
+      },
+      "unitex": {
+        "available": true,
+        "parts": 1,
+        "vertices": 78179,
+        "watertight": false,
+        "inferenceTimeSeconds": 191.751553,
+        "resultStatus": "succeeded"
+      },
+      "lumitex": {
+        "available": true,
+        "parts": 1,
+        "vertices": 3009,
+        "watertight": true,
+        "inferenceTimeSeconds": 166.77539937896654,
+        "resultStatus": "succeeded"
+      },
+      "texgen": {
+        "available": true,
+        "parts": 1,
+        "vertices": 15528,
+        "watertight": true,
+        "inferenceTimeSeconds": 79.46908359485678,
+        "resultStatus": "succeeded"
+      }
+    },
+    "blocks_toy": {
+      "raw": {
+        "available": true,
+        "parts": 157,
+        "vertices": 26114,
+        "watertight": true,
+        "resultStatus": "input"
+      },
+      "target": {
+        "available": true,
+        "parts": 157,
+        "vertices": 26114,
+        "watertight": true,
+        "resultStatus": "input"
+      },
+      "materialmvp": {
+        "available": true,
+        "parts": 1,
+        "vertices": 13024,
+        "watertight": true,
+        "inferenceTimeSeconds": 129.33037447929382,
+        "resultStatus": "succeeded"
+      },
+      "hunyuan2_1": {
+        "available": true,
+        "parts": 1,
+        "vertices": 13024,
+        "watertight": true,
+        "inferenceTimeSeconds": 78.60217604506761,
+        "resultStatus": "succeeded"
+      },
+      "meshy": {
+        "available": true,
+        "parts": 1,
+        "vertices": 29501,
+        "watertight": true,
+        "inferenceTimeSeconds": 102.5,
+        "resultStatus": "succeeded"
+      },
+      "trellis2": {
+        "available": true,
+        "parts": 1,
+        "vertices": 26402,
+        "watertight": true,
+        "inferenceTimeSeconds": 23.992773056030273,
+        "resultStatus": "succeeded"
+      },
+      "unitex": {
+        "available": true,
+        "parts": 1,
+        "vertices": 13979,
+        "watertight": true,
+        "inferenceTimeSeconds": 193.648312,
+        "resultStatus": "succeeded"
+      },
+      "lumitex": {
+        "available": true,
+        "parts": 1,
+        "vertices": 25913,
+        "watertight": true,
+        "inferenceTimeSeconds": 223.58762702485546,
+        "resultStatus": "succeeded"
+      },
+      "texgen": {
+        "available": true,
+        "parts": 1,
+        "vertices": 26114,
+        "watertight": true,
+        "inferenceTimeSeconds": 105.07302162586711,
         "resultStatus": "succeeded"
       }
     }
