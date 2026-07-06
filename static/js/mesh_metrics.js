@@ -1,6 +1,6 @@
 window.MULTIPART_TEXTURE_MESH_METRICS = {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-06T14:25:38+00:00",
+  "generatedAt": "2026-07-06T23:20:31+00:00",
   "variants": [
     "raw",
     "target",
