@@ -30,7 +30,7 @@ const galleryConfig = {
             ]
         }
     },
-    columns: ["raw", "target", "materialmvp", "hunyuan2_1", "meshy", "trellis2", "unitex", "lumitex", "texgen"],
+    columns: ["raw", "target", "materialmvp", "hunyuan2_1", "meshy", "pixal3d", "trellis2", "unitex", "lumitex", "texgen"],
     // Columns pinned to the left (must be the leading columns in `columns`).
     // Locked via the .demo-frozen-col class instead of CSS positional selectors.
     frozenColumns: ["raw", "target"],
@@ -40,6 +40,7 @@ const galleryConfig = {
         materialmvp: "MaterialMVP",
         hunyuan2_1: "Hunyuan2.1",
         meshy: "Meshy",
+        pixal3d: "Pixal3D",
         trellis2: "Trellis",
         unitex: "UniTex",
         lumitex: "LumiTex",

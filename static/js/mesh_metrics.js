@@ -1,12 +1,13 @@
 window.MULTIPART_TEXTURE_MESH_METRICS = {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-29T09:55:33+00:00",
+  "generatedAt": "2026-07-06T14:25:38+00:00",
   "variants": [
     "raw",
     "target",
     "materialmvp",
     "hunyuan2_1",
     "meshy",
+    "pixal3d",
     "trellis2",
     "unitex",
     "lumitex",
@@ -14,9 +15,9 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
   ],
   "summary": {
     "objectCount": 24,
-    "availableMeshCount": 191,
+    "availableMeshCount": 210,
     "watertightCount": 92,
-    "notWatertightCount": 99,
+    "notWatertightCount": 118,
     "undeterminedCount": 0
   },
   "objects": {
@@ -90,6 +91,14 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "watertight": false,
         "inferenceTimeSeconds": 69.29750085994601,
         "resultStatus": "succeeded"
+      },
+      "pixal3d": {
+        "available": true,
+        "parts": 1,
+        "vertices": 818271,
+        "watertight": false,
+        "inferenceTimeSeconds": 311.9324731826782,
+        "resultStatus": "succeeded"
       }
     },
     "bear": {
@@ -156,6 +165,14 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "vertices": 17661,
         "watertight": true,
         "resultStatus": "succeeded"
+      },
+      "pixal3d": {
+        "available": true,
+        "parts": 1,
+        "vertices": 732856,
+        "watertight": false,
+        "inferenceTimeSeconds": 216.29021430015564,
+        "resultStatus": "succeeded"
       }
     },
     "bicycle": {
@@ -204,6 +221,10 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "resultStatus": "not_started"
       },
       "texgen": {
+        "available": false,
+        "resultStatus": "not_started"
+      },
+      "pixal3d": {
         "available": false,
         "resultStatus": "not_started"
       }
@@ -278,6 +299,14 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "watertight": false,
         "inferenceTimeSeconds": 70.58968021196779,
         "resultStatus": "succeeded"
+      },
+      "pixal3d": {
+        "available": true,
+        "parts": 1,
+        "vertices": 759475,
+        "watertight": false,
+        "inferenceTimeSeconds": 231.12516522407532,
+        "resultStatus": "succeeded"
       }
     },
     "brutalist_building": {
@@ -350,6 +379,14 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "watertight": false,
         "inferenceTimeSeconds": 110.91552548692562,
         "resultStatus": "succeeded"
+      },
+      "pixal3d": {
+        "available": true,
+        "parts": 1,
+        "vertices": 773460,
+        "watertight": false,
+        "inferenceTimeSeconds": 322.7078318595886,
+        "resultStatus": "succeeded"
       }
     },
     "carved_wooden_elephant": {
@@ -415,6 +452,14 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "parts": 1,
         "vertices": 1664,
         "watertight": true,
+        "resultStatus": "succeeded"
+      },
+      "pixal3d": {
+        "available": true,
+        "parts": 1,
+        "vertices": 652862,
+        "watertight": false,
+        "inferenceTimeSeconds": 130.69156455993652,
         "resultStatus": "succeeded"
       }
     },
@@ -488,6 +533,14 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "watertight": false,
         "inferenceTimeSeconds": 109.2870243510697,
         "resultStatus": "succeeded"
+      },
+      "pixal3d": {
+        "available": true,
+        "parts": 1,
+        "vertices": 740914,
+        "watertight": false,
+        "inferenceTimeSeconds": 214.45720410346985,
+        "resultStatus": "succeeded"
       }
     },
     "cube": {
@@ -553,6 +606,14 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "parts": 1,
         "vertices": 24,
         "watertight": true,
+        "resultStatus": "succeeded"
+      },
+      "pixal3d": {
+        "available": true,
+        "parts": 1,
+        "vertices": 661481,
+        "watertight": false,
+        "inferenceTimeSeconds": 267.1147198677063,
         "resultStatus": "succeeded"
       }
     },
@@ -626,6 +687,14 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "watertight": false,
         "inferenceTimeSeconds": 98.3238262210507,
         "resultStatus": "succeeded"
+      },
+      "pixal3d": {
+        "available": true,
+        "parts": 1,
+        "vertices": 732128,
+        "watertight": false,
+        "inferenceTimeSeconds": 340.74972462654114,
+        "resultStatus": "succeeded"
       }
     },
     "drill_press": {
@@ -698,6 +767,14 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "watertight": false,
         "inferenceTimeSeconds": 69.78492657199968,
         "resultStatus": "succeeded"
+      },
+      "pixal3d": {
+        "available": true,
+        "parts": 1,
+        "vertices": 746100,
+        "watertight": false,
+        "inferenceTimeSeconds": 502.43048644065857,
+        "resultStatus": "succeeded"
       }
     },
     "dustpan": {
@@ -763,6 +840,14 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "parts": 1,
         "vertices": 2572,
         "watertight": true,
+        "resultStatus": "succeeded"
+      },
+      "pixal3d": {
+        "available": true,
+        "parts": 1,
+        "vertices": 836401,
+        "watertight": false,
+        "inferenceTimeSeconds": 304.8112406730652,
         "resultStatus": "succeeded"
       }
     },
@@ -830,6 +915,14 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "vertices": 1432,
         "watertight": true,
         "resultStatus": "succeeded"
+      },
+      "pixal3d": {
+        "available": true,
+        "parts": 1,
+        "vertices": 653330,
+        "watertight": false,
+        "inferenceTimeSeconds": 217.12761116027832,
+        "resultStatus": "succeeded"
       }
     },
     "propane_tank": {
@@ -895,6 +988,14 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "parts": 1,
         "vertices": 4408,
         "watertight": false,
+        "resultStatus": "succeeded"
+      },
+      "pixal3d": {
+        "available": true,
+        "parts": 1,
+        "vertices": 668988,
+        "watertight": false,
+        "inferenceTimeSeconds": 165.35335755348206,
         "resultStatus": "succeeded"
       }
     },
@@ -968,6 +1069,14 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "watertight": false,
         "inferenceTimeSeconds": 120.33638108207379,
         "resultStatus": "succeeded"
+      },
+      "pixal3d": {
+        "available": true,
+        "parts": 1,
+        "vertices": 718610,
+        "watertight": false,
+        "inferenceTimeSeconds": 213.1096053123474,
+        "resultStatus": "succeeded"
       }
     },
     "rubber_duck_toy": {
@@ -1034,6 +1143,14 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "vertices": 2489,
         "watertight": true,
         "resultStatus": "succeeded"
+      },
+      "pixal3d": {
+        "available": true,
+        "parts": 1,
+        "vertices": 641397,
+        "watertight": false,
+        "inferenceTimeSeconds": 331.4858629703522,
+        "resultStatus": "succeeded"
       }
     },
     "scissors": {
@@ -1082,6 +1199,10 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "resultStatus": "not_started"
       },
       "texgen": {
+        "available": false,
+        "resultStatus": "not_started"
+      },
+      "pixal3d": {
         "available": false,
         "resultStatus": "not_started"
       }
@@ -1156,6 +1277,14 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "watertight": false,
         "inferenceTimeSeconds": 108.43738737190142,
         "resultStatus": "succeeded"
+      },
+      "pixal3d": {
+        "available": true,
+        "parts": 1,
+        "vertices": 640013,
+        "watertight": false,
+        "inferenceTimeSeconds": 129.3073501586914,
+        "resultStatus": "succeeded"
       }
     },
     "stitcher": {
@@ -1204,6 +1333,10 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "resultStatus": "not_started"
       },
       "texgen": {
+        "available": false,
+        "resultStatus": "not_started"
+      },
+      "pixal3d": {
         "available": false,
         "resultStatus": "not_started"
       }
@@ -1256,6 +1389,10 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
       "texgen": {
         "available": false,
         "resultStatus": "not_started"
+      },
+      "pixal3d": {
+        "available": false,
+        "resultStatus": "not_started"
       }
     },
     "transformer": {
@@ -1304,6 +1441,10 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "resultStatus": "not_started"
       },
       "texgen": {
+        "available": false,
+        "resultStatus": "not_started"
+      },
+      "pixal3d": {
         "available": false,
         "resultStatus": "not_started"
       }
@@ -1378,6 +1519,14 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "watertight": false,
         "inferenceTimeSeconds": 95.91528062010184,
         "resultStatus": "succeeded"
+      },
+      "pixal3d": {
+        "available": true,
+        "parts": 1,
+        "vertices": 688033,
+        "watertight": false,
+        "inferenceTimeSeconds": 249.78042006492615,
+        "resultStatus": "succeeded"
       }
     },
     "wet_floor_sign": {
@@ -1443,6 +1592,14 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "parts": 1,
         "vertices": 251,
         "watertight": true,
+        "resultStatus": "succeeded"
+      },
+      "pixal3d": {
+        "available": true,
+        "parts": 1,
+        "vertices": 712974,
+        "watertight": false,
+        "inferenceTimeSeconds": 234.60637211799622,
         "resultStatus": "succeeded"
       }
     },
@@ -1516,6 +1673,14 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "watertight": true,
         "inferenceTimeSeconds": 79.46908359485678,
         "resultStatus": "succeeded"
+      },
+      "pixal3d": {
+        "available": true,
+        "parts": 1,
+        "vertices": 691033,
+        "watertight": false,
+        "inferenceTimeSeconds": 432.9317784309387,
+        "resultStatus": "succeeded"
       }
     },
     "blocks_toy": {
@@ -1587,6 +1752,14 @@ window.MULTIPART_TEXTURE_MESH_METRICS = {
         "vertices": 26114,
         "watertight": true,
         "inferenceTimeSeconds": 105.07302162586711,
+        "resultStatus": "succeeded"
+      },
+      "pixal3d": {
+        "available": true,
+        "parts": 1,
+        "vertices": 789805,
+        "watertight": false,
+        "inferenceTimeSeconds": 293.2755992412567,
         "resultStatus": "succeeded"
       }
     }
