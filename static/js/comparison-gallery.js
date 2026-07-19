@@ -297,14 +297,20 @@ function renderGallery(containerId, objects, baseFolder, columns = demoColumns, 
     const stack = document.createElement('div');
     stack.className = 'demo-gallery-stack';
 
-    // Header row (leading empty corner above the object-name column)
+    // Header row (leading empty corner above the object-name column). It lives in
+    // its own container OUTSIDE the vertical body so it can float (position:sticky
+    // to the page) like a site header while the objects scroll past underneath.
+    // Its horizontal offset is mirrored from the body's scrollLeft in JS, which
+    // lets the frozen Raw/Target columns keep their native sticky-left pinning.
+    const headerScroll = document.createElement('div');
+    headerScroll.className = 'demo-header-scroll';
     const headerDiv = document.createElement('div');
     headerDiv.className = 'demo-header';
     headerDiv.innerHTML = `<div class="demo-header-label"></div>` + columns.map(c => {
         const frozen = frozenClassInfo(c.key);
         return `<div class="demo-header-label${frozen.className}"${frozen.style}>${c.label}</div>`;
     }).join('');
-    stack.appendChild(headerDiv);
+    headerScroll.appendChild(headerDiv);
 
     // One row per object (object-name text column shown at rest, leftmost)
     objects.forEach(obj => {
@@ -338,15 +344,21 @@ function renderGallery(containerId, objects, baseFolder, columns = demoColumns, 
         </div>`;
 
     viewport.appendChild(stack);
+    shell.appendChild(headerScroll);
     shell.appendChild(viewport);
     shell.appendChild(scrollbar);
     shell.appendChild(buildSidebarToggle(shell));
     container.appendChild(shell);
-    setupGalleryScroller(shell, viewport, scrollbar.querySelector('.demo-scrollbar-thumb'));
+    setupGalleryScroller(shell, viewport, scrollbar.querySelector('.demo-scrollbar-thumb'), headerScroll);
 }
 
-function setupGalleryScroller(shell, viewport, thumb) {
+function setupGalleryScroller(shell, viewport, thumb, headerScroll) {
     if (!shell || !viewport || !thumb) return;
+
+    // Keep the floating header horizontally aligned with the scrolled body.
+    function syncHeader() {
+        if (headerScroll) headerScroll.scrollLeft = viewport.scrollLeft;
+    }
 
     let isDraggingViewport = false;
     let isDraggingThumb = false;
@@ -373,8 +385,24 @@ function setupGalleryScroller(shell, viewport, thumb) {
         thumb.style.transform = `translateX(${left}px)`;
     }
 
-    viewport.addEventListener('scroll', () => { updateScrollState(); repositionSidebarToggle(shell); }, { passive: true });
-    window.addEventListener('resize', () => { updateScrollState(); repositionSidebarToggle(shell); });
+    viewport.addEventListener('scroll', () => { syncHeader(); updateScrollState(); repositionSidebarToggle(shell); }, { passive: true });
+    window.addEventListener('resize', () => { syncHeader(); updateScrollState(); repositionSidebarToggle(shell); });
+    // The header floats with the page, so keep the collapse handle glued to it.
+    window.addEventListener('scroll', () => repositionSidebarToggle(shell), { passive: true });
+
+    // Inside the gallery the wheel browses the method columns horizontally instead
+    // of paging the document. Vertical wheel (mouse) is remapped onto scrollLeft;
+    // a trackpad's horizontal delta is used directly. The page keeps scrolling
+    // normally when the pointer is outside the box, and also when there is nothing
+    // to scroll horizontally (few columns / wide screen) so we never trap it.
+    viewport.addEventListener('wheel', (event) => {
+        if (event.ctrlKey) return;          // let pinch-zoom through
+        if (maxScroll() <= 0) return;       // no horizontal overflow -> let the page scroll
+        const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+        if (!delta) return;
+        event.preventDefault();
+        viewport.scrollLeft += delta;
+    }, { passive: false });
 
     viewport.addEventListener('pointerdown', (event) => {
         if (event.button !== 0 || event.target.closest('.demo-scrollbar')) return;
@@ -433,7 +461,7 @@ function setupGalleryScroller(shell, viewport, thumb) {
 
     thumb.addEventListener('pointerup', stopThumbDrag);
     thumb.addEventListener('pointercancel', stopThumbDrag);
-    requestAnimationFrame(() => { updateScrollState(); repositionSidebarToggle(shell); });
+    requestAnimationFrame(() => { syncHeader(); updateScrollState(); repositionSidebarToggle(shell); });
 }
 
 async function loadGallery() {

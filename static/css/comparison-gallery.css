@@ -1,7 +1,7 @@
 ﻿/* Comparison gallery */
 #video-items-multipart,
 #video-items-singlepart {
-    --demo-label-width: clamp(92px, 9vw, 132px);
+    --demo-label-width: clamp(72px, 6.5vw, 104px);
     --demo-cell-width: clamp(138px, 13vw, 176px);
     --demo-gap: 12px;
     /* Spacing is baked into the track width (gap:0) so columns can collapse to 0
@@ -120,16 +120,17 @@
 
 .demo-gallery-viewport {
     position: relative;
+    /* All objects are laid out vertically and shown at once (height grows to fit
+       the content, no inner vertical scroll). Only the method columns scroll
+       horizontally; the wheel is remapped to that horizontal axis in JS. */
     overflow-x: auto;
-    overflow-y: auto;
-    max-height: min(78vh, 720px);
-    overscroll-behavior: contain;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain; /* trap horizontal overscroll (no back-swipe) */
     padding: 0 2px 16px;
     cursor: grab;
-    scroll-behavior: smooth;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
-    touch-action: pan-x pan-y;
+    touch-action: pan-x;
 }
 
 .demo-gallery-viewport::-webkit-scrollbar {
@@ -153,10 +154,29 @@
     min-width: max-content;
 }
 
-.demo-header {
+/* Floating header container: sticks to the page top (like a site header) while
+   the objects scroll past beneath it. It is a horizontal scroll container whose
+   scrollLeft is mirrored from the body in JS, so the frozen Raw/Target columns
+   keep their native sticky-left pinning and the labels stay aligned with the
+   scrolled cells. */
+.demo-header-scroll {
     position: sticky;
     top: 0;
     z-index: 30;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    padding: 0 2px; /* match .demo-gallery-viewport so header/body columns align */
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    touch-action: none; /* offset is driven by the body; don't scroll it directly */
+}
+
+.demo-header-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.demo-header {
     display: grid;
     grid-template-columns: var(--demo-name-track) var(--demo-track) var(--demo-track) repeat(var(--demo-visible-count, 7), var(--demo-track));
     gap: 0;
