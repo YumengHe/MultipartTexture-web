@@ -41,7 +41,7 @@ const galleryConfig = {
         hunyuan2_1: "Hunyuan2.1",
         meshy: "Meshy",
         pixal3d: "Pixal3D",
-        trellis2: "Trellis",
+        trellis2: "Trellis 2.1",
         unitex: "UniTex",
         lumitex: "LumiTex",
         texgen: "TexGen"
