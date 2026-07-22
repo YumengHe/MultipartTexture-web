@@ -147,7 +147,10 @@ function renderMetricCaption(obj, key) {
         return `<div class="demo-metrics is-placeholder" aria-hidden="true">
             <span class="demo-metric metric-p">P --</span>
             <span class="demo-metric metric-v">V --</span>
+            <span class="demo-metric metric-f">F --</span>
+            <span class="demo-metric metric-u">U --</span>
             <span class="demo-metric metric-wt">--</span>
+            <span class="demo-metric metric-t">T --</span>
         </div>`;
     }
     const resultStatus = resultStatusForCell(obj, key);
@@ -158,6 +161,8 @@ function renderMetricCaption(obj, key) {
         return `<div class="demo-metrics is-missing" title="No mesh found for this cell">
             <span class="demo-metric metric-p">P --</span>
             <span class="demo-metric metric-v">V --</span>
+            <span class="demo-metric metric-f">F --</span>
+            <span class="demo-metric metric-u">U --</span>
             <span class="demo-metric metric-wt">--</span>
             ${isInputVariant ? '' : '<span class="demo-metric metric-t">T --</span>'}
         </div>`;
@@ -169,6 +174,8 @@ function renderMetricCaption(obj, key) {
     const title = [
         `Parts: ${formatMetricNumber(metric.parts)}`,
         `Vertices: ${formatMetricNumber(metric.vertices)}`,
+        `Faces: ${formatMetricNumber(metric.faces)}`,
+        `Unique spatial vertices (positions rounded to 6 decimals): ${formatMetricNumber(metric.uniqueVertices)}`,
         `Watertight: ${formatWatertight(metric.watertight)}`,
         isInputVariant || metric.inferenceTimeSeconds == null ? null : `Inference time: ${formatInferenceTime(metric.inferenceTimeSeconds)}`
     ].filter(Boolean).join(' | ');
@@ -176,6 +183,8 @@ function renderMetricCaption(obj, key) {
     return `<div class="demo-metrics" title="${escapeAttribute(title)}">
         <span class="demo-metric metric-p">P ${formatMetricNumber(metric.parts)}</span>
         <span class="demo-metric metric-v">V ${formatMetricNumber(metric.vertices)}</span>
+        <span class="demo-metric metric-f">F ${formatMetricNumber(metric.faces)}</span>
+        <span class="demo-metric metric-u">U ${formatMetricNumber(metric.uniqueVertices)}</span>
         <span class="demo-metric metric-wt ${watertightClass}">${formatWatertight(metric.watertight)}</span>
         ${isInputVariant ? '' : `<span class="demo-metric metric-t">T ${formatInferenceTime(metric.inferenceTimeSeconds)}</span>`}
     </div>`;

@@ -319,6 +319,11 @@
     flex: 1 1 50px;
 }
 
+.demo-metric.metric-f,
+.demo-metric.metric-u {
+    flex: 1 1 50px;
+}
+
 .demo-metric.metric-wt {
     flex: 0 0 32px;
 }
